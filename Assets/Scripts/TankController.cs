@@ -3,12 +3,12 @@ using UnityEngine;
 public class TankController : MonoBehaviour
 {
     private Rigidbody2D tankRigidbody;
-    private float speed = 15f;
+    private float speed = 45f;
     private float reverseSpeed = 10f;
     private float torque = 10f;
     private float maxSpeed = 20f;
     private float maxAngularVelocity = 20f;
-    private float drag = 2f; // die Drag-Kraft
+    private float drag = 2f; // Die Drag-Kraft
     private float rotationDamping = 10f; // Dämpfung für die Rotation
 
     void Start()
@@ -41,12 +41,12 @@ public class TankController : MonoBehaviour
         // Apply drag
         tankRigidbody.drag = drag;
 
-        if (move > 0.1f) // vorwärts
+        if (move > 0.1f) // Vorwärts
         {
             Vector2 force = transform.up * move * speed;
             tankRigidbody.AddForce(force);
         }
-        else if (move < -0.1f && tankRigidbody.velocity.magnitude < 0.1f) // rückwärts, nur wenn Panzer gestoppt ist
+        else if (move < -0.1f && tankRigidbody.velocity.magnitude < 0.1f) // Rückwärts, nur wenn der Panzer gestoppt ist
         {
             Vector2 force = transform.up * move * reverseSpeed;
             tankRigidbody.AddForce(force);
@@ -65,6 +65,9 @@ public class TankController : MonoBehaviour
 
         // Dämpfung der Geschwindigkeit
         tankRigidbody.velocity *= (1f - drag * Time.fixedDeltaTime);
+
+        // Dämpfung der Rotation
+        tankRigidbody.angularVelocity *= (1f - rotationDamping * Time.fixedDeltaTime);
 
         tankRigidbody.velocity = Vector2.ClampMagnitude(tankRigidbody.velocity, maxSpeed);
         tankRigidbody.angularVelocity = Mathf.Clamp(tankRigidbody.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
