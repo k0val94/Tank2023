@@ -7,23 +7,20 @@ public class MapGenerator : MonoBehaviour
 {
     public GameObject brickPrefab;
     public GameObject playerPrefab;
-    private float tileSize;
+    private float tileSize = 64;
     private string[] mapData;
 
     void Start()
     {
-        // Laden der Kartenstruktur aus der Datei
-        mapData = LoadMapFromFile("frame.map");
-        
+        mapData = LoadMapFromFile("eight.map");
+
         if (mapData != null)
         {
             int width = mapData[0].Length;
             int height = mapData.Length;
 
-            // Kachelgröße anpassen, um die Karte in die Kameraansicht zu passen
             float cameraHeight = Camera.main.orthographicSize * 2;
             float cameraWidth = cameraHeight * Camera.main.aspect;
-            tileSize = Mathf.Min(cameraHeight / height, cameraWidth / width) * 100;
 
             AdjustCameraSize(width, height);
             GenerateMap(mapData);
@@ -49,6 +46,7 @@ public class MapGenerator : MonoBehaviour
             Camera.main.orthographicSize = (float)mapHeight * tileSize / 200.0f * differenceInSize;
         }
     }
+
     private string[] LoadMapFromFile(string fileName)
     {
         string mapText = File.ReadAllText(Application.dataPath + "/Maps/" + fileName);
@@ -67,7 +65,6 @@ public class MapGenerator : MonoBehaviour
         int width = mapData[0].Length;
         int height = mapData.Length;
 
-        // Berechnung des Mittelpunkts der Karte
         Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
 
         for (int y = 0; y < height; y++)
@@ -75,7 +72,6 @@ public class MapGenerator : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
-                // Zentrieren der Karte, indem der Mittelpunkt von der Position abgezogen wird
                 position -= mapCenter;
 
                 char tileType = mapData[y][x];
