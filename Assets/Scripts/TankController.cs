@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class TankController : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class TankController : MonoBehaviour
     private float maxAngularVelocity = 20f;
     private float drag = 2f; // Die Drag-Kraft
     private float rotationDamping = 10f; // Dämpfung für die Rotation
+    public GameObject projectilePrefab; // Das Prefab für das Projektil
+    public float projectileSpeed = 10f; // Die Anfangsgeschwindigkeit des Projektils
+    public bool canShoot = true; // Ob der Panzer schießen kann
 
     void Start()
     {
@@ -30,6 +34,42 @@ public class TankController : MonoBehaviour
         foreach (Collider2D collider in colliders)
         {
             collider.sharedMaterial = highFrictionMaterial;
+        }
+        StartCoroutine(ShootCoroutine());
+    }
+
+    IEnumerator ShootCoroutine()
+    {
+        while (true)
+        {
+            // Warte, bis die Leertaste gedrückt wird und der Panzer schießen kann
+            while (!Input.GetKey(KeyCode.Space) || !canShoot)
+            {
+                yield return null;
+            }
+
+            // Verhindere, dass der Panzer sofort wieder schießen kann
+            canShoot = false;
+
+            // Berechne die Position, an der das Projektil erscheinen soll
+            Vector3 spawnPosition = transform.position + transform.up;
+
+            // Erstelle eine Instanz des Projektils an der berechneten Position und mit der gleichen Ausrichtung
+            GameObject projectile = Instantiate(projectilePrefab, spawnPosition, transform.rotation);
+
+            // Füge dem Projektil eine Anfangsgeschwindigkeit hinzu
+            Rigidbody2D projectileRigidbody = projectile.GetComponent<Rigidbody2D>();
+            if (projectileRigidbody != null)
+            {
+                projectileRigidbody.velocity = transform.up * projectileSpeed;
+            }
+
+            // Setze den TankController für das Projektil
+            ProjectileController projectileController = projectile.GetComponent<ProjectileController>();
+            if (projectileController != null)
+            {
+                projectileController.tankController = this;
+            }
         }
     }
 
