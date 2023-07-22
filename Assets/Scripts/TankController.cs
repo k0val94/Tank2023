@@ -43,7 +43,7 @@ public class TankController : MonoBehaviour
         while (true)
         {
             // Warte, bis die Leertaste gedrückt wird und der Panzer schießen kann
-            while (!Input.GetKey(KeyCode.Space) || !canShoot)
+            while (!Input.GetKeyDown(KeyCode.Space) || !canShoot)
             {
                 yield return null;
             }
@@ -70,6 +70,12 @@ public class TankController : MonoBehaviour
             {
                 projectileController.tankController = this;
             }
+
+            // Warte für die Nachladezeit (1 Sekunde)
+            yield return new WaitForSeconds(1f);
+
+            // Erlaube dem Panzer, wieder zu schießen
+            canShoot = true;
         }
     }
 
