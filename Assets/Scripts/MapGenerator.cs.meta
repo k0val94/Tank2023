@@ -4,9 +4,8 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - brickPrefab: {fileID: 8557906486070459954, guid: 654f1b5cacf5bc243b325f37ff42bc89, type: 3}
-  - playerPrefab: {fileID: 6131624244491827500, guid: bf367de3476984f4599f68f34a43a4a3, type: 3}
-  - dirtPrefab: {fileID: 8818692160092961433, guid: c262918b90c335a48b4df618003adbc0, type: 3}
+  - brick: {fileID: 8557906486070459954, guid: 654f1b5cacf5bc243b325f37ff42bc89, type: 3}
+  - player: {fileID: 6131624244491827500, guid: bf367de3476984f4599f68f34a43a4a3, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

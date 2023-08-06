@@ -2,11 +2,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XX......XXXXXXXXXXXXXXXX......XX
 XX......X..............X......XX
-XX......X.XXXXXXXXXXXX.X......XX
-XX......X.X..........X.X......XX
-XX......X.X..........X.X......XX
-XX......X.X..........X.X......XX
-XX......X.X..........X.X......XX
+XX......X.XXXXXXXXXXXX.X.DDDD.XX
+XX......X.X..........X.X.DDDD.XX
+XX......X.X..........X.X.DDDD.XX
+XX......X.X..........X.X.DDDD.XX
+XX......X.X..........X.X.DDDD.XX
 XX......X.X..........X.X......XX
 XX......X.X..........X.X......XX
 XX......X..XXXXXXXXXX..X......XX
@@ -16,7 +16,7 @@ XX......X.X..........X.X......XX
 XX......X.X..........X.X......XX
 XX......X.X..........X.X......XX
 XX......X.X..........X.X......XX
-XX......X.X..........X.X......XX
+XX......X.X..........X.X...D..XX
 XX......X.X..........X.X......XX
 XX......X.X..........X.X......XX
 XX......X..XXXXXXXXXX..X......XX

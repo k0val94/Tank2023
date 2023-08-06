@@ -7,6 +7,7 @@ public class MapGenerator : MonoBehaviour
 {
     public GameObject brickPrefab;
     public GameObject playerPrefab;
+    public GameObject dirtPrefab;
     private float tileSize = 64;
     private string[] mapData;
 
@@ -67,6 +68,13 @@ public class MapGenerator : MonoBehaviour
 
         Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
 
+        // Check if brick and player objects are assigned
+        if (brickPrefab == null || playerPrefab == null)
+        {
+            Debug.LogError("Brick or Player GameObject is not assigned.");
+            return;
+        }
+
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -84,7 +92,11 @@ public class MapGenerator : MonoBehaviour
                         break;
                     case '1':
                         Instantiate(playerPrefab, position, Quaternion.identity);
-                        Debug.LogFormat("Spieler 1 erstellt bei: x = {0}, y = {1}", x, y);
+                        Debug.LogFormat("Player 1 erstellt bei: x = {0}, y = {1}", x, y);
+                        break;
+                    case 'D':
+                        Instantiate(dirtPrefab, position, Quaternion.identity);
+                        Debug.LogFormat("Dreck erstellt bei: x = {0}, y = {1}", x, y);
                         break;
                     default:
                         break;
