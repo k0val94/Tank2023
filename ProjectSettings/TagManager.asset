@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Brick
   - Projectile
+  - MainMenu
   layers:
   - Default
   - TransparentFX
