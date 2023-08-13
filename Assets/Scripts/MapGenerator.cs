@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -9,22 +8,20 @@ public class MapGenerator : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject dirtPrefab;
     private float tileSize = 64;
-    private string[] mapData;
+
+    private List<string[]> mapLayers;
 
     void Start()
     {
-        mapData = LoadMapFromFile("eight.map");
+        mapLayers = LoadMapFromFile("eight.map");
 
-        if (mapData != null)
+        if (mapLayers != null && mapLayers.Count == 2)
         {
-            int width = mapData[0].Length;
-            int height = mapData.Length;
-
-            float cameraHeight = Camera.main.orthographicSize * 2;
-            float cameraWidth = cameraHeight * Camera.main.aspect;
+            int width = mapLayers[0][0].Length;
+            int height = mapLayers[0].Length;
 
             AdjustCameraSize(width, height);
-            GenerateMap(mapData);
+            GenerateMap(mapLayers);
         }
         else
         {
@@ -48,7 +45,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private string[] LoadMapFromFile(string fileName)
+    private List<string[]> LoadMapFromFile(string fileName)
     {
         string mapText = File.ReadAllText(Application.dataPath + "/Maps/" + fileName);
         if (string.IsNullOrEmpty(mapText))
@@ -56,25 +53,35 @@ public class MapGenerator : MonoBehaviour
             Debug.LogError("Map-Datei konnte nicht gefunden werden.");
             return null;
         }
-        return mapText.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        var layerData = mapText.Split(new[] { "---" }, System.StringSplitOptions.None);
+        List<string[]> mapDataLayers = new List<string[]>();
+
+        foreach (var layer in layerData)
+        {
+            mapDataLayers.Add(layer.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
+        }
+
+        return mapDataLayers;
     }
 
-    void GenerateMap(string[] mapData)
+    void GenerateMap(List<string[]> mapDataLayers)
     {
         Debug.Log("Map-Generierung gestartet.");
 
-        int width = mapData[0].Length;
-        int height = mapData.Length;
+        int width = mapDataLayers[0][0].Length;
+        int height = mapDataLayers[0].Length;
 
         Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
 
         // Check if brick and player objects are assigned
-        if (brickPrefab == null || playerPrefab == null)
+        if (brickPrefab == null || playerPrefab == null || dirtPrefab == null)
         {
-            Debug.LogError("Brick or Player GameObject is not assigned.");
+            Debug.LogError("Einige GameObjects sind nicht zugewiesen.");
             return;
         }
 
+        // Process Layer 1 (Dirt)
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -82,7 +89,25 @@ public class MapGenerator : MonoBehaviour
                 Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
                 position -= mapCenter;
 
-                char tileType = mapData[y][x];
+                char tileType = mapDataLayers[1][y][x];
+
+                if (tileType == 'D')
+                {
+                    Instantiate(dirtPrefab, position, Quaternion.identity);
+                    Debug.LogFormat("Dreck erstellt bei: x = {0}, y = {1}", x, y);
+                }
+            }
+        }
+
+        // Process Layer 2 (Bricks, Player)
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
+                position -= mapCenter;
+
+                char tileType = mapDataLayers[0][y][x];
 
                 switch (tileType)
                 {
@@ -93,10 +118,6 @@ public class MapGenerator : MonoBehaviour
                     case '1':
                         Instantiate(playerPrefab, position, Quaternion.identity);
                         Debug.LogFormat("Player 1 erstellt bei: x = {0}, y = {1}", x, y);
-                        break;
-                    case 'D':
-                        Instantiate(dirtPrefab, position, Quaternion.identity);
-                        Debug.LogFormat("Dreck erstellt bei: x = {0}, y = {1}", x, y);
                         break;
                     default:
                         break;
