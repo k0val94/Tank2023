@@ -11,6 +11,9 @@ public class MapGenerator : MonoBehaviour
 
     private List<string[]> mapLayers;
 
+    private float groundLevelZ = 0.0f;
+    private float elevatedLevelZ = -0.01f;
+
     void Start()
     {
         mapLayers = LoadMapFromFile("eight.map");
@@ -86,7 +89,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
+                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, groundLevelZ);
                 position -= mapCenter;
 
                 char tileType = mapDataLayers[1][y][x];
@@ -104,7 +107,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
+                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, elevatedLevelZ);
                 position -= mapCenter;
 
                 char tileType = mapDataLayers[0][y][x];
