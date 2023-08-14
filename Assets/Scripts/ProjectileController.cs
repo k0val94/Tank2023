@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public TankController tankController;
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Brick"))
@@ -11,7 +9,6 @@ public class ProjectileController : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        tankController.canShoot = true;
         Destroy(gameObject);
     }
 }

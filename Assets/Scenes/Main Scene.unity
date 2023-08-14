@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brickPrefab: {fileID: 8557906486070459954, guid: 654f1b5cacf5bc243b325f37ff42bc89, type: 3}
-  playerPrefab: {fileID: 8466768956143756184, guid: a8b1b3200a7b5024eae4cfa5c50a4cc2, type: 3}
+  playerPrefab: {fileID: 3028931994363913963, guid: cc2cd2608c8b60f4a99c916ea9711c44, type: 3}
   dirtPrefab: {fileID: 8818692160092961433, guid: c262918b90c335a48b4df618003adbc0, type: 3}
 --- !u!1 &1273092638
 GameObject:
