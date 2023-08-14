@@ -14,16 +14,16 @@ public class MapGenerator : MonoBehaviour
     private float groundLevelZ = 0.0f;
     private float elevatedLevelZ = -0.01f;
 
+    private Camera mainCamera;
+
     void Start()
     {
+        mainCamera = Camera.main;
+
         mapLayers = LoadMapFromFile("eight.map");
 
         if (mapLayers != null && mapLayers.Count == 2)
         {
-            int width = mapLayers[0][0].Length;
-            int height = mapLayers[0].Length;
-
-            AdjustCameraSize(width, height);
             GenerateMap(mapLayers);
         }
         else
@@ -32,19 +32,44 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    void AdjustCameraSize(int mapWidth, int mapHeight)
+    void Update()
     {
-        float screenRatio = (float)Screen.width / (float)Screen.height;
-        float targetRatio = (float)mapWidth / (float)mapHeight;
-
-        if (screenRatio >= targetRatio)
+        if (Input.GetMouseButtonDown(0))
         {
-            Camera.main.orthographicSize = (float)mapHeight * tileSize / 200.0f;
+            Debug.Log("Mouse button was clicked.");
+            if (!PlayerManager.Instance.IsPlayerSpawned())
+            {
+                Debug.Log("Player has not spawned yet.");
+                SpawnPlayerOnMouseClick();
+            }
+            else
+            {
+                Debug.Log("Player has already been spawned.");
+            }
+        }
+    }
+
+    void SpawnPlayerOnMouseClick()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+        if (hit.collider != null)
+        {
+            Debug.Log("Ray hit an object: " + hit.collider.name);
+            if (hit.collider.CompareTag("Dirt"))
+            {
+                Debug.Log("Ray hit a dirt object.");
+                PlayerManager.Instance.SpawnPlayer(hit.point);
+            }
+            else
+            {
+                Debug.Log("Ray hit an object that is not dirt: " + hit.collider.tag);
+            }
         }
         else
         {
-            float differenceInSize = targetRatio / screenRatio;
-            Camera.main.orthographicSize = (float)mapHeight * tileSize / 200.0f * differenceInSize;
+            Debug.Log("Ray did not hit any object.");
         }
     }
 
@@ -115,11 +140,6 @@ public class MapGenerator : MonoBehaviour
                 {
                     case 'X':
                         Instantiate(brickPrefab, position, Quaternion.identity);
-                        break;
-                    case '1':
-                        Instantiate(playerPrefab, position, Quaternion.identity);
-                        break;
-                    default:
                         break;
                 }
             }
