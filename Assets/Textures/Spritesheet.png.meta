@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: b3da19607365c8c4fa6452e9ff17f8e8
+guid: 91a75d7a926228543b538d026b5b91a9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8633881525917383573
-    second: Spritesheet_0
+      213: 8879801946381886910
+    second: Spritesheet 1_0
+  - first:
+      213: 2597438974511555222
+    second: Spritesheet 1_1
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -98,13 +101,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: playerOne
+      name: playerOneFullHealth1
       rect:
         serializedVersion: 2
-        x: 7
-        y: 494
-        width: 66
-        height: 66
+        x: 8
+        y: 456
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +115,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 59bfc19e085b1d770800000000000000
-      internalID: 8633881525917383573
+      spriteID: eb52ae1b2d46b3b70800000000000000
+      internalID: 8879801946381886910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerOneFullHealth2
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 456
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69224894cf4fb0420800000000000000
+      internalID: 2597438974511555222
       vertices: []
       indices: 
       edges: []
@@ -121,7 +145,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 2b8a4426e8d8dcb49bc51f9ce68cf273
+    spriteID: ea144fdec8a03bf4f8fb233f792a1612
     internalID: 0
     vertices: []
     indices: 
@@ -129,7 +153,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      playerOne: 8633881525917383573
+      Spritesheet_0: -1464948617
+      Spritesheet_1: -106459163
+      playerOneFullHealth1: 8879801946381886910
+      playerOneFullHealth2: 2597438974511555222
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
