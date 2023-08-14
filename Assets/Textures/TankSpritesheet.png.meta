@@ -193,7 +193,7 @@ TextureImporter:
         width: 72
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -201,6 +201,27 @@ TextureImporter:
       bones: []
       spriteID: 194b9445561bb234c968242e3af605ba
       internalID: 2036447319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerProjectile
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 540
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d435e8e64d6778a4fa647693bf4d5ef0
+      internalID: -624988731
       vertices: []
       indices: 
       edges: []
@@ -220,6 +241,7 @@ TextureImporter:
       PlayerChainLeft: 1739090988
       PlayerChainRight: -1111326056
       PlayerIdle: 8879801946381886910
+      PlayerProjectile: -624988731
       PlayerTankTurret: 2036447319
       Spritesheet_1: -106459163
   mipmapLimitGroupName: 

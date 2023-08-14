@@ -6,9 +6,8 @@ public class TankTurretController : MonoBehaviour
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
 
-    [Header("Fire Point Calculation")]
-    public float firePointOffset = 1f; // Abstand von der Turmspitze, wo das Projektil abgefeuert wird
-    public float firePointHeight = 0.5f; // Höhe des Fire Points über der Turmspitze
+    private float firePointOffset = -0.25f; // Abstand von der Turmspitze, wo das Projektil abgefeuert wird
+    private float firePointHeight = 0.5f; // Höhe des Fire Points über der Turmspitze
 
     private Transform firePoint; // Der Transform, von dem aus die Projektile geschossen werden
 

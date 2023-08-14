@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8466768956143756184}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.20307934, w: -0.9791623}
+  m_LocalRotation: {x: 0, y: 0, z: 0.20600219, w: -0.97855157}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -100,5 +100,3 @@ MonoBehaviour:
   turretRotationSpeed: 90
   projectilePrefab: {fileID: 7763979460456901995, guid: 2d64f451f33598d4c958920f02d6ac7d, type: 3}
   projectileSpeed: 10
-  firePointOffset: 1
-  firePointHeight: 0.5
