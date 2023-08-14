@@ -101,7 +101,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerFullHealthIdle
+      name: PlayerIdle
       rect:
         serializedVersion: 2
         x: 8
@@ -122,7 +122,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerFullHealthChainBoth
+      name: PlayerChainBoth
       rect:
         serializedVersion: 2
         x: 122
@@ -143,7 +143,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerFullHealthChainRight
+      name: PlayerChainRight
       rect:
         serializedVersion: 2
         x: 236
@@ -164,7 +164,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerFullHealthChainLeft
+      name: PlayerChainLeft
       rect:
         serializedVersion: 2
         x: 350
@@ -195,10 +195,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayerFullHealthChainBoth: 2597438974511555222
-      PlayerFullHealthChainLeft: 1739090988
-      PlayerFullHealthChainRight: -1111326056
-      PlayerFullHealthIdle: 8879801946381886910
+      PlayerChainBoth: 2597438974511555222
+      PlayerChainLeft: 1739090988
+      PlayerChainRight: -1111326056
+      PlayerIdle: 8879801946381886910
       Spritesheet_1: -106459163
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
