@@ -77,45 +77,59 @@ public class TankController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+void FixedUpdate()
+{
+    float move = Input.GetAxis("Vertical");
+    float rotate = Input.GetAxis("Horizontal");
+
+    float currentSpeed = tankRigidbody.velocity.magnitude;
+
+    // Standardmäßig setzen wir alle Kettenbewegungs-Flags zurück.
+    isBothChainsMoving = false;
+    isLeftChainMoving = false;
+    isRightChainMoving = false;
+
+    if (Mathf.Abs(move) > 0.1f)
     {
-        float move = Input.GetAxis("Vertical");
-        float rotate = Input.GetAxis("Horizontal");
+        // Der Panzer bewegt sich vorwärts oder rückwärts.
+        isBothChainsMoving = true;
+        Vector2 force = transform.up * move * (move > 0 ? speed : reverseSpeed);
+        tankRigidbody.AddForce(force);
+    }
 
-        isBothChainsMoving = Mathf.Abs(move) > 0.1f;
-        isLeftChainMoving = rotate < -0.1f;
-        isRightChainMoving = rotate > 0.1f;
+    if (Mathf.Abs(rotate) > 0.1f)
+    {
+        float rotationDirection = (move >= 0) ? -1 : 1; // Umkehren der Richtung, wenn rückwärts gefahren wird.
 
-
-        tankRigidbody.drag = drag;
-
-        if (move > 0.1f)
+        if (currentSpeed < 1f)
         {
-            Vector2 force = transform.up * move * speed;
-            tankRigidbody.AddForce(force);
-        }
-        else if (move < -0.1f && tankRigidbody.velocity.magnitude < 0.1f)
-        {
-            Vector2 force = transform.up * move * reverseSpeed;
-            tankRigidbody.AddForce(force);
-        }
-
-        if (Mathf.Abs(rotate) > 0.1f)
-        {
-            float turnTorque = -rotate * torque;
+            // Der Panzer ist nahezu still und versucht zu drehen - Drehen auf der Stelle.
+            if (rotate < -0.1f)
+            {
+                isLeftChainMoving = true;
+            }
+            else
+            {
+                isRightChainMoving = true;
+            }
+            float turnTorque = rotationDirection * rotate * torque * 2; // Multiplikator für schnelleres Drehen auf der Stelle
             tankRigidbody.AddTorque(turnTorque);
         }
         else
         {
-            tankRigidbody.angularVelocity = 0f;
+            // Der Panzer bewegt sich und versucht zu drehen - Breite Kurve.
+            float turnTorque = rotationDirection * rotate * torque;
+            tankRigidbody.AddTorque(turnTorque);
         }
-
-        tankRigidbody.velocity *= (1f - drag * Time.fixedDeltaTime);
-        tankRigidbody.angularVelocity *= (1f - rotationDamping * Time.fixedDeltaTime);
-
-        tankRigidbody.velocity = Vector2.ClampMagnitude(tankRigidbody.velocity, maxSpeed);
-        tankRigidbody.angularVelocity = Mathf.Clamp(tankRigidbody.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
     }
+
+    // Dämpfung und Geschwindigkeits-/Rotationsgrenzen
+    tankRigidbody.drag = drag;
+    tankRigidbody.velocity *= (1f - drag * Time.fixedDeltaTime);
+    tankRigidbody.angularVelocity *= (1f - rotationDamping * Time.fixedDeltaTime);
+    tankRigidbody.velocity = Vector2.ClampMagnitude(tankRigidbody.velocity, maxSpeed);
+    tankRigidbody.angularVelocity = Mathf.Clamp(tankRigidbody.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
+}
 
     public bool IsBothChainsMoving()
     {
