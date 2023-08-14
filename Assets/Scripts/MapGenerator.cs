@@ -97,7 +97,6 @@ public class MapGenerator : MonoBehaviour
                 if (tileType == 'D')
                 {
                     Instantiate(dirtPrefab, position, Quaternion.identity);
-                    Debug.LogFormat("Dreck erstellt bei: x = {0}, y = {1}", x, y);
                 }
             }
         }
@@ -116,11 +115,9 @@ public class MapGenerator : MonoBehaviour
                 {
                     case 'X':
                         Instantiate(brickPrefab, position, Quaternion.identity);
-                        Debug.LogFormat("Brick erstellt bei: x = {0}, y = {1}", x, y);
                         break;
                     case '1':
                         Instantiate(playerPrefab, position, Quaternion.identity);
-                        Debug.LogFormat("Player 1 erstellt bei: x = {0}, y = {1}", x, y);
                         break;
                     default:
                         break;
