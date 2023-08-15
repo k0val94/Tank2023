@@ -57,21 +57,23 @@ public class MapGenerator : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log("Ray hit an object: " + hit.collider.name);
-            if (hit.collider.CompareTag("Dirt"))
+            if (!hit.collider.CompareTag("Obstacle"))
             {
-                Debug.Log("Ray hit a dirt object.");
+                Debug.Log("Ray hit a valid spawn location.");
                 PlayerManager.Instance.SpawnPlayer(hit.point);
             }
             else
             {
-                Debug.Log("Ray hit an object that is not dirt: " + hit.collider.tag);
+                Debug.Log("Ray hit an obstacle. Cannot spawn here.");
             }
         }
         else
         {
             Debug.Log("Ray did not hit any object.");
+            PlayerManager.Instance.SpawnPlayer(ray.origin);
         }
     }
+
 
     private List<string[]> LoadMapFromFile(string fileName)
     {
