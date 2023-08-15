@@ -27,6 +27,24 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && !IsPlayerSpawned())
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+            if (hit.collider != null && !hit.collider.CompareTag("Obstacle"))
+            {
+                SpawnPlayer(hit.point);
+            }
+            else if (hit.collider == null)
+            {
+                SpawnPlayer(ray.origin);
+            }
+        }
+    }
+
     public void SpawnPlayer(Vector3 position)
     {
         // Überlappungs-Check
@@ -52,7 +70,6 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
 
     public void DespawnPlayer()
     {
