@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
     private List<string[]> mapLayers;
 
     private float groundLevelZ = 0.0f;
-    private float elevatedLevelZ = -0.01f;
+    private float barrierLevelZ = -0.01f;
 
     private Camera mainCamera;
 
@@ -57,14 +57,14 @@ public class MapGenerator : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log("Ray hit an object: " + hit.collider.name);
-            if (!hit.collider.CompareTag("Obstacle"))
+            if (!hit.collider.CompareTag("Brick"))
             {
                 Debug.Log("Ray hit a valid spawn location.");
                 PlayerManager.Instance.SpawnPlayer(hit.point);
             }
             else
             {
-                Debug.Log("Ray hit an obstacle. Cannot spawn here.");
+                Debug.Log("Ray hit an brick. Cannot spawn here.");
             }
         }
         else
@@ -133,7 +133,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, elevatedLevelZ);
+                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, barrierLevelZ);
                 position -= mapCenter;
 
                 char tileType = mapDataLayers[0][y][x];

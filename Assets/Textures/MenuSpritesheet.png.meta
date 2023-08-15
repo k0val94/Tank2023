@@ -116,8 +116,8 @@ TextureImporter:
       name: MenuTitle
       rect:
         serializedVersion: 2
-        x: 3
-        y: 457
+        x: 6
+        y: 857
         width: 689
         height: 127
       alignment: 0
@@ -137,8 +137,8 @@ TextureImporter:
       name: MenuButton
       rect:
         serializedVersion: 2
-        x: 3
-        y: 291
+        x: 7
+        y: 690
         width: 507
         height: 151
       alignment: 0

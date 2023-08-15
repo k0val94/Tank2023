@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
             {
                 SpawnPlayer(ray.origin);
             }
-            else if (!hit.collider.CompareTag("Obstacle") && !hit.collider.CompareTag("Brick"))
+            else if (!hit.collider.CompareTag("Barrier"))
             {
                 SpawnPlayer(hit.point);
             }
@@ -52,9 +52,9 @@ public class PlayerManager : MonoBehaviour
         if (colliderAtSpawnPoint != null)
         {
             // Überprüfen, ob das Objekt an dieser Position ein "Brick" oder ein anderes Hindernis ist
-            if (colliderAtSpawnPoint.CompareTag("Brick") /* oder andere Tags für Hindernisse */)
+            if (colliderAtSpawnPoint.CompareTag("Barrier") /* oder andere Tags für Hindernisse */)
             {
-                Debug.Log("Cannot spawn player on a brick or obstacle!");
+                Debug.Log("Cannot spawn player on an barrier!");
                 return; // Beendet die Methode frühzeitig, sodass der Spieler nicht gespawnt wird.
             }
         }

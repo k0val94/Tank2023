@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 1345c2a1e1e708544af66cf2cf610b8f
+guid: 20f3fcf60cf041f41a2a695ab6e62928
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6498022809957967381
-    second: GroundSpritesheet_0
+      213: 5325044904676303817
+    second: DirtSpritesheet_0
   - first:
-      213: -4418180146480000593
-    second: GroundSpritesheet_1
+      213: 6394090102354303151
+    second: DirtSpritesheet_1
   - first:
-      213: -195572340343452797
-    second: GroundSpritesheet_2
+      213: -6444099622693527423
+    second: DirtSpritesheet_2
   - first:
-      213: 7802371727343532992
-    second: GroundSpritesheet_3
+      213: -172773180475090326
+    second: DirtSpritesheet_3
   - first:
-      213: 2248496577704148922
-    second: GroundSpritesheet_4
+      213: 198327261956722723
+    second: DirtSpritesheet_4
   - first:
-      213: 3675286979280762567
-    second: GroundSpritesheet_5
+      213: -5684972309120705976
+    second: DirtSpritesheet_5
   - first:
-      213: 8947393457876711521
-    second: GroundSpritesheet_6
+      213: 496359769259166251
+    second: DirtSpritesheet_6
   - first:
-      213: 5574926815319124388
-    second: GroundSpritesheet_7
+      213: -1148690051958492642
+    second: DirtSpritesheet_7
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -119,169 +119,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Brick1
+      name: DirtSpritesheet_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 240
+        x: 15
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5162ee1515d9d2a50800000000000000
-      internalID: 6498022809957967381
+      spriteID: 9c32c34a02c56e940800000000000000
+      internalID: 5325044904676303817
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Brick2
+      name: DirtSpritesheet_1
       rect:
         serializedVersion: 2
-        x: 79
-        y: 240
+        x: 87
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa15067b0987fa2c0800000000000000
-      internalID: -4418180146480000593
+      spriteID: fa85bac121f5cb850800000000000000
+      internalID: 6394090102354303151
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Brick3
+      name: DirtSpritesheet_2
       rect:
         serializedVersion: 2
-        x: 151
-        y: 240
+        x: 159
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38bcfed1eff294df0800000000000000
-      internalID: -195572340343452797
+      spriteID: 180af141985f196a0800000000000000
+      internalID: -6444099622693527423
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Brick4
+      name: DirtSpritesheet_3
       rect:
         serializedVersion: 2
-        x: 223
-        y: 240
+        x: 231
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0cbbcdd4fb7974c60800000000000000
-      internalID: 7802371727343532992
+      spriteID: a6a511f25bf2a9df0800000000000000
+      internalID: -172773180475090326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Brick5
+      name: DirtSpritesheet_4
       rect:
         serializedVersion: 2
-        x: 295
-        y: 240
+        x: 303
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: abfbcb079b3443f10800000000000000
-      internalID: 2248496577704148922
+      spriteID: 320d43e089990c200800000000000000
+      internalID: 198327261956722723
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Brick6
+      name: DirtSpritesheet_5
       rect:
         serializedVersion: 2
-        x: 367
-        y: 240
+        x: 375
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7c6f5aff80e310330800000000000000
-      internalID: 3675286979280762567
+      spriteID: 84a9dec1ecbea11b0800000000000000
+      internalID: -5684972309120705976
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Brick7
+      name: DirtSpritesheet_6
       rect:
         serializedVersion: 2
-        x: 439
-        y: 240
+        x: 447
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1683562d1f68b2c70800000000000000
-      internalID: 8947393457876711521
+      spriteID: b2acc7f849c63e600800000000000000
+      internalID: 496359769259166251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Brick8
+      name: DirtSpritesheet_7
       rect:
         serializedVersion: 2
-        x: 511
-        y: 240
+        x: 519
+        y: 7
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4a965ebb66e1e5d40800000000000000
-      internalID: 5574926815319124388
+      spriteID: e123df7db780f00f0800000000000000
+      internalID: -1148690051958492642
       vertices: []
       indices: 
       edges: []
@@ -289,22 +289,14 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8d6111b1dacfb484288f05aed1fca663
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Brick1: 6498022809957967381
-      Brick2: -4418180146480000593
-      Brick3: -195572340343452797
-      Brick4: 7802371727343532992
-      Brick5: 2248496577704148922
-      Brick6: 3675286979280762567
-      Brick7: 8947393457876711521
-      Brick8: 5574926815319124388
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

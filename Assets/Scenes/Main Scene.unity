@@ -354,6 +354,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapGenerator
       objectReference: {fileID: 0}
+    - target: {fileID: 8891190673200246078, guid: e3134c1612f7e02438e7c8d3a1cb8923, type: 3}
+      propertyPath: dirtPrefab
+      value: 
+      objectReference: {fileID: 8557906486070459954, guid: c262918b90c335a48b4df618003adbc0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

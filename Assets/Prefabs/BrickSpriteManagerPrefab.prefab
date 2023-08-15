@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3221640793910071120}
   - component: {fileID: 3453813693310163526}
   m_Layer: 0
-  m_Name: SpriteManagerPrefab
+  m_Name: BrickSpriteManagerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,12 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritesList:
-  - {fileID: 6498022809957967381, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: -4418180146480000593, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: -4418180146480000593, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: -195572340343452797, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: 7802371727343532992, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: 2248496577704148922, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: 3675286979280762567, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: 8947393457876711521, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
-  - {fileID: 5574926815319124388, guid: 1345c2a1e1e708544af66cf2cf610b8f, type: 3}
+  - {fileID: -3615601590335647809, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
+  - {fileID: 9095023386372815240, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
+  - {fileID: 7245160226452163517, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
+  - {fileID: -1415555400121677098, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
+  - {fileID: 2750142769301409134, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
+  - {fileID: -7868188058206823954, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
+  - {fileID: 1552465894236444068, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
+  - {fileID: 5058576353494976205, guid: 2ada1f875016a7f49b9dd614bf367a38, type: 3}
