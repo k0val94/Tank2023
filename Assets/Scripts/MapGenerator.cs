@@ -17,7 +17,7 @@ public class MapGenerator : MonoBehaviour
 
     private Camera mainCamera;
 
-    void Start()
+    public void Generate()
     {
         mainCamera = Camera.main;
 
