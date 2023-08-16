@@ -7,6 +7,7 @@ public class MapGenerator : MonoBehaviour
     public GameObject brickPrefab;
     public GameObject playerPrefab;
     public GameObject dirtPrefab;
+    public GameObject steelPrefab;
     private float tileSize = 64;
 
     private List<string[]> mapLayers;
@@ -20,7 +21,7 @@ public class MapGenerator : MonoBehaviour
     {
         mainCamera = Camera.main;
 
-        mapLayers = LoadMapFromFile("eight.map");
+        mapLayers = LoadMapFromFile("test.map");
 
         if (mapLayers != null && mapLayers.Count == 2)
         {
@@ -128,7 +129,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        // Process Layer 2 (Bricks, Player)
+        // Process Layer 2 (Bricks, Steels)
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -140,8 +141,11 @@ public class MapGenerator : MonoBehaviour
 
                 switch (tileType)
                 {
-                    case 'X':
+                    case 'B':
                         Instantiate(brickPrefab, position, Quaternion.identity);
+                        break;
+                    case 'S':
+                        Instantiate(steelPrefab, position, Quaternion.identity);
                         break;
                 }
             }

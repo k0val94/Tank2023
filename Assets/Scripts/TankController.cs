@@ -23,6 +23,10 @@ public class TankController : MonoBehaviour
     private int remainingShots = 25; // Verbleibende Schüsse
     private bool isReloading = false; // Wird gerade nachgeladen
 
+    private float minZoom = 5f;
+    private float maxZoom = 15f;
+    private float zoomSpeed = 30f;
+
     void Start()
     {
         tankRigidbody = GetComponent<Rigidbody2D>();
@@ -59,6 +63,12 @@ public class TankController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        HandleCameraZoom();
+
+    }
+
     void FixedUpdate()
     {
         HandleTankMovement();
@@ -67,6 +77,16 @@ public class TankController : MonoBehaviour
         if (Input.GetMouseButtonDown(1)) // Rechtsklick (Mouse Button 1) fürs Schießen
         {
             FireProjectile();
+        }
+    }
+
+    private void HandleCameraZoom()
+    {
+        if (Camera.main != null)
+        {
+            float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+            Camera.main.orthographicSize -= scrollInput * zoomSpeed;
+            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minZoom, maxZoom);
         }
     }
 

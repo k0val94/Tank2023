@@ -9,6 +9,7 @@ TagManager:
   - Barrier
   - Ground
   - Brick
+  - Steel
   layers:
   - Default
   - TransparentFX

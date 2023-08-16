@@ -358,6 +358,10 @@ PrefabInstance:
       propertyPath: dirtPrefab
       value: 
       objectReference: {fileID: 8557906486070459954, guid: c262918b90c335a48b4df618003adbc0, type: 3}
+    - target: {fileID: 8891190673200246078, guid: e3134c1612f7e02438e7c8d3a1cb8923, type: 3}
+      propertyPath: steelPrefab
+      value: 
+      objectReference: {fileID: 760809665500724449, guid: 942c4aa4196c23a48ac2e4ba1b8e0422, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
