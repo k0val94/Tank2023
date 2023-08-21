@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8630159427801433713}
   - component: {fileID: 3341515935420171224}
   m_Layer: 0
-  m_Name: Tank
+  m_Name: PlayerTank
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d5b72ba9b983245be5d71bcb957f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tankTurret: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
+  turretTransform: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
 --- !u!50 &4697474238797786333
 Rigidbody2D:
   serializedVersion: 4

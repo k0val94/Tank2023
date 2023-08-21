@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-//    public EnemyTankManager enemyTankManager;
     public MapGenerator mapGenerator;
+    public SpawnManager spawnManager;
+    public HealthManager healthManager;
+
+    [Header("Prefabs")]
+    public GameObject playerTankPrefab;
 
     private void Start()
     {
-        if(mapGenerator != null)
+        if (mapGenerator != null)
         {
             mapGenerator.Generate();
         }
@@ -15,13 +19,23 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("Map Generator is not assigned!");
         }
-      /*  if(enemyTankManager != null)
+
+        if (spawnManager != null)
         {
-            enemyTankManager.StartSpawn();
+            spawnManager.Initialize(playerTankPrefab); // Weitere Feind-Prefabs übergeben
         }
         else
         {
-            Debug.LogError("Enemy Tank Manager is not assigned!");
-        }*/
+            Debug.LogError("Spawn Manager is not assigned!");
+        }
+
+        if (healthManager != null)
+        {
+            healthManager.Initialize(playerTankPrefab); // Weitere Feind-Prefabs übergeben
+        }
+        else
+        {
+            Debug.LogError("Health Manager is not assigned!");
+        }
     }
 }

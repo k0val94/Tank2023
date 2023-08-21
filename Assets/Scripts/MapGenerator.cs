@@ -1,20 +1,18 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 using System.IO;
 
 public class MapGenerator : MonoBehaviour
 {
+    [Header("Tile Prefabs")]
     public GameObject brickPrefab;
-    public GameObject playerPrefab;
     public GameObject dirtPrefab;
     public GameObject steelPrefab;
-    private float tileSize = 64;
 
     private List<string[]> mapLayers;
-
+    private float tileSize = 64;
     private float groundLevelZ = 0.0f;
     private float barrierLevelZ = -0.01f;
-
     private Camera mainCamera;
 
     public void Generate()
@@ -32,49 +30,6 @@ public class MapGenerator : MonoBehaviour
             Debug.LogError("Karte konnte nicht geladen werden. Überprüfen Sie die Datei und den Pfad.");
         }
     }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Mouse button was clicked.");
-            if (!PlayerManager.Instance.IsPlayerSpawned())
-            {
-                Debug.Log("Player has not spawned yet.");
-                SpawnPlayerOnMouseClick();
-            }
-            else
-            {
-                Debug.Log("Player has already been spawned.");
-            }
-        }
-    }
-
-    void SpawnPlayerOnMouseClick()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-        if (hit.collider != null)
-        {
-            Debug.Log("Ray hit an object: " + hit.collider.name);
-            if (!hit.collider.CompareTag("Brick"))
-            {
-                Debug.Log("Ray hit a valid spawn location.");
-                PlayerManager.Instance.SpawnPlayer(hit.point);
-            }
-            else
-            {
-                Debug.Log("Ray hit an brick. Cannot spawn here.");
-            }
-        }
-        else
-        {
-            Debug.Log("Ray did not hit any object.");
-            PlayerManager.Instance.SpawnPlayer(ray.origin);
-        }
-    }
-
 
     private List<string[]> LoadMapFromFile(string fileName)
     {
@@ -102,15 +57,7 @@ public class MapGenerator : MonoBehaviour
 
         int width = mapDataLayers[0][0].Length;
         int height = mapDataLayers[0].Length;
-
         Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
-
-        // Check if brick and player objects are assigned
-        if (brickPrefab == null || playerPrefab == null || dirtPrefab == null)
-        {
-            Debug.LogError("Einige GameObjects sind nicht zugewiesen.");
-            return;
-        }
 
         // Process Layer 1 (Dirt)
         for (int y = 0; y < height; y++)

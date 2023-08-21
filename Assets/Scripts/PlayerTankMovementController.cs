@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class TankController : MonoBehaviour
+public class PlayerTankMovementController : MonoBehaviour
 {
-    public Transform tankTurret; // Der Turm des Panzers
-    private Rigidbody2D tankRigidbody;
-    private float turretRotationSpeed = 50f; // Geschwindigkeit der Turmdrehung
-    private float speed = 45f;
+    public Transform turretTransform;
+    private Rigidbody2D tankRigidbody2D;
+    private float turretRotationSpeed = 50f;
+    private float forwardSpeed = 45f;
     private float reverseSpeed = 10f;
     private float torque = 10f;
     private float maxSpeed = 20f;
@@ -14,14 +14,14 @@ public class TankController : MonoBehaviour
     private float drag = 2f;
     private float rotationDamping = 10f;
 
-    private bool isBothChainsMoving = false;
+    private bool areBothChainsMoving = false;
     private bool isLeftChainMoving = false;
     private bool isRightChainMoving = false;
 
-    private TankTurretController turretController; // Referenz auf den Turm-Controller
+    private TankTurretController turretController;
 
-    private int remainingShots = 25; // Verbleibende Schüsse
-    private bool isReloading = false; // Wird gerade nachgeladen
+    private int remainingAmmo = 25;
+    private bool isReloadingAmmo = false;
 
     private float minZoom = 5f;
     private float maxZoom = 15f;
@@ -29,35 +29,35 @@ public class TankController : MonoBehaviour
 
     void Start()
     {
-        tankRigidbody = GetComponent<Rigidbody2D>();
+        tankRigidbody2D = GetComponent<Rigidbody2D>();
 
-        if (tankRigidbody == null)
+        if (tankRigidbody2D == null)
         {
             Debug.LogWarning("No Rigidbody2D component found on " + gameObject.name + ". TankController has been disabled.");
             enabled = false;
             return;
         }
 
-        if (tankTurret == null)
+        if (turretTransform == null)
         {
-            Debug.LogWarning("TankTurret reference is not set. Please attach the turret to the TankController.");
+            Debug.LogWarning("TurretTransform reference is not set. Please attach the turret to the TankController.");
         }
 
-        turretController = tankTurret.GetComponent<TankTurretController>(); // Turm-Controller holen
+        turretController = turretTransform.GetComponent<TankTurretController>();
 
-        StartCoroutine(ShotReloadCoroutine());
+        StartCoroutine(AmmoReloadCoroutine());
     }
 
-    IEnumerator ShotReloadCoroutine()
+    IEnumerator AmmoReloadCoroutine()
     {
         while (true)
         {
-            if (remainingShots < 25 && !isReloading)
+            if (remainingAmmo < 25 && !isReloadingAmmo)
             {
-                isReloading = true;
-                yield return new WaitForSeconds(2f); // Nachladen dauert 2 Sekunden
-                remainingShots = 25;
-                isReloading = false;
+                isReloadingAmmo = true;
+                yield return new WaitForSeconds(2f);
+                remainingAmmo = 25;
+                isReloadingAmmo = false;
             }
             yield return null;
         }
@@ -66,7 +66,6 @@ public class TankController : MonoBehaviour
     void Update()
     {
         HandleCameraZoom();
-
     }
 
     void FixedUpdate()
@@ -74,10 +73,6 @@ public class TankController : MonoBehaviour
         HandleTankMovement();
         RotateTurretTowardsMouse();
 
-        if (Input.GetMouseButtonDown(1)) // Rechtsklick (Mouse Button 1) fürs Schießen
-        {
-            FireProjectile();
-        }
     }
 
     private void HandleCameraZoom()
@@ -95,19 +90,17 @@ public class TankController : MonoBehaviour
         float move = Input.GetAxis("Vertical");
         float rotate = Input.GetAxis("Horizontal");
 
-        float currentSpeed = tankRigidbody.velocity.magnitude;
+        float currentSpeed = tankRigidbody2D.velocity.magnitude;
 
-        // Standardmäßig setzen wir alle Kettenbewegungs-Flags zurück.
-        isBothChainsMoving = false;
+        areBothChainsMoving = false;
         isLeftChainMoving = false;
         isRightChainMoving = false;
 
         if (Mathf.Abs(move) > 0.1f)
         {
-            // Der Panzer bewegt sich vorwärts oder rückwärts.
-            isBothChainsMoving = true;
-            Vector2 force = transform.up * move * (move > 0 ? speed : reverseSpeed);
-            tankRigidbody.AddForce(force);
+            areBothChainsMoving = true;
+            Vector2 force = transform.up * move * (move > 0 ? forwardSpeed : reverseSpeed);
+            tankRigidbody2D.AddForce(force);
         }
 
         if (Mathf.Abs(rotate) > 0.1f)
@@ -125,47 +118,46 @@ public class TankController : MonoBehaviour
                     isRightChainMoving = true;
                 }
                 float turnTorque = rotationDirection * rotate * torque * 2;
-                tankRigidbody.AddTorque(turnTorque);
+                tankRigidbody2D.AddTorque(turnTorque);
             }
             else
             {
                 float turnTorque = rotationDirection * rotate * torque;
-                tankRigidbody.AddTorque(turnTorque);
+                tankRigidbody2D.AddTorque(turnTorque);
             }
         }
 
-        // Geschwindigkeits-/Rotationsgrenzen und Dämpfung
-        tankRigidbody.drag = drag;
-        tankRigidbody.velocity *= (1f - drag * Time.fixedDeltaTime);
-        tankRigidbody.angularVelocity *= (1f - rotationDamping * Time.fixedDeltaTime);
-        tankRigidbody.velocity = Vector2.ClampMagnitude(tankRigidbody.velocity, maxSpeed);
-        tankRigidbody.angularVelocity = Mathf.Clamp(tankRigidbody.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
+        tankRigidbody2D.drag = drag;
+        tankRigidbody2D.velocity *= (1f - drag * Time.fixedDeltaTime);
+        tankRigidbody2D.angularVelocity *= (1f - rotationDamping * Time.fixedDeltaTime);
+        tankRigidbody2D.velocity = Vector2.ClampMagnitude(tankRigidbody2D.velocity, maxSpeed);
+        tankRigidbody2D.angularVelocity = Mathf.Clamp(tankRigidbody2D.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
     }
 
     private void RotateTurretTowardsMouse()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = mousePosition - tankTurret.position;
+        Vector2 direction = mousePosition - turretTransform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        float rotationZ = Mathf.LerpAngle(tankTurret.rotation.eulerAngles.z, angle - 90f, turretRotationSpeed * Time.deltaTime); // 90 Grad Korrektur
-        tankTurret.rotation = Quaternion.Euler(0, 0, rotationZ);
+        float rotationZ = Mathf.LerpAngle(turretTransform.rotation.eulerAngles.z, angle - 90f, turretRotationSpeed * Time.deltaTime);
+        turretTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
     }
 
     private void FireProjectile()
     {
-        if (!isReloading && remainingShots > 0)
+        if (!isReloadingAmmo && remainingAmmo > 0)
         {
-            remainingShots--;
+            remainingAmmo--;
             if (turretController != null)
             {
-                turretController.FireProjectile(); // Schießvorgang im Turm-Controller aufrufen
+                turretController.FireProjectile();
             }
         }
     }
 
-    public bool IsBothChainsMoving()
+    public bool AreBothChainsMoving()
     {
-        return isBothChainsMoving;
+        return areBothChainsMoving;
     }
 
     public bool IsLeftChainMoving()
