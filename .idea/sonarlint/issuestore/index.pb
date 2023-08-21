@@ -53,9 +53,11 @@ N
 Assets/Scripts/SpawnManager.cs,3\7\37fbf6c0c892e089beb70f083733d0bdedf35128
 V
 &Assets/Scripts/TankTurretController.cs,8\9\89e0c676db1de5bf0a5679b164f839cc740106d4
-O
-Assets/Scripts/HealthManager.cs,3\5\35c6b3b282ec7620a01f69572110bf642429f43b
 V
 &Assets/Scripts/RandomSpriteSelector.cs,f\e\fe1bb2474750f1964e0ae62ed47fecf42a34abd7
 V
 &Assets/Scripts/ProjectileController.cs,d\1\d11fcc82a0971e478092c9c67b3177f4a6b4e09d
+O
+Assets/Scripts/HealthManager.cs,3\5\35c6b3b282ec7620a01f69572110bf642429f43b
+Q
+!Assets/Scripts/HealthDisplayUI.cs,d\4\d45ee58e5ce777d92a538ebd4edac3508de03afc

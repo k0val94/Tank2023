@@ -55,7 +55,9 @@ M
 Assets/Scripts/GameManager.cs,c\f\cf1d1156c85841abda524f1e26a86c4c3bc30473
 ^
 .Assets/Scripts/PlayerTankMovementController.cs,a\9\a9cda364b66209c77c363bd09556bc1ce7dda773
-O
-Assets/Scripts/HealthManager.cs,3\5\35c6b3b282ec7620a01f69572110bf642429f43b
 V
 &Assets/Scripts/RandomSpriteSelector.cs,f\e\fe1bb2474750f1964e0ae62ed47fecf42a34abd7
+O
+Assets/Scripts/HealthManager.cs,3\5\35c6b3b282ec7620a01f69572110bf642429f43b
+Q
+!Assets/Scripts/HealthDisplayUI.cs,d\4\d45ee58e5ce777d92a538ebd4edac3508de03afc

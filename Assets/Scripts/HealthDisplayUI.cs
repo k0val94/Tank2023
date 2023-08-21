@@ -3,35 +3,47 @@ using UnityEngine.UI;
 
 public class HealthDisplayUI : MonoBehaviour
 {
-    public Image emptyHeartImage;
-    public Image halfHeartImage;
-    public Image fullHeartImage;
+    [SerializeField] private Transform HeartOne; 
+    [SerializeField] private Transform HeartTwo; 
+    [SerializeField] private Transform HeartThree;
 
-    public int maxHealth = 6; // Maximaler Lebenswert deines Spielers
-    private int currentHealth = 6; // Aktueller Lebenswert deines Spielers
+    [SerializeField] private Sprite fullHeartSprite;
+    [SerializeField] private Sprite halfHeartSprite;
+    [SerializeField] private Sprite emptyHeartSprite;
 
-    private void Start()
+    private HealthManager healthManager;
+
+    public void Initialize(int maxLives)
     {
-        UpdateHealthDisplay();
+        UpdateHealthDisplay(maxLives); // Initialisieren mit sechs vollen Herzen
+        Debug.Log("HealthDisplayUI initialized.");
     }
 
-    private void UpdateHealthDisplay()
+    public void UpdateHealthDisplay(int currentHealth)
     {
         int fullHearts = currentHealth / 2; // Volle Herzen
-        int halfHearts = currentHealth % 2; // Halbvolle Herzen
+        int halfHeart = currentHealth % 2;   // Ein halbes Herz, falls notwendig
 
-        emptyHeartImage.gameObject.SetActive(false);
-        halfHeartImage.gameObject.SetActive(false);
-        fullHeartImage.gameObject.SetActive(false);
+        SetHeartSprite(HeartOne, fullHearts >= 1, halfHeart > 0);
+        SetHeartSprite(HeartTwo, fullHearts >= 2, halfHeart > 1);
+        SetHeartSprite(HeartThree, fullHearts >= 3, halfHeart > 2);
+    }
 
-        for (int i = 0; i < fullHearts; i++)
+    private void SetHeartSprite(Transform heartTransform, bool isFull, bool isHalf)
+    {
+        Image heartImage = heartTransform.GetComponent<Image>();
+        
+        if (isFull)
         {
-            fullHeartImage.gameObject.SetActive(true);
+            heartImage.sprite = fullHeartSprite;
         }
-
-        for (int i = 0; i < halfHearts; i++)
+        else if (isHalf)
         {
-            halfHeartImage.gameObject.SetActive(true);
+            heartImage.sprite = halfHeartSprite;
+        }
+        else
+        {
+            heartImage.sprite = emptyHeartSprite;
         }
     }
 }

@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    [SerializeField] private int maxLives = 3;
+    [SerializeField] private int maxLives = 6;
     [SerializeField] private int currentLives;
+    [SerializeField] private HealthDisplayUI healthDisplay;
 
     private SpawnManager spawnManager;
     private GameObject playerPrefab;
@@ -11,23 +12,25 @@ public class HealthManager : MonoBehaviour
     public void Initialize(GameObject playerPrefab)
     {
         this.playerPrefab = playerPrefab;
+        
+        currentLives = maxLives;
+        spawnManager = GetComponent<SpawnManager>();
 
+        healthDisplay.Initialize(maxLives);
         Debug.Log("HealthManager initialized.");
     }
 
-    private void Start()
-    {
-        currentLives = maxLives;
-        spawnManager = GetComponent<SpawnManager>();
-    }
+
 
     public void TakeDamage(int damageAmount)
     {
         currentLives -= damageAmount;
+        healthDisplay.UpdateHealthDisplay(currentLives);
 
         if (currentLives <= 0)
         {
             spawnManager.RespawnPlayer(playerPrefab);
         }
     }
+
 }
