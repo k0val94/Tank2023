@@ -39,3 +39,31 @@ N
 Assets/Scripts/MapGenerator.cs,c\2\c20fa1ebb5e8860084ccffc0e6850754ce0c9eec
 V
 &Assets/Scripts/RandomSpriteSelector.cs,f\e\fe1bb2474750f1964e0ae62ed47fecf42a34abd7
+^
+.Assets/Scripts/PlayerTankMovementController.cs,a\9\a9cda364b66209c77c363bd09556bc1ce7dda773
+V
+&Assets/Scripts/TankTurretController.cs,8\9\89e0c676db1de5bf0a5679b164f839cc740106d4
+V
+&Assets/Scripts/ProjectileController.cs,d\1\d11fcc82a0971e478092c9c67b3177f4a6b4e09d
+N
+Assets/Scripts/SpawnManager.cs,3\7\37fbf6c0c892e089beb70f083733d0bdedf35128
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+P
+ Assets/Scripts/BottomBar.cs.meta,5\8\5889224e553ecb9651b1357562555879d1873239
+J
+Assets/UI/HUDCanvas.prefab,9\f\9f70c6bc02e5563ae308edeab7e44e90aaa20a19
+O
+Assets/UI/HUDCanvas.prefab.meta,2\4\24d6b44f530c3e42a74c9ab8fdd0512c1a582fce
+N
+Assets/Scenes/Main Scene.unity,4\0\40244e7b3318170dea29957da226c7224fa56947
+Y
+)Assets/Prefabs/Player/PlayerTurret.prefab,f\2\f23c78aa3d31d51f399a2e6a7123721601423bf7
+M
+Assets/Scripts/GameManager.cs,c\f\cf1d1156c85841abda524f1e26a86c4c3bc30473
+O
+Assets/Scripts/HealthManager.cs,3\5\35c6b3b282ec7620a01f69572110bf642429f43b
+K
+Assets/Scripts/BottomBar.cs,3\7\37e42d6569912dd7969a8cb36012bf2a7eedebdc

@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private SpawnManager spawnManager;
     [SerializeField] private HealthManager healthManager;
+    [SerializeField] private BottomBar bottomBar; // Referenz zur BottomBar-Klasse
 
     [Header("Prefabs")]
     public GameObject playerTankPrefab;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
 
         if (healthManager != null)
         {
-            healthManager.Initialize(playerTankPrefab); 
+            healthManager.Initialize(playerTankPrefab, bottomBar); // BottomBar-Referenz übergeben
         }
         else
         {

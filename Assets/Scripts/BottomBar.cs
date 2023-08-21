@@ -20,13 +20,15 @@ public class BottomBar : MonoBehaviour
     private Image[] heartImages; // Image-Objekte für die Herzen
     private Text playerNameText; // Text für den Spieler-Namen
 
+    [SerializeField] private int maxLives = 6;
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         UpdateSizeAndPosition();
         InitializeHeartPositions();
         InitializeUIElements();
-        UpdateHeartsState(6); // Initialer Zustand
+        UpdateHeartsState(maxLives); // Initialer Zustand
     }
 
     private void UpdateSizeAndPosition()
@@ -57,7 +59,6 @@ public class BottomBar : MonoBehaviour
     private void InitializeUIElements()
     {
         CreateHeartsPanel();
-        CreatePlayerNameText();
         InitializeHeartImages();
     }
 
@@ -70,17 +71,6 @@ public class BottomBar : MonoBehaviour
         heartsPanelRectTransform.anchorMax = new Vector2(0f, 0.5f);
         heartsPanelRectTransform.pivot = new Vector2(0f, 0.5f);
         heartsPanelRectTransform.anchoredPosition = new Vector2(0f, 0f);
-    }
-
-    private void CreatePlayerNameText()
-    {
-        GameObject textObject = new GameObject("PlayerNameText");
-        textObject.transform.SetParent(heartsPanelRectTransform);
-        playerNameText = textObject.AddComponent<Text>();
-        playerNameText.text = "Player Name";
-        playerNameText.font = Font.CreateDynamicFontFromOSFont("Arial", 12);
-        playerNameText.alignment = TextAnchor.MiddleLeft;
-        playerNameText.rectTransform.anchoredPosition = new Vector2(10f, 0f);
     }
 
     private void InitializeHeartImages()
