@@ -21,7 +21,7 @@ public class PlayerTankManager : MonoBehaviour
 
         if (playerTankAnimationsController != null)
         {
-            //playerTankAnimationsController.Initialize(playerTankMovementController);
+            playerTankAnimationsController.Initialize(playerTankMovementController, currentPlayerTankTurretInstance);
         }
         else
         {

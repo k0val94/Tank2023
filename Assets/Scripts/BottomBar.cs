@@ -5,30 +5,33 @@ public class BottomBar : MonoBehaviour
 {
     [Range(0, 100)]
     public float coveragePercentage = 17f;
-    public float heartPlaceholderWidthPercentage = 10f; 
+    public float heartPlaceholderWidthPercentage = 10f;
 
-    [SerializeField] private Sprite heartFullSprite;  
-    [SerializeField] private Sprite heartHalfSprite;  
+    [SerializeField] private Sprite heartFullSprite;
+    [SerializeField] private Sprite heartHalfSprite;
     [SerializeField] private Sprite heartEmptySprite;
 
-    public Vector2 FirstHeartPosition { get; private set; }
-    public Vector2 SecondHeartPosition { get; private set; }
-    public Vector2 ThirdHeartPosition { get; private set; }
-
     private RectTransform rectTransform;
-    private RectTransform heartsPanelRectTransform; 
-    private Image[] heartImages; 
-    private Text playerNameText; 
+    private RectTransform heartsPanelRectTransform;
+    private Image[] heartImages;
+
+    private Vector2[] heartPositions = new Vector2[3];
 
     [SerializeField] private int maxLives = 6;
 
     private void Start()
     {
+        InitializeUIElements();
+        UpdateHeartsState(maxLives); // Assuming you have defined maxLives somewhere
+    }
+
+    private void InitializeUIElements()
+    {
         rectTransform = GetComponent<RectTransform>();
         UpdateSizeAndPosition();
         InitializeHeartPositions();
-        InitializeUIElements();
-        UpdateHeartsState(maxLives);
+        CreateHeartsPanel();
+        InitializeHeartImages();
     }
 
     private void UpdateSizeAndPosition()
@@ -36,13 +39,14 @@ public class BottomBar : MonoBehaviour
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
 
-        float barWidth = screenWidth;
         float barHeight = (coveragePercentage / 100f) * screenHeight;
+        float barWidth = screenWidth * 0.15f; // Adjust as needed
 
         rectTransform.sizeDelta = new Vector2(barWidth, barHeight);
 
+        float barXPosition = (screenWidth * 0.5f) - (barWidth * 0.5f);
         float barYPosition = -(screenHeight * 0.5f) + (barHeight * 0.5f);
-        rectTransform.anchoredPosition = new Vector2(0f, barYPosition);
+        rectTransform.anchoredPosition = new Vector2(barXPosition, barYPosition);
     }
 
     private void InitializeHeartPositions()
@@ -51,15 +55,10 @@ public class BottomBar : MonoBehaviour
         float heartPlaceholderWidth = (heartPlaceholderWidthPercentage / 100f) * screenWidth;
         float heartSpacing = heartPlaceholderWidth * 0.3f;
 
-        FirstHeartPosition = new Vector2(0f, 0f);
-        SecondHeartPosition = new Vector2(heartSpacing, 0f);
-        ThirdHeartPosition = new Vector2(heartSpacing * 2, 0f);
-    }
-
-    private void InitializeUIElements()
-    {
-        CreateHeartsPanel();
-        InitializeHeartImages();
+        for (int i = 0; i < heartPositions.Length; i++)
+        {
+            heartPositions[i] = new Vector2(i * heartSpacing, 0f);
+        }
     }
 
     private void CreateHeartsPanel()
@@ -70,7 +69,7 @@ public class BottomBar : MonoBehaviour
         heartsPanelRectTransform.anchorMin = new Vector2(0f, 0.5f);
         heartsPanelRectTransform.anchorMax = new Vector2(0f, 0.5f);
         heartsPanelRectTransform.pivot = new Vector2(0f, 0.5f);
-        heartsPanelRectTransform.anchoredPosition = new Vector2(0f, 0f);
+        heartsPanelRectTransform.anchoredPosition = Vector2.zero;
     }
 
     private void InitializeHeartImages()
@@ -81,31 +80,16 @@ public class BottomBar : MonoBehaviour
             GameObject heartObject = new GameObject("Heart" + (i + 1));
             heartObject.transform.SetParent(heartsPanelRectTransform);
             RectTransform heartRectTransform = heartObject.AddComponent<RectTransform>();
-            heartRectTransform.anchoredPosition = GetHeartPosition(i);
+            heartRectTransform.anchoredPosition = heartPositions[i];
             heartImages[i] = heartObject.AddComponent<Image>();
-            heartImages[i].rectTransform.sizeDelta = new Vector2(50f, 50f); 
-        }
-    }
-
-    private Vector2 GetHeartPosition(int index)
-    {
-        switch (index)
-        {
-            case 0:
-                return FirstHeartPosition;
-            case 1:
-                return SecondHeartPosition;
-            case 2:
-                return ThirdHeartPosition;
-            default:
-                return Vector2.zero;
+            heartImages[i].rectTransform.sizeDelta = new Vector2(50f, 50f);
         }
     }
 
     public void UpdateHeartsState(int currentHealth)
     {
-        int fullHearts = currentHealth / 2; 
-        int halfHeart = currentHealth % 2;  
+        int fullHearts = currentHealth / 2;
+        int halfHeart = currentHealth % 2;
 
         for (int i = 0; i < heartImages.Length; i++)
         {
