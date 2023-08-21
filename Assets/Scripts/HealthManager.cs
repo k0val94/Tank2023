@@ -7,20 +7,17 @@ public class HealthManager : MonoBehaviour
     private int currentLives;
 
     private SpawnManager spawnManager;
-    private GameObject playerPrefab;
-    private BottomBar bottomBar; // Referenz zur BottomBar-Klasse
+    private BottomBar bottomBar; 
 
-    public void Initialize(GameObject playerPrefab, BottomBar bar)
+    public void Initialize(BottomBar bottomBar)
     {
-        this.playerPrefab = playerPrefab;
-        bottomBar = bar; // BottomBar-Referenz setzen
-
+        this.bottomBar = bottomBar; 
         currentLives = maxLives;
         spawnManager = GetComponent<SpawnManager>();
 
         if (bottomBar != null)
         {
-            bottomBar.UpdateHeartsState(currentLives); // Initialer Zustand der Herzen im UI
+            bottomBar.UpdateHeartsState(currentLives);
         }
 
         Debug.Log("HealthManager initialized.");
@@ -32,12 +29,12 @@ public class HealthManager : MonoBehaviour
 
         if (bottomBar != null)
         {
-            bottomBar.UpdateHeartsState(currentLives); // Aktualisiere Herzen im UI
+            bottomBar.UpdateHeartsState(currentLives); 
         }
 
         if (currentLives <= 0)
         {
-            spawnManager.RespawnPlayer(playerPrefab);
+            spawnManager.RespawnPlayer();
         }
     }
 }

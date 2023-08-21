@@ -7,9 +7,9 @@ public class SpawnManager : MonoBehaviour
 
     private bool isInitialized = false; 
 
-    public void Initialize(GameObject playerTank)
+    public void Initialize(GameObject playerTankPrefab)
     {
-        playerTankPrefab = playerTank;
+        this.playerTankPrefab = playerTankPrefab;
         isInitialized = true;
 
         Debug.Log("SpawnManager initialized.");
@@ -81,10 +81,11 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public void RespawnPlayer(GameObject playerPrefab)
+    public void RespawnPlayer()
     {
         Debug.Log("Respawning player...");
         DespawnPlayer();
+        //SpawnPlayerAtMousePosition();
 
     }
 
@@ -95,6 +96,10 @@ public class SpawnManager : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
         SpawnPlayer(ray.origin);
         
+    }
+
+    public GameObject getCurrentPlayerTank(){
+        return currentPlayerTank;
     }
 
 }
