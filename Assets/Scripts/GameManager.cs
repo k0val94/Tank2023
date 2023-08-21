@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BottomBar bottomBar; // Referenz zur BottomBar-Klasse
 
     [Header("Prefabs")]
-    public GameObject playerTankPrefab;
+    [SerializeField] private GameObject playerTankPrefab;
 
     private void Start()
     {

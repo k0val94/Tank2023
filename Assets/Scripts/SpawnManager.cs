@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    private GameObject currentPlayerCharacterInstance;
-    private GameObject currentSpawnedTankPrefab;
-
-    private GameObject playerPrefab; 
+    private GameObject playerTankPrefab;
+    private GameObject currentPlayerTank;
 
     private bool isInitialized = false; 
 
-    public void Initialize(GameObject playerPrefab)
+    public void Initialize(GameObject playerTank)
     {
-        this.playerPrefab = playerPrefab;
+        playerTankPrefab = playerTank;
         isInitialized = true;
 
         Debug.Log("SpawnManager initialized.");
@@ -27,7 +25,7 @@ public class SpawnManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!IsPlayerSpawned())
+            if (currentPlayerTank == null)
             {
                 SpawnPlayerAtMousePosition();
             }
@@ -43,23 +41,26 @@ public class SpawnManager : MonoBehaviour
         Debug.Log("Spawning player...");
 
         Collider2D colliderAtSpawnPoint = Physics2D.OverlapPoint(position);
-        if (colliderAtSpawnPoint != null && colliderAtSpawnPoint.CompareTag("Barrier"))
+        if (colliderAtSpawnPoint != null && (colliderAtSpawnPoint.CompareTag("Brick") || (colliderAtSpawnPoint.CompareTag("Steel"))))
         {
             Debug.Log("Cannot spawn player on a barrier!");
             return;
         }
 
-        if (currentPlayerCharacterInstance == null)
+        if (currentPlayerTank == null)
         {
-            currentPlayerCharacterInstance = Instantiate(playerPrefab, position, Quaternion.identity);
-            currentSpawnedTankPrefab = playerPrefab;
+            currentPlayerTank = Instantiate(playerTankPrefab, position, Quaternion.identity);
 
             if (FollowCamera.Instance != null)
             {
-                FollowCamera.Instance.SetTarget(currentPlayerCharacterInstance.transform);
+                FollowCamera.Instance.SetTarget(currentPlayerTank.transform);
             }
 
             Debug.Log("Player spawned.");
+        }
+        else 
+        {
+            Debug.Log("playerTankPrefab:" + playerTankPrefab);
         }
     }
 
@@ -67,10 +68,9 @@ public class SpawnManager : MonoBehaviour
     {
         Debug.Log("Despawning player...");
 
-        if (currentPlayerCharacterInstance != null)
+        if (currentPlayerTank != null)
         {
-            Destroy(currentPlayerCharacterInstance);
-            currentPlayerCharacterInstance = null;
+            Destroy(currentPlayerTank);
 
             if (FollowCamera.Instance != null)
             {
@@ -81,38 +81,20 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public bool IsPlayerSpawned()
-    {
-        return currentPlayerCharacterInstance != null;
-    }
-
     public void RespawnPlayer(GameObject playerPrefab)
     {
         Debug.Log("Respawning player...");
-
         DespawnPlayer();
+
     }
 
     private void SpawnPlayerAtMousePosition()
     {
-        Debug.Log("Spawning player at random position...");
-
+        Debug.Log("Spawning player at mouse position...");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-        if (hit.collider == null)
-        {
-            Debug.Log("Ray did not hit any object.");
-            SpawnPlayer(ray.origin);
-        }
-        else if (!hit.collider.CompareTag("Barrier"))
-        {
-            SpawnPlayer(hit.point);
-        }
+        SpawnPlayer(ray.origin);
+        
     }
 
-    public GameObject GetCurrentSpawnedTankPrefab()
-    {
-        return currentSpawnedTankPrefab;
-    }
 }
