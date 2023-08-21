@@ -19,7 +19,6 @@ public class SpawnManager : MonoBehaviour
     {
         if (!isInitialized)
         {
-            Debug.Log("SpawnManager not initialized yet.");
             return;
         }
 
@@ -38,12 +37,11 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnPlayer(Vector3 position)
     {
-        Debug.Log("Spawning player...");
 
         Collider2D colliderAtSpawnPoint = Physics2D.OverlapPoint(position);
         if (colliderAtSpawnPoint != null && (colliderAtSpawnPoint.CompareTag("Brick") || (colliderAtSpawnPoint.CompareTag("Steel"))))
         {
-            Debug.Log("Cannot spawn player on a barrier!");
+            Debug.Log("Cannot spawn player on a Barrier!");
             return;
         }
 
@@ -57,10 +55,6 @@ public class SpawnManager : MonoBehaviour
             }
 
             Debug.Log("Player spawned.");
-        }
-        else 
-        {
-            Debug.Log("playerTankPrefab:" + playerTankPrefab);
         }
     }
 
@@ -85,7 +79,7 @@ public class SpawnManager : MonoBehaviour
     {
         Debug.Log("Respawning player...");
         DespawnPlayer();
-        //SpawnPlayerAtMousePosition();
+        SpawnPlayerAtMousePosition();
 
     }
 
@@ -96,10 +90,6 @@ public class SpawnManager : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
         SpawnPlayer(ray.origin);
         
-    }
-
-    public GameObject getCurrentPlayerTank(){
-        return currentPlayerTank;
     }
 
 }

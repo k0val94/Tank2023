@@ -5,20 +5,20 @@ public class BottomBar : MonoBehaviour
 {
     [Range(0, 100)]
     public float coveragePercentage = 17f;
-    public float heartPlaceholderWidthPercentage = 10f; // Prozentsatz der Breite für jeden Herz-Platzhalter
+    public float heartPlaceholderWidthPercentage = 10f; 
 
-    [SerializeField] private Sprite heartFullSprite;  // Sprite für volles Herz
-    [SerializeField] private Sprite heartHalfSprite;  // Sprite für halbvolles Herz
-    [SerializeField] private Sprite heartEmptySprite; // Sprite für leeres Herz
+    [SerializeField] private Sprite heartFullSprite;  
+    [SerializeField] private Sprite heartHalfSprite;  
+    [SerializeField] private Sprite heartEmptySprite;
 
     public Vector2 FirstHeartPosition { get; private set; }
     public Vector2 SecondHeartPosition { get; private set; }
     public Vector2 ThirdHeartPosition { get; private set; }
 
     private RectTransform rectTransform;
-    private RectTransform heartsPanelRectTransform; // Panel für die Herzen
-    private Image[] heartImages; // Image-Objekte für die Herzen
-    private Text playerNameText; // Text für den Spieler-Namen
+    private RectTransform heartsPanelRectTransform; 
+    private Image[] heartImages; 
+    private Text playerNameText; 
 
     [SerializeField] private int maxLives = 6;
 
@@ -28,7 +28,7 @@ public class BottomBar : MonoBehaviour
         UpdateSizeAndPosition();
         InitializeHeartPositions();
         InitializeUIElements();
-        UpdateHeartsState(maxLives); // Initialer Zustand
+        UpdateHeartsState(maxLives);
     }
 
     private void UpdateSizeAndPosition()
@@ -83,7 +83,7 @@ public class BottomBar : MonoBehaviour
             RectTransform heartRectTransform = heartObject.AddComponent<RectTransform>();
             heartRectTransform.anchoredPosition = GetHeartPosition(i);
             heartImages[i] = heartObject.AddComponent<Image>();
-            heartImages[i].rectTransform.sizeDelta = new Vector2(50f, 50f); // Hier die gewünschte Größe einstellen
+            heartImages[i].rectTransform.sizeDelta = new Vector2(50f, 50f); 
         }
     }
 
@@ -104,8 +104,8 @@ public class BottomBar : MonoBehaviour
 
     public void UpdateHeartsState(int currentHealth)
     {
-        int fullHearts = currentHealth / 2; // Volle Herzen
-        int halfHeart = currentHealth % 2;   // Ein halbes Herz, falls notwendig
+        int fullHearts = currentHealth / 2; 
+        int halfHeart = currentHealth % 2;  
 
         for (int i = 0; i < heartImages.Length; i++)
         {

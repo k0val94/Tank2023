@@ -129,11 +129,6 @@ public class PlayerTankMovementController : MonoBehaviour
 
     private void RotateTurretTowardsMouse()
     {
-        if (currentPlayerTankTurretTransform == null)
-        {
-            Debug.LogError("currentPlayerTankTurretTransform is null!");
-            return;
-        }
 
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = mousePosition - currentPlayerTankTurretTransform.position;
