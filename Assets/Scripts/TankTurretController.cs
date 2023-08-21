@@ -3,7 +3,7 @@ using UnityEngine;
 public class TankTurretController : MonoBehaviour
 {
     [Header("Turret Settings")]
-    [SerializeField] private float turretRotationSpeed = 90f; 
+    [SerializeField] private float turretRotationSpeed = 2f; 
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 10f;
 
@@ -18,15 +18,13 @@ public class TankTurretController : MonoBehaviour
 
     void Update()
     {
-        RotateTurretTowardsMouse();
-
         if (Input.GetMouseButtonDown(1))
         {
             FireProjectile();
         }
     }
 
-    void RotateTurretTowardsMouse()
+    public void RotateTurretTowardsMouse()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = mousePos - transform.position;

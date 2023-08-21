@@ -32,8 +32,7 @@ public class PlayerTankMovementController : MonoBehaviour
 
     public void Initialize(GameObject currentPlayerTankTurretInstance)
     {
-
-        this.currentPlayerTankTurretInstance = currentPlayerTankTurretInstance;
+        currentPlayerTankTurretController = currentPlayerTankTurretInstance.GetComponent<TankTurretController>();
         currentPlayerTankRigidbody2D = currentPlayerTankTurretInstance.GetComponentInParent<Rigidbody2D>();
         currentPlayerTankTurretTransform = currentPlayerTankTurretInstance.GetComponentInParent<Transform>();
 
@@ -62,9 +61,8 @@ public class PlayerTankMovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-
         HandleTankMovement();
-        RotateTurretTowardsMouse();
+        currentPlayerTankTurretController.RotateTurretTowardsMouse();
 
     }
 
@@ -125,16 +123,6 @@ public class PlayerTankMovementController : MonoBehaviour
         currentPlayerTankRigidbody2D.angularVelocity *= (1f - rotationDamping * Time.fixedDeltaTime);
         currentPlayerTankRigidbody2D.velocity = Vector2.ClampMagnitude(currentPlayerTankRigidbody2D.velocity, maxSpeed);
         currentPlayerTankRigidbody2D.angularVelocity = Mathf.Clamp(currentPlayerTankRigidbody2D.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
-    }
-
-    private void RotateTurretTowardsMouse()
-    {
-
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = mousePosition - currentPlayerTankTurretTransform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        float rotationZ = Mathf.LerpAngle(currentPlayerTankTurretTransform.rotation.eulerAngles.z, angle - 90f, turretRotationSpeed * Time.deltaTime);
-        currentPlayerTankTurretTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
     }
 
     private void FireProjectile()

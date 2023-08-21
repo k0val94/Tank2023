@@ -236,7 +236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548027985624404411, guid: c0df2e13c09ad644599136c9f5352eb4, type: 3}
       propertyPath: maxLives
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1548027985624404411, guid: c0df2e13c09ad644599136c9f5352eb4, type: 3}
       propertyPath: healthDisplay
@@ -596,6 +596,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2024933516}
     m_Modifications:
+    - target: {fileID: 1068394193292284224, guid: 4d4bc2d07e9631d4aaa7e6eee1dd1acd, type: 3}
+      propertyPath: coveragePercentage
+      value: 25.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1108183746304296748, guid: 4d4bc2d07e9631d4aaa7e6eee1dd1acd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
