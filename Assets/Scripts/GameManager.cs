@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject playerTankPrefab;
-    private GameObject currentPlayerTank;
 
     private void Start()
     {
@@ -25,7 +24,6 @@ public class GameManager : MonoBehaviour
         if (spawnManager != null)
         {
             spawnManager.Initialize(playerTankPrefab); 
-            currentPlayerTank = spawnManager.getCurrentPlayerTank();
         }
         else
         {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2949548295297403946}
   - component: {fileID: 5106163721380023236}
   m_Layer: 0
-  m_Name: PlayerTurret
+  m_Name: PlayerTankTurret
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8466768956143756184}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.15818807, w: -0.987409}
+  m_LocalRotation: {x: 0, y: 0, z: 0.09518796, w: -0.9954593}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
