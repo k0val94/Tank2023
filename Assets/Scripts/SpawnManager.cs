@@ -5,9 +5,9 @@ public class SpawnManager : MonoBehaviour
     private GameObject currentPlayerCharacterInstance;
     private GameObject currentSpawnedTankPrefab;
 
-    private GameObject playerPrefab; // Referenz auf das Spieler-Panzer-Prefab
+    private GameObject playerPrefab; 
 
-    private bool isInitialized = false; // Variable, um zu überprüfen, ob der SpawnManager initialisiert wurde
+    private bool isInitialized = false; 
 
     public void Initialize(GameObject playerPrefab)
     {
@@ -19,14 +19,12 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-        // Warten, bis der SpawnManager initialisiert ist, bevor der Spieler gespawnt wird
         if (!isInitialized)
         {
             Debug.Log("SpawnManager not initialized yet.");
             return;
         }
 
-        // Spieler spawnt, wenn die linke Maustaste gedrückt wird
         if (Input.GetMouseButtonDown(0))
         {
             if (!IsPlayerSpawned())
@@ -44,7 +42,6 @@ public class SpawnManager : MonoBehaviour
     {
         Debug.Log("Spawning player...");
 
-        // Überlappungs-Check
         Collider2D colliderAtSpawnPoint = Physics2D.OverlapPoint(position);
         if (colliderAtSpawnPoint != null && colliderAtSpawnPoint.CompareTag("Barrier"))
         {
@@ -55,9 +52,8 @@ public class SpawnManager : MonoBehaviour
         if (currentPlayerCharacterInstance == null)
         {
             currentPlayerCharacterInstance = Instantiate(playerPrefab, position, Quaternion.identity);
-            currentSpawnedTankPrefab = playerPrefab; // Aktuelles Prefab speichern
+            currentSpawnedTankPrefab = playerPrefab;
 
-            // Set camera target
             if (FollowCamera.Instance != null)
             {
                 FollowCamera.Instance.SetTarget(currentPlayerCharacterInstance.transform);
@@ -76,7 +72,6 @@ public class SpawnManager : MonoBehaviour
             Destroy(currentPlayerCharacterInstance);
             currentPlayerCharacterInstance = null;
 
-            // Kamera-Ziel zurücksetzen
             if (FollowCamera.Instance != null)
             {
                 FollowCamera.Instance.SetTarget(null);

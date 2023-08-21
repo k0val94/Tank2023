@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerTankMovementController : MonoBehaviour
 {
-    public Transform turretTransform;
+    [SerializeField] private Transform turretTransform;
     private Rigidbody2D tankRigidbody2D;
     private float turretRotationSpeed = 50f;
     private float forwardSpeed = 45f;

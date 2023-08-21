@@ -5,9 +5,9 @@ using System.IO;
 public class MapGenerator : MonoBehaviour
 {
     [Header("Tile Prefabs")]
-    public GameObject brickPrefab;
-    public GameObject dirtPrefab;
-    public GameObject steelPrefab;
+    [SerializeField] private GameObject brickPrefab;
+    [SerializeField] private GameObject dirtPrefab;
+    [SerializeField] private GameObject steelPrefab;
 
     private List<string[]> mapLayers;
     private float tileSize = 64;

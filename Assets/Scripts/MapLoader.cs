@@ -4,7 +4,7 @@ using System.IO;
 
 public class MapLoader : MonoBehaviour
 {
-    public string mapFileName = "eight.map";
+    [SerializeField] private string mapFileName = "test.map";
 
     public List<string[]> LoadMapFromFile()
     {

@@ -4,9 +4,9 @@ public class FollowCamera : MonoBehaviour
 {
     public static FollowCamera Instance;
 
-    public Transform target;
-    public Vector3 offset = new Vector3(0, 0, -10);
-    public float followSpeed = 2f;
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 offset = new Vector3(0, 0, -10);
+    [SerializeField] private float followSpeed = 2f;
 
     private void Awake()
     {
@@ -27,4 +27,6 @@ public class FollowCamera : MonoBehaviour
     {
         target = newTarget;
     }
+
+
 }

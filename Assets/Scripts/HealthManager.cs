@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    public int maxLives = 3;
-    public int currentLives;
+    [SerializeField] private int maxLives = 3;
+    [SerializeField] private int currentLives;
 
     private SpawnManager spawnManager;
     private GameObject playerPrefab;

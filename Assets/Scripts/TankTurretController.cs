@@ -3,7 +3,7 @@ using UnityEngine;
 public class TankTurretController : MonoBehaviour
 {
     [Header("Turret Settings")]
-    [SerializeField] private float turretRotationSpeed = 90f; // Degrees per second
+    [SerializeField] private float turretRotationSpeed = 90f; 
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 10f;
 

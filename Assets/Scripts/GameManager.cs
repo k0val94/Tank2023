@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public MapGenerator mapGenerator;
-    public SpawnManager spawnManager;
-    public HealthManager healthManager;
+    [SerializeField] private MapGenerator mapGenerator;
+    [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private HealthManager healthManager;
 
     [Header("Prefabs")]
     public GameObject playerTankPrefab;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
         if (spawnManager != null)
         {
-            spawnManager.Initialize(playerTankPrefab); // Weitere Feind-Prefabs übergeben
+            spawnManager.Initialize(playerTankPrefab); 
         }
         else
         {
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
         if (healthManager != null)
         {
-            healthManager.Initialize(playerTankPrefab); // Weitere Feind-Prefabs übergeben
+            healthManager.Initialize(playerTankPrefab); 
         }
         else
         {

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public CanvasGroup MainMenu;
+    [SerializeField] private CanvasGroup MainMenu;
 
     public void PlayGame()
     {
