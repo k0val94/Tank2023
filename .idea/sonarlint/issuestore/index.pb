@@ -1,8 +1,4 @@
 
-S
-#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-]
--.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
 9
 	.vsconfig,7\5\754eef4d5fe1ae78c94df639e030dadd1e9ae39c
 Q
@@ -13,8 +9,6 @@ S
 #Assets/Prefabs/HealthManager.prefab,5\3\533e2a32458436b3aeb743c7fbd8ad412a48a863
 X
 (Assets/Prefabs/HealthManager.prefab.meta,8\a\8ab3a5967d7397a618286278d9af444d77312c4d
-N
-Assets/Scenes/Main Scene.unity,4\0\40244e7b3318170dea29957da226c7224fa56947
 ]
 -Assets/Prefabs/Player/PlayerProjectile.prefab,9\8\98e960dbaf6a091c1b49cbfcb4b7a6a6f8096c67
 b
@@ -33,8 +27,6 @@ l
 <Assets/Animations/PlayerTankMovementAnimator.controller.meta,c\a\cac3a9007dd27366e5e953dc7ff4cfaaf596e715
 c
 3Assets/Scripts/PlayerTankMovementController.cs.meta,5\9\59b68228c64acd24c0d76cd9ba7a56b6bed5132d
-Y
-)Assets/Prefabs/Player/PlayerTurret.prefab,f\2\f23c78aa3d31d51f399a2e6a7123721601423bf7
 ^
 .Assets/Prefabs/Player/PlayerTurret.prefab.meta,c\f\cfb22151a378cebc07b2851f2b2a51e6fabe277d
 S
@@ -45,19 +37,5 @@ W
 'Assets/Prefabs/SpawnManager.prefab.meta,1\9\19df8ebfc3887c08b51dd82b8a9b5849b44c597e
 N
 Assets/Scripts/MapGenerator.cs,c\2\c20fa1ebb5e8860084ccffc0e6850754ce0c9eec
-M
-Assets/Scripts/GameManager.cs,c\f\cf1d1156c85841abda524f1e26a86c4c3bc30473
-^
-.Assets/Scripts/PlayerTankMovementController.cs,a\9\a9cda364b66209c77c363bd09556bc1ce7dda773
-N
-Assets/Scripts/SpawnManager.cs,3\7\37fbf6c0c892e089beb70f083733d0bdedf35128
-V
-&Assets/Scripts/TankTurretController.cs,8\9\89e0c676db1de5bf0a5679b164f839cc740106d4
 V
 &Assets/Scripts/RandomSpriteSelector.cs,f\e\fe1bb2474750f1964e0ae62ed47fecf42a34abd7
-V
-&Assets/Scripts/ProjectileController.cs,d\1\d11fcc82a0971e478092c9c67b3177f4a6b4e09d
-O
-Assets/Scripts/HealthManager.cs,3\5\35c6b3b282ec7620a01f69572110bf642429f43b
-Q
-!Assets/Scripts/HealthDisplayUI.cs,d\4\d45ee58e5ce777d92a538ebd4edac3508de03afc
