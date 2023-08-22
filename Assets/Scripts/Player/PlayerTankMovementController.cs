@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayerTankMovementController : MonoBehaviour
 {
 
-    private float turretRotationSpeed = 50f;
     private float forwardSpeed = 45f;
     private float reverseSpeed = 10f;
     private float torque = 10f;
@@ -24,17 +23,18 @@ public class PlayerTankMovementController : MonoBehaviour
     private float maxZoom = 15f;
     private float zoomSpeed = 30f;
 
-    private Transform currentPlayerTankTurretTransform;
-    private TankTurretController currentPlayerTankTurretController;
+    private PlayerTankTurretController currentPlayerTankTurretController;
 
     private GameObject currentPlayerTankTurretInstance;
     private Rigidbody2D currentPlayerTankRigidbody2D;
 
     public void Initialize(GameObject currentPlayerTankTurretInstance)
     {
-        currentPlayerTankTurretController = currentPlayerTankTurretInstance.GetComponent<TankTurretController>();
+        currentPlayerTankTurretController = currentPlayerTankTurretInstance.GetComponent<PlayerTankTurretController>();
         currentPlayerTankRigidbody2D = currentPlayerTankTurretInstance.GetComponentInParent<Rigidbody2D>();
-        currentPlayerTankTurretTransform = currentPlayerTankTurretInstance.GetComponentInParent<Transform>();
+
+        // Log the name of the parent GameObject
+        Debug.Log("Parent Object Name: " + currentPlayerTankRigidbody2D.transform.parent.name);
 
         StartCoroutine(AmmoReloadCoroutine());
     }
@@ -43,11 +43,11 @@ public class PlayerTankMovementController : MonoBehaviour
     {
         while (true)
         {
-            if (remainingAmmo < 25 && !isReloadingAmmo)
+            if (remainingAmmo < 50 && !isReloadingAmmo)
             {
                 isReloadingAmmo = true;
-                yield return new WaitForSeconds(2f);
-                remainingAmmo = 25;
+                yield return new WaitForSeconds(0.3f);
+                remainingAmmo = 50;
                 isReloadingAmmo = false;
             }
             yield return null;
@@ -57,6 +57,11 @@ public class PlayerTankMovementController : MonoBehaviour
     void Update()
     {
         HandleCameraZoom();
+        if (Input.GetMouseButtonDown(1))
+        {
+            FireProjectile();
+        }
+
     }
 
     void FixedUpdate()
@@ -125,7 +130,7 @@ public class PlayerTankMovementController : MonoBehaviour
         currentPlayerTankRigidbody2D.angularVelocity = Mathf.Clamp(currentPlayerTankRigidbody2D.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
     }
 
-    private void FireProjectile()
+    void FireProjectile()
     {
         if (!isReloadingAmmo && remainingAmmo > 0)
         {

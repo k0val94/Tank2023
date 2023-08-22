@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpawnManager spawnManager;
     [SerializeField] private HealthManager healthManager;
     [SerializeField] private BottomBar bottomBar; 
-
     [Header("Prefabs")]
+    [SerializeField] private GameObject enemyTankPrefab;
     [SerializeField] private GameObject playerTankPrefab;
 
     private void Start()
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
         if (spawnManager != null)
         {
-            spawnManager.Initialize(playerTankPrefab); 
+            spawnManager.Initialize(playerTankPrefab, enemyTankPrefab); 
         }
         else
         {

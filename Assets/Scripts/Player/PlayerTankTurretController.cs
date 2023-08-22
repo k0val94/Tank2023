@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class TankTurretController : MonoBehaviour
+public class PlayerTankTurretController : MonoBehaviour
 {
     [Header("Turret Settings")]
-    [SerializeField] private float turretRotationSpeed = 2f; 
+    [SerializeField] private float turretRotationSpeed = 90f; 
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float projectileSpeed = 10f;
+    [SerializeField] private float projectileSpeed = 50f;
 
     private float firePointHorizontalOffset = -0.25f;
     private float firePointVerticalOffset = 0.5f;
@@ -16,13 +16,7 @@ public class TankTurretController : MonoBehaviour
         CalculateFirePosition();
     }
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            FireProjectile();
-        }
-    }
+
 
     public void RotateTurretTowardsMouse()
     {
@@ -49,8 +43,10 @@ public class TankTurretController : MonoBehaviour
 
     public void FireProjectile()
     {
+
         if (firePoint != null)
         {
+
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
             Rigidbody2D projectileRigidbody2D = projectile.GetComponent<Rigidbody2D>();
             if (projectileRigidbody2D != null)
