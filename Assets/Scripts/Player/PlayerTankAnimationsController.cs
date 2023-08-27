@@ -3,12 +3,12 @@ using UnityEngine;
 public class PlayerTankAnimationsController : MonoBehaviour
 {
     private Animator playerTankAnimator;
-    private PlayerTankMovementController playerTankMovementController;
+    private TankPhysicsController tankPhysicsController;
 
     private void Start()
     {
        
-        playerTankMovementController = GetComponent<PlayerTankMovementController>();
+        tankPhysicsController = GetComponent<TankPhysicsController>();
         playerTankAnimator = GetComponent<Animator>();
         Debug.Log("PlayerTankAnimationsController initialized.");
 
@@ -16,9 +16,9 @@ public class PlayerTankAnimationsController : MonoBehaviour
 
     private void Update()
     {
-        bool areBothChainsMoving = playerTankMovementController.AreBothChainsMoving();
-        bool isLeftChainMoving = playerTankMovementController.IsLeftChainMoving();
-        bool isRightChainMoving = playerTankMovementController.IsRightChainMoving();
+        bool areBothChainsMoving = tankPhysicsController.AreBothChainsMoving();
+        bool isLeftChainMoving = tankPhysicsController.IsLeftChainMoving();
+        bool isRightChainMoving = tankPhysicsController.IsRightChainMoving();
 
         playerTankAnimator.SetBool("IsMovingBothChains", areBothChainsMoving);
         playerTankAnimator.SetBool("IsMovingLeftChain", isLeftChainMoving);

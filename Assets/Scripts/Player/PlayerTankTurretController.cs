@@ -4,52 +4,36 @@ using System.Collections;
 public class PlayerTankTurretController : MonoBehaviour
 {
     [Header("Turret Settings")]
-
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private int remainingAmmo = 25;
-    
-    private float turretRotationSpeed = 90f; 
+
+    private float turretRotationSpeed = 90f;
     private float projectileSpeed = 10f;
     private float firePointVerticalOffset = 0.5f;
     private Transform firePoint;
 
-
     private bool isReloadingAmmo = false;
+    private float reloadTime = 1.5f;
+    private float timeSinceLastShot = 1.5f;
 
     private void Awake()
     {
         CreateFirePoint();
     }
 
-    private void Start(){
-        StartCoroutine(AmmoReloadCoroutine());
-    }
-
     private void Update()
     {
         RotateTurretTowardsMouse();
 
-        if (Input.GetMouseButtonDown(1))
+        timeSinceLastShot += Time.deltaTime;
+
+        if (Input.GetMouseButtonDown(1) && !isReloadingAmmo && timeSinceLastShot >= reloadTime)
         {
             FireProjectile();
+            timeSinceLastShot = 0f;
+            isReloadingAmmo = true;
+            StartCoroutine(ReloadAmmo());
         }
     }
-
-    IEnumerator AmmoReloadCoroutine()
-    {
-        while (true)
-        {
-            if (remainingAmmo > 0 && !isReloadingAmmo)
-            {
-                isReloadingAmmo = true;
-                yield return new WaitForSeconds(0.3f);
-                remainingAmmo--;
-                isReloadingAmmo = false;
-            }
-            yield return null;
-        }
-    }
-
 
     private void RotateTurretTowardsMouse()
     {
@@ -68,17 +52,15 @@ public class PlayerTankTurretController : MonoBehaviour
             firePoint.SetParent(transform);
         }
 
-        Vector3 firePointOffset = transform.up * firePointVerticalOffset; // Adjust this offset as needed
+        Vector3 firePointOffset = transform.up * firePointVerticalOffset;
         firePoint.localPosition = firePointOffset;
         firePoint.localRotation = Quaternion.identity;
     }
 
     private void FireProjectile()
     {
-
         if (firePoint != null)
         {
-
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
             Rigidbody2D projectileRigidbody2D = projectile.GetComponent<Rigidbody2D>();
             if (projectileRigidbody2D != null)
@@ -90,5 +72,11 @@ public class PlayerTankTurretController : MonoBehaviour
         {
             Debug.LogWarning("FirePoint reference is missing. Please make sure to assign the fire point in the inspector.");
         }
+    }
+
+    private IEnumerator ReloadAmmo()
+    {
+        yield return new WaitForSeconds(reloadTime);
+        isReloadingAmmo = false;
     }
 }
