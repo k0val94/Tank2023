@@ -1,24 +1,57 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerTankTurretController : MonoBehaviour
 {
     [Header("Turret Settings")]
-    [SerializeField] private float turretRotationSpeed = 90f; 
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float projectileSpeed = 50f;
 
-    private float firePointHorizontalOffset = -0.25f;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private int remainingAmmo = 25;
+    
+    private float turretRotationSpeed = 90f; 
+    private float projectileSpeed = 10f;
     private float firePointVerticalOffset = 0.5f;
     private Transform firePoint;
 
+
+    private bool isReloadingAmmo = false;
+
     private void Awake()
     {
-        CalculateFirePosition();
+        CreateFirePoint();
+    }
+
+    private void Start(){
+        StartCoroutine(AmmoReloadCoroutine());
+    }
+
+    private void Update()
+    {
+        RotateTurretTowardsMouse();
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            FireProjectile();
+        }
+    }
+
+    IEnumerator AmmoReloadCoroutine()
+    {
+        while (true)
+        {
+            if (remainingAmmo > 0 && !isReloadingAmmo)
+            {
+                isReloadingAmmo = true;
+                yield return new WaitForSeconds(0.3f);
+                remainingAmmo--;
+                isReloadingAmmo = false;
+            }
+            yield return null;
+        }
     }
 
 
-
-    public void RotateTurretTowardsMouse()
+    private void RotateTurretTowardsMouse()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = mousePos - transform.position;
@@ -27,21 +60,20 @@ public class PlayerTankTurretController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turretRotationSpeed * Time.deltaTime);
     }
 
-    void CalculateFirePosition()
+    private void CreateFirePoint()
     {
-        Vector3 turretTop = transform.position + transform.up * (GetComponent<SpriteRenderer>().bounds.size.y / 2);
-        Vector3 calculatedFirePoint = turretTop + transform.up * firePointHorizontalOffset + Vector3.up * firePointVerticalOffset;
         if (firePoint == null)
         {
             firePoint = new GameObject("Fire Point").transform;
             firePoint.SetParent(transform);
         }
 
-        firePoint.position = calculatedFirePoint;
-        firePoint.rotation = transform.rotation;
+        Vector3 firePointOffset = transform.up * firePointVerticalOffset; // Adjust this offset as needed
+        firePoint.localPosition = firePointOffset;
+        firePoint.localRotation = Quaternion.identity;
     }
 
-    public void FireProjectile()
+    private void FireProjectile()
     {
 
         if (firePoint != null)

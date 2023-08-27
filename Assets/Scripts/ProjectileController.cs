@@ -7,8 +7,13 @@ public class ProjectileController : MonoBehaviour
         if (collision.gameObject.CompareTag("Brick"))
         {
             Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.CompareTag("Steel"))
+        {
+            Destroy(gameObject);
         }
 
-        Destroy(gameObject);
+
     }
 }

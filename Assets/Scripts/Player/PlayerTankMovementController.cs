@@ -16,59 +16,28 @@ public class PlayerTankMovementController : MonoBehaviour
     private bool isLeftChainMoving = false;
     private bool isRightChainMoving = false;
 
-    private int remainingAmmo = 25;
-    private bool isReloadingAmmo = false;
-
     private float minZoom = 5f;
     private float maxZoom = 15f;
     private float zoomSpeed = 30f;
 
     private PlayerTankTurretController currentPlayerTankTurretController;
 
-    private GameObject currentPlayerTankTurretInstance;
     private Rigidbody2D currentPlayerTankRigidbody2D;
 
-    public void Initialize(GameObject currentPlayerTankTurretInstance)
+    private void Start()
     {
-        currentPlayerTankTurretController = currentPlayerTankTurretInstance.GetComponent<PlayerTankTurretController>();
-        currentPlayerTankRigidbody2D = currentPlayerTankTurretInstance.GetComponentInParent<Rigidbody2D>();
-
-        // Log the name of the parent GameObject
-        Debug.Log("Parent Object Name: " + currentPlayerTankRigidbody2D.transform.parent.name);
-
-        StartCoroutine(AmmoReloadCoroutine());
+    
+        currentPlayerTankRigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    IEnumerator AmmoReloadCoroutine()
-    {
-        while (true)
-        {
-            if (remainingAmmo < 50 && !isReloadingAmmo)
-            {
-                isReloadingAmmo = true;
-                yield return new WaitForSeconds(0.3f);
-                remainingAmmo = 50;
-                isReloadingAmmo = false;
-            }
-            yield return null;
-        }
-    }
-
-    void Update()
+    private void Update()
     {
         HandleCameraZoom();
-        if (Input.GetMouseButtonDown(1))
-        {
-            FireProjectile();
-        }
-
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         HandleTankMovement();
-        currentPlayerTankTurretController.RotateTurretTowardsMouse();
-
     }
 
     private void HandleCameraZoom()
@@ -128,18 +97,6 @@ public class PlayerTankMovementController : MonoBehaviour
         currentPlayerTankRigidbody2D.angularVelocity *= (1f - rotationDamping * Time.fixedDeltaTime);
         currentPlayerTankRigidbody2D.velocity = Vector2.ClampMagnitude(currentPlayerTankRigidbody2D.velocity, maxSpeed);
         currentPlayerTankRigidbody2D.angularVelocity = Mathf.Clamp(currentPlayerTankRigidbody2D.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
-    }
-
-    void FireProjectile()
-    {
-        if (!isReloadingAmmo && remainingAmmo > 0)
-        {
-            remainingAmmo--;
-            if (currentPlayerTankTurretController != null)
-            {
-                currentPlayerTankTurretController.FireProjectile();
-            }
-        }
     }
 
     public bool AreBothChainsMoving()

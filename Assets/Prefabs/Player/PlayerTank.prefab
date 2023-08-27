@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3696627858382343172}
   - component: {fileID: 7725305799705455688}
   - component: {fileID: 6755811866308871908}
-  - component: {fileID: 467324158555116002}
+  - component: {fileID: 1638173780771385549}
+  - component: {fileID: 3935939324997792547}
   m_Layer: 0
   m_Name: PlayerTank
   m_TagString: Player
@@ -34,8 +35,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3852706667374491733}
-  - {fileID: 1005364090767111363}
+  - {fileID: 4821798008036003507}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2867244294323690712
@@ -185,7 +185,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &467324158555116002
+--- !u!114 &1638173780771385549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,86 +194,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3912914943747710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d01367c94f82ddb46ad38343ad5a7ad2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d4dbba9698d69440b43dbd288511bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTankMovementController: {fileID: 5897967009729847202}
-  playerTankAnimationsController: {fileID: 7382291232576516474}
-  playerTankTurretPrefab: {fileID: 8466768956143756184, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
---- !u!1001 &807871510725872181
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1457675479835506960}
-    m_Modifications:
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 960
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 540
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1565822259666521449, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-      propertyPath: m_Name
-      value: PlayerTankMovementController
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
---- !u!4 &1005364090767111363 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 488050721122565878, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-  m_PrefabInstance: {fileID: 807871510725872181}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5897967009729847202 stripped
+--- !u!114 &3935939324997792547
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6552714800983627159, guid: aa914a2066ebfda48bff18f182e19f16, type: 3}
-  m_PrefabInstance: {fileID: 807871510725872181}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3912914943747710}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01d5b72ba9b983245be5d71bcb957f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &8377794080213665117
+--- !u!1001 &4722058741283517973
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -281,68 +217,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1457675479835506960}
     m_Modifications:
-    - target: {fileID: 3906613918997164719, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
-      propertyPath: m_Name
-      value: PlayerTankAnimationsController
-      objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 960
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 540
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
+    - target: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8466768956143756184, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
+      propertyPath: m_Name
+      value: PlayerTankTurret
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
---- !u!4 &3852706667374491733 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
+--- !u!4 &4821798008036003507 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4698511261386882312, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
-  m_PrefabInstance: {fileID: 8377794080213665117}
+  m_CorrespondingSourceObject: {fileID: 243872597578053798, guid: 9649b3b6afba03b4b841606d26de0177, type: 3}
+  m_PrefabInstance: {fileID: 4722058741283517973}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7382291232576516474 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -7912598495612783577, guid: 36ff26a23b95606428c5aad98eea4f28, type: 3}
-  m_PrefabInstance: {fileID: 8377794080213665117}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d4dbba9698d69440b43dbd288511bb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
