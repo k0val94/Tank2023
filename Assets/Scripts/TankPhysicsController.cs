@@ -23,6 +23,7 @@ public class TankPhysicsController : MonoBehaviour
 
     public void MoveTank(float move, float rotate)
     {
+        
     float currentSpeed = tankRigidbody.velocity.magnitude;
 
         areBothChainsMoving = false;

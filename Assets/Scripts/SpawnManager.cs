@@ -4,16 +4,17 @@ using System.Collections;
 public class SpawnManager : MonoBehaviour
 {
     private GameObject playerTankPrefab;
-    private GameObject currentPlayerTank;
+    private GameObject playerTank;
     private GameObject enemyTankPrefab;
     private GameObject currentEnenmyTank;
 
-    public float minX = -10f; // Ersetzen Sie diese Werte mit den tatsächlichen Grenzen
-    public float maxX = 10f;
-    public float minY = -10f;
-    public float maxY = 10f;
+    private float minX = -5f; 
+    private float maxX = 5f;
+    private float minY = -5f;
+    private float maxY = 5f;
 
     private bool isInitialized = false;
+    private bool isPlayerSpawned = false; 
 
     public void Initialize(GameObject playerTankPrefab, GameObject enemyTankPrefab)
     {
@@ -30,11 +31,14 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            float randomX = Random.Range(minX, maxX);
-            float randomY = Random.Range(minY, maxY);
-            Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
+            if (isPlayerSpawned)
+            {
+                float randomX = Random.Range(minX, maxX);
+                float randomY = Random.Range(minY, maxY);
+                Vector3 randomPosition = new Vector3(randomX, randomY, 0f);
 
-            SpawnEnemy(randomPosition);
+                SpawnEnemy(randomPosition);
+            }
 
             yield return new WaitForSeconds(5f);
         }
@@ -65,7 +69,7 @@ public class SpawnManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentPlayerTank == null)
+            if (!isPlayerSpawned)
             {
                 SpawnPlayerAtMousePosition();
             }
@@ -86,26 +90,26 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        if (currentPlayerTank == null)
+        playerTank = Instantiate(playerTankPrefab, position, Quaternion.identity);
+        isPlayerSpawned = true;
+
+        if (FollowCamera.Instance != null)
         {
-            currentPlayerTank = Instantiate(playerTankPrefab, position, Quaternion.identity);
-
-            if (FollowCamera.Instance != null)
-            {
-                FollowCamera.Instance.SetTarget(currentPlayerTank.transform);
-            }
-
-            Debug.Log("Player spawned.");
+            FollowCamera.Instance.SetTarget(playerTank.transform);
         }
+
+        Debug.Log("Player spawned.");
+
     }
 
     public void DespawnPlayer()
     {
         Debug.Log("Despawning player...");
 
-        if (currentPlayerTank != null)
+        if (isPlayerSpawned)
         {
-            Destroy(currentPlayerTank);
+            Destroy(playerTank);
+            isPlayerSpawned = false;
 
             if (FollowCamera.Instance != null)
             {

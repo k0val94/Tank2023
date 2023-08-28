@@ -7,11 +7,9 @@ public class PlayerTankAnimationsController : MonoBehaviour
 
     private void Start()
     {
-       
         tankPhysicsController = GetComponent<TankPhysicsController>();
         playerTankAnimator = GetComponent<Animator>();
         Debug.Log("PlayerTankAnimationsController initialized.");
-
     }
 
     private void Update()

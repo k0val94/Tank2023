@@ -1,45 +1,79 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyTankTurretController : MonoBehaviour
 {
     [Header("Turret Settings")]
-    [SerializeField] private float turretRotationSpeed = 2f; 
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float projectileSpeed = 10f;
-
-    private float firePointHorizontalOffset = -0.25f;
+    private float turretRotationSpeed = 90f;
+    private float projectileSpeed = 10f;
     private float firePointVerticalOffset = 0.5f;
     private Transform firePoint;
 
+    [Header("AI Settings")]
+    [SerializeField] private float detectionRange = 10f;
+    private Transform player;
+
+    private bool isReloadingAmmo = false;
+    private float reloadTime = 1.5f;
+    private float timeSinceLastShot = 1.5f;
+
     private void Awake()
     {
-        CalculateFirePosition();
+        CreateFirePoint();
     }
 
-    public void RotateTurretTowardsMouse()
+    private void Update()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = mousePos - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle - 90);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turretRotationSpeed * Time.deltaTime);
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        RotateTurretTowardsTarget();
+
+        timeSinceLastShot += Time.deltaTime;
+
+        if (IsPlayerInDetectionRange() && !isReloadingAmmo && timeSinceLastShot >= reloadTime)
+        {
+            FireProjectile();
+            timeSinceLastShot = 0f;
+            isReloadingAmmo = true;
+            StartCoroutine(ReloadAmmo());
+        }
     }
 
-    void CalculateFirePosition()
+    private void RotateTurretTowardsTarget()
     {
-        Vector3 turretTop = transform.position + transform.up * (GetComponent<SpriteRenderer>().bounds.size.y / 2);
-        Vector3 calculatedFirePoint = turretTop + transform.up * firePointHorizontalOffset + Vector3.up * firePointVerticalOffset;
+        if (player != null)
+        {
+            Vector2 direction = player.position - transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle - 90);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turretRotationSpeed * Time.deltaTime);
+        }
+    }
+
+    private bool IsPlayerInDetectionRange()
+    {
+        if (player != null)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            return distanceToPlayer <= detectionRange;
+        }
+        return false;
+    }
+
+    private void CreateFirePoint()
+    {
         if (firePoint == null)
         {
             firePoint = new GameObject("Fire Point").transform;
             firePoint.SetParent(transform);
         }
 
-        firePoint.position = calculatedFirePoint;
-        firePoint.rotation = transform.rotation;
+        Vector3 firePointOffset = transform.up * firePointVerticalOffset;
+        firePoint.localPosition = firePointOffset;
+        firePoint.localRotation = Quaternion.identity;
     }
 
-    public void FireProjectile()
+    private void FireProjectile()
     {
         if (firePoint != null)
         {
@@ -54,5 +88,11 @@ public class EnemyTankTurretController : MonoBehaviour
         {
             Debug.LogWarning("FirePoint reference is missing. Please make sure to assign the fire point in the inspector.");
         }
+    }
+
+    private IEnumerator ReloadAmmo()
+    {
+        yield return new WaitForSeconds(reloadTime);
+        isReloadingAmmo = false;
     }
 }

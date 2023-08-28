@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private SpawnManager spawnManager;
     [SerializeField] private HealthManager healthManager;
-    [SerializeField] private BottomBar bottomBar; 
+    //[SerializeField] private BottomBar bottomBar; 
     [Header("Prefabs")]
     [SerializeField] private GameObject enemyTankPrefab;
     [SerializeField] private GameObject playerTankPrefab;
@@ -30,13 +30,13 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Spawn Manager is not assigned!");
         }
 
-        if (healthManager != null)
+       /* if (healthManager != null)
         {
             healthManager.Initialize(bottomBar); 
         }
         else
         {
             Debug.LogError("Health Manager is not assigned!");
-        }
+        }*/
     }
 }

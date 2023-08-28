@@ -2,27 +2,24 @@ using UnityEngine;
 
 public class EnemyTankAnimationsController : MonoBehaviour
 {
-    private Animator currentEnemyTankAnimator;
-    private EnemyTankMovementController enemyTankMovementController;
+    private Animator enemyTankAnimator;
+    private TankPhysicsController tankPhysicsController;
 
-
-    public void Initialize(EnemyTankMovementController enemyTankMovementController, GameObject currentEnemyTankTurretInstance)
+    private void Start()
     {
-       
-        this.enemyTankMovementController = enemyTankMovementController;
-        currentEnemyTankAnimator = currentEnemyTankTurretInstance.GetComponentInParent<Animator>();
+        tankPhysicsController = GetComponent<TankPhysicsController>();
+        enemyTankAnimator = GetComponent<Animator>();
         Debug.Log("EnemyTankAnimationsController initialized.");
-
     }
 
     private void Update()
     {
-        bool areBothChainsMoving = enemyTankMovementController.AreBothChainsMoving();
-        bool isLeftChainMoving = enemyTankMovementController.IsLeftChainMoving();
-        bool isRightChainMoving = enemyTankMovementController.IsRightChainMoving();
+        bool areBothChainsMoving = tankPhysicsController.AreBothChainsMoving();
+        bool isLeftChainMoving = tankPhysicsController.IsLeftChainMoving();
+        bool isRightChainMoving = tankPhysicsController.IsRightChainMoving();
 
-        currentEnemyTankAnimator.SetBool("IsMovingBothChains", areBothChainsMoving);
-        currentEnemyTankAnimator.SetBool("IsMovingLeftChain", isLeftChainMoving);
-        currentEnemyTankAnimator.SetBool("IsMovingRightChain", isRightChainMoving);
+        enemyTankAnimator.SetBool("IsMovingBothChains", areBothChainsMoving);
+        enemyTankAnimator.SetBool("IsMovingLeftChain", isLeftChainMoving);
+        enemyTankAnimator.SetBool("IsMovingRightChain", isRightChainMoving);
     }
 }

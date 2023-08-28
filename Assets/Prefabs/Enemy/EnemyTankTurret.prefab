@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 243872597578053798}
   - component: {fileID: 2949548295297403946}
-  - component: {fileID: 5106163721380023236}
   m_Layer: 0
   m_Name: EnemyTankTurret
   m_TagString: Enemy
@@ -85,18 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5106163721380023236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8466768956143756184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a5f07e2394229d4ca5e8300a579b93d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turretRotationSpeed: 90
-  projectilePrefab: {fileID: 7763979460456901995, guid: 29ca8821dd3e1044bb5b87fd4a9e8257, type: 3}
-  projectileSpeed: 10
