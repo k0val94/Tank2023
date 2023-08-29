@@ -7,18 +7,11 @@ public class HealthManager : MonoBehaviour
     private int currentLives;
 
     private SpawnManager spawnManager;
-    private BottomBar bottomBar; 
 
-    public void Initialize(BottomBar bottomBar)
+    public void Initialize()
     {
-        this.bottomBar = bottomBar; 
         currentLives = maxLives;
         spawnManager = GetComponent<SpawnManager>();
-
-        if (bottomBar != null)
-        {
-            bottomBar.UpdateHeartsState(currentLives);
-        }
 
         Debug.Log("HealthManager initialized.");
     }
@@ -26,11 +19,6 @@ public class HealthManager : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         currentLives -= damageAmount;
-
-        if (bottomBar != null)
-        {
-            bottomBar.UpdateHeartsState(currentLives); 
-        }
 
         if (currentLives <= 0)
         {

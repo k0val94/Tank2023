@@ -15,7 +15,7 @@ public class MapGenerator : MonoBehaviour
     private float barrierLevelZ = -0.01f;
     private Camera mainCamera;
 
-    public void Generate()
+    private void Start()
     {
         mainCamera = Camera.main;
 

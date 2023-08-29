@@ -3,10 +3,10 @@ using System.Collections;
 
 public class SpawnManager : MonoBehaviour
 {
-    private GameObject playerTankPrefab;
+    [Header("Prefabs")]
+    [SerializeField] private GameObject playerTankPrefab;
+    [SerializeField] private GameObject enemyTankPrefab;
     private GameObject playerTank;
-    private GameObject enemyTankPrefab;
-    private GameObject currentEnenmyTank;
 
     private float minX = -5f; 
     private float maxX = 5f;
@@ -16,15 +16,11 @@ public class SpawnManager : MonoBehaviour
     private bool isInitialized = false;
     private bool isPlayerSpawned = false; 
 
-    public void Initialize(GameObject playerTankPrefab, GameObject enemyTankPrefab)
+    private void Start()
     {
-        this.playerTankPrefab = playerTankPrefab;
-        this.enemyTankPrefab = enemyTankPrefab;
         isInitialized = true;
-
-        Debug.Log("SpawnManager initialized.");
-
         StartCoroutine(SpawnEnemyRandomlyCoroutine());
+        Debug.Log("SpawnManager initialized.");
     }
 
     private IEnumerator SpawnEnemyRandomlyCoroutine()
