@@ -5,26 +5,71 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup MainMenu;
+    [SerializeField] private GameObject MainMenu;
+    [SerializeField] private GameObject PlayMenu;
+    [SerializeField] private GameObject LevelSelectionMenu;
+    [SerializeField] private GameObject OptionsMenu;
+
+    private void Start()
+    {
+        MainMenu.SetActive(true);
+        PlayMenu.SetActive(false);
+        LevelSelectionMenu.SetActive(false);
+        OptionsMenu.SetActive(false);
+    }
 
     public void PlayGame()
     {
         Debug.Log("Play button pressed.");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        MainMenu.SetActive(false);
+        PlayMenu.SetActive(true);
     }
 
-    public void Back()
+    public void StartLevel1()
     {
-        Debug.Log("Back button pressed.");
-        MainMenu.alpha = 0;
-        MainMenu.blocksRaycasts = false;
+        Debug.Log("Level 1 selected.");
+        SceneManager.LoadScene("Level1"); // Asumiert, dass Ihre Szene "Level1" genannt ist.
     }
 
-    public void Level()
+    public void Skirmish()
     {
-        Debug.Log("Level button pressed.");
-        MainMenu.alpha = 1;
-        MainMenu.blocksRaycasts = true;
+        Debug.Log("Skirmish button pressed.");
+        SceneManager.LoadScene("SkirmishScene"); // Asumiert, dass Ihre Szene "SkirmishScene" genannt ist.
+    }
+
+    public void Options()
+    {
+        Debug.Log("Options button pressed.");
+        MainMenu.SetActive(false);
+        OptionsMenu.SetActive(true);
+    }
+
+    public void LevelSelection()
+    {
+        Debug.Log("Level Selection button pressed.");
+        PlayMenu.SetActive(false);
+        LevelSelectionMenu.SetActive(true);
+    }
+
+    public void BackToMainMenuFromPlayMenu()
+    {
+        Debug.Log("Back to Main Menu from Play Menu.");
+        PlayMenu.SetActive(false);
+        MainMenu.SetActive(true);
+    }
+
+    public void BackToPlayMenuFromLevelSelection()
+    {
+        Debug.Log("Back to Play Menu from Level Selection.");
+        LevelSelectionMenu.SetActive(false);
+        PlayMenu.SetActive(true);
+    }
+
+    public void BackToMainMenuFromOptions()
+    {
+        Debug.Log("Back to Main Menu from Options.");
+        OptionsMenu.SetActive(false);
+        MainMenu.SetActive(true);
     }
 
     public void Exit()
