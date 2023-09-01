@@ -3305,7 +3305,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2044570108}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: Level
+        m_MethodName: Skirmish
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -27,18 +27,24 @@ public class MapGenerator : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Karte konnte nicht geladen werden. Überprüfen Sie die Datei und den Pfad.");
+            Debug.LogError("Map could not be loaded. Check the file and path.");
         }
     }
 
     private List<string[]> LoadMapFromFile(string fileName)
     {
-        string mapText = File.ReadAllText(Application.dataPath + "/Maps/" + fileName);
-        if (string.IsNullOrEmpty(mapText))
+        string path = Path.Combine(Application.streamingAssetsPath, "Maps", fileName);
+        
+        // Print out the expected path to check its correctness
+        Debug.Log("Looking for map at: " + path);
+
+        if (!File.Exists(path))
         {
-            Debug.LogError("Map-Datei konnte nicht gefunden werden.");
+            Debug.LogError("Map file not found at: " + path);
             return null;
         }
+
+        string mapText = File.ReadAllText(path);
 
         var layerData = mapText.Split(new[] { "---" }, System.StringSplitOptions.None);
         List<string[]> mapDataLayers = new List<string[]>();
@@ -48,15 +54,25 @@ public class MapGenerator : MonoBehaviour
             mapDataLayers.Add(layer.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
         }
 
+        // Debug the map data.
+        foreach (var layer in mapDataLayers)
+        {
+            foreach (var line in layer)
+            {
+                Debug.Log(line);
+            }
+        }
+
         return mapDataLayers;
     }
 
     void GenerateMap(List<string[]> mapDataLayers)
     {
-        Debug.Log("Map-Generierung gestartet.");
+        Debug.Log("Map generation started.");
 
         int width = mapDataLayers[0][0].Length;
-        int height = mapDataLayers[0].Length;
+        int height = mapDataLayers[0].Length; // Corrected from .Count to .Length
+
         Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
 
         // Process Layer 1 (Dirt)
@@ -98,6 +114,6 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        Debug.Log("Map-Generierung abgeschlossen.");
+        Debug.Log("Map generation completed.");
     }
 }
