@@ -8,14 +8,16 @@ TagManager:
   - MainMenu
   - Barrier
   - Ground
-  - Brick
+  - Water
   - Steel
+  - Dirt
+  - Brick
   - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Projectile
   - Water
   - UI
   - 

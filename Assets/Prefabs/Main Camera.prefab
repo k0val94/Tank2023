@@ -106,3 +106,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4485514307689658757, guid: cc2cd2608c8b60f4a99c916ea9711c44, type: 3}
+  offset: {x: 0, y: 0, z: -10}
+  followSpeed: 2

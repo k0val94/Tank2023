@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7788996099913861892}
   - component: {fileID: 6872507735076997029}
   - component: {fileID: 6143595216833380875}
+  - component: {fileID: 8540506954615432126}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   brickPrefab: {fileID: 8557906486070459954, guid: 654f1b5cacf5bc243b325f37ff42bc89, type: 3}
   dirtPrefab: {fileID: 8557906486070459954, guid: c262918b90c335a48b4df618003adbc0, type: 3}
   steelPrefab: {fileID: 760809665500724449, guid: 942c4aa4196c23a48ac2e4ba1b8e0422, type: 3}
+  waterPrefab: {fileID: 8557906486070459954, guid: 8d0be3e3d9550064b9d58840c8e6984e, type: 3}
 --- !u!114 &6872507735076997029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,3 +78,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLives: 6
+--- !u!114 &8540506954615432126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945046156025804944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ec266227f0bb944a1e69ee9c7430d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
