@@ -8,11 +8,12 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private GameObject brickPrefab;
     [SerializeField] private GameObject dirtPrefab;
     [SerializeField] private GameObject steelPrefab;
+    [SerializeField] private GameObject waterPrefab;
 
     private List<string[]> mapLayers;
     private float tileSize = 64;
-    private float groundLevelZ = 0.0f;
-    private float barrierLevelZ = -0.01f;
+    private int groundSortingOrder = 0;
+    private int barrierSortingOrder = 1;
     private Camera mainCamera;
 
     private void Start()
@@ -53,14 +54,6 @@ public class MapGenerator : MonoBehaviour
             mapDataLayers.Add(layer.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
         }
 
-        foreach (var layer in mapDataLayers)
-        {
-            foreach (var line in layer)
-            {
-                Debug.Log(line);
-            }
-        }
-
         return mapDataLayers;
     }
 
@@ -77,34 +70,43 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, groundLevelZ);
+                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
                 position -= mapCenter;
 
-                char tileType = mapDataLayers[1][y][x];
+                char tileType = mapDataLayers[groundSortingOrder][y][x];
 
-                if (tileType == 'D')
+                switch (tileType)
                 {
-                    Instantiate(dirtPrefab, position, Quaternion.identity);
+                    case 'D':
+                        GameObject dirt = Instantiate(dirtPrefab, position, Quaternion.identity);
+                        dirt.GetComponent<Renderer>().sortingOrder = groundSortingOrder;
+                        break;
                 }
             }
         }
-
+        
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, barrierLevelZ);
+                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
                 position -= mapCenter;
 
-                char tileType = mapDataLayers[0][y][x];
+                char tileType = mapDataLayers[barrierSortingOrder][y][x];
 
                 switch (tileType)
                 {
                     case 'B':
-                        Instantiate(brickPrefab, position, Quaternion.identity);
+                        GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity);
+                        brick.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
                         break;
                     case 'S':
-                        Instantiate(steelPrefab, position, Quaternion.identity);
+                        GameObject steel = Instantiate(steelPrefab, position, Quaternion.identity);
+                        steel.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
+                        break;
+                    case 'W':
+                        GameObject water = Instantiate(waterPrefab, position, Quaternion.identity);
+                        water.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
                         break;
                 }
             }
