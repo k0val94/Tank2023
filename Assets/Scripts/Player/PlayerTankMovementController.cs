@@ -41,9 +41,6 @@ public class PlayerTankMovementController : MonoBehaviour
         float move = Input.GetAxis("Vertical");
         float rotate = Input.GetAxis("Horizontal");
 
-
-
-
         tankPhysicsController.MoveTank(move, rotate);
     }
 }
