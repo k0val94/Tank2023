@@ -35,7 +35,6 @@ public class MapGenerator : MonoBehaviour
     {
         string path = Path.Combine(Application.streamingAssetsPath, "Maps", fileName);
         
-        // Print out the expected path to check its correctness
         Debug.Log("Looking for map at: " + path);
 
         if (!File.Exists(path))
@@ -54,7 +53,6 @@ public class MapGenerator : MonoBehaviour
             mapDataLayers.Add(layer.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
         }
 
-        // Debug the map data.
         foreach (var layer in mapDataLayers)
         {
             foreach (var line in layer)
@@ -71,11 +69,10 @@ public class MapGenerator : MonoBehaviour
         Debug.Log("Map generation started.");
 
         int width = mapDataLayers[0][0].Length;
-        int height = mapDataLayers[0].Length; // Corrected from .Count to .Length
+        int height = mapDataLayers[0].Length;
 
         Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
 
-        // Process Layer 1 (Dirt)
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -92,7 +89,6 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        // Process Layer 2 (Bricks, Steels)
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)

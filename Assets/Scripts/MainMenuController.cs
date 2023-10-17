@@ -25,30 +25,36 @@ public class MainMenuController : MonoBehaviour
         PlayMenu.SetActive(true);
     }
 
-    public void StartLevel1()
+    public void OpenStartLevel1()
     {
         Debug.Log("Level 1 selected.");
-        SceneManager.LoadScene("Level1"); // Asumiert, dass Ihre Szene "Level1" genannt ist.
+        SceneManager.LoadScene("Level1");
     }
 
-    public void Skirmish()
+    public void OpenSkirmish()
     {
         Debug.Log("Skirmish button pressed.");
-        SceneManager.LoadScene("SkirmishScene"); // Asumiert, dass Ihre Szene "SkirmishScene" genannt ist.
+        SceneManager.LoadScene("SkirmishScene");
     }
 
-    public void Options()
+    public void OpenOptions()
     {
         Debug.Log("Options button pressed.");
         MainMenu.SetActive(false);
         OptionsMenu.SetActive(true);
     }
 
-    public void LevelSelection()
+    public void OpenLevelSelection()
     {
         Debug.Log("Level Selection button pressed.");
         PlayMenu.SetActive(false);
         LevelSelectionMenu.SetActive(true);
+    }
+
+    public void OpenMapCreator()
+    {
+        Debug.Log("MapCreator selected.");
+        SceneManager.LoadScene("MapCreator");
     }
 
     public void BackToMainMenuFromPlayMenu()

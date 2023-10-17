@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
     private void Start()
     {
         isInitialized = true;
-        //StartCoroutine(SpawnEnemyRandomlyCoroutine());
+        StartCoroutine(SpawnEnemyRandomlyCoroutine());
         Debug.Log("SpawnManager initialized.");
     }
 
