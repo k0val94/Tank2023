@@ -6,11 +6,12 @@ public class RandomMapGenerator : MonoBehaviour
 {
 
     [Header("Map Settings")]
-    [SerializeField] private int mapWidth = 12;
-    [SerializeField] private int mapHeight = 6;
+    [SerializeField] private int mapWidth = 15;
+    [SerializeField] private int mapHeight = 15;
     private List<string[]> mapLayers;
     private void Start()
     {
+        //GenerateRandomCoastMap();
         GenerateRandomMap();
     }
 
@@ -26,21 +27,50 @@ public class RandomMapGenerator : MonoBehaviour
         }
         mapLayers.Add(groundLayer);
 
-        // Generate random barrier layer with irregular water edge
+        // Generate unsymmetrical island barrier layer
         string[] barrierLayer = new string[mapHeight];
+
+        int lastLeftWaterEdge = Random.Range(mapWidth / 4, 3 * mapWidth / 4);
+        int lastRightWaterEdge = Random.Range(mapWidth / 4, 3 * mapWidth / 4);
+
         for (int i = 0; i < mapHeight; i++)
         {
-            if (i < 2 || i >= mapHeight - 2)
-            {
-                // Water at the top and bottom
-                barrierLayer[i] = new string('W', mapWidth);
-            }
-            else
-            {
-                // Random terrain with water edge
-                int waterEdgeStart = Random.Range(2, mapWidth - 2);
-                barrierLayer[i] = new string('D', waterEdgeStart) + new string('W', mapWidth - waterEdgeStart);
-            }
+            int leftOffset = Random.Range(-2, 3);
+            int rightOffset = Random.Range(-2, 3);
+            
+            lastLeftWaterEdge = Mathf.Clamp(lastLeftWaterEdge + leftOffset, 2, 3 * mapWidth / 4);
+            lastRightWaterEdge = Mathf.Clamp(lastRightWaterEdge + rightOffset, mapWidth / 4, mapWidth - 2);
+
+            barrierLayer[i] = new string('W', lastLeftWaterEdge) + new string('.', lastRightWaterEdge - lastLeftWaterEdge) + new string('W', mapWidth - lastRightWaterEdge);
+        }
+
+        mapLayers.Add(barrierLayer);
+
+        // Save the map to a file
+        SaveMapToFile("random_map.map");
+    }
+
+    public void GenerateRandomCoastMap()
+    {
+        mapLayers = new List<string[]>();
+
+        // Generate random ground layer
+        string[] groundLayer = new string[mapHeight];
+        for (int i = 0; i < mapHeight; i++)
+        {
+            groundLayer[i] = new string('D', mapWidth);
+        }
+        mapLayers.Add(groundLayer);
+
+        // Generate unsymmetrical barrier layer with irregular water edge
+        string[] barrierLayer = new string[mapHeight];
+        int lastWaterEdgeStart = Random.Range(3, mapWidth - 3);
+        for (int i = 0; i < mapHeight; i++)
+        {
+            int randomOffset = Random.Range(-2, 3); // This will move the water edge randomly by -2 to 2 units
+            lastWaterEdgeStart = Mathf.Clamp(lastWaterEdgeStart + randomOffset, 3, mapWidth - 3); // Keep the edge within bounds
+
+            barrierLayer[i] = new string('.', lastWaterEdgeStart) + new string('W', mapWidth - lastWaterEdgeStart);
         }
         mapLayers.Add(barrierLayer);
 

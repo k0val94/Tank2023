@@ -636,7 +636,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2044570108}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: OpenStartLevel1
+        m_MethodName: OpenLevelSelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1452,7 +1452,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2044570108}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: Level
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1585,7 +1585,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2044570108}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: StartLevel1
+        m_MethodName: OpenStartLevel1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2592,7 +2592,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2044570108}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: Level
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3305,7 +3305,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2044570108}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: GenerateRandomMap
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4203,12 +4203,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044570106}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f4eb0eac03ec3946aae2b797930fc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 100
+  mapWidth: 50
   mapHeight: 100
 --- !u!1 &2107843601
 GameObject:

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
-public class MapGenerator : MonoBehaviour
+public class MapBuilder : MonoBehaviour
 {
     [Header("Tile Prefabs")]
     [SerializeField] private GameObject brickPrefab;
@@ -20,7 +20,7 @@ public class MapGenerator : MonoBehaviour
     {
         mainCamera = Camera.main;
 
-        mapLayers = LoadMapFromFile("random_map.map");
+        mapLayers = LoadMapFromFile("level1.map");
 
         if (mapLayers != null && mapLayers.Count == 2)
         {
