@@ -20,7 +20,7 @@ public class MapGenerator : MonoBehaviour
     {
         mainCamera = Camera.main;
 
-        mapLayers = LoadMapFromFile("test.map");
+        mapLayers = LoadMapFromFile("random_map.map");
 
         if (mapLayers != null && mapLayers.Count == 2)
         {

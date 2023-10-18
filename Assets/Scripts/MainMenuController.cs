@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
+    private RandomMapGenerator mapGenerator;
     [SerializeField] private GameObject MainMenu;
     [SerializeField] private GameObject PlayMenu;
     [SerializeField] private GameObject LevelSelectionMenu;
@@ -16,6 +17,7 @@ public class MainMenuController : MonoBehaviour
         PlayMenu.SetActive(false);
         LevelSelectionMenu.SetActive(false);
         OptionsMenu.SetActive(false);
+        mapGenerator = GetComponent<RandomMapGenerator>();
     }
 
     public void PlayGame()
@@ -29,12 +31,6 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("Level 1 selected.");
         SceneManager.LoadScene("Level1");
-    }
-
-    public void OpenSkirmish()
-    {
-        Debug.Log("Skirmish button pressed.");
-        SceneManager.LoadScene("SkirmishScene");
     }
 
     public void OpenOptions()
