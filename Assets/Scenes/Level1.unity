@@ -229,6 +229,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game
       objectReference: {fileID: 0}
+    - target: {fileID: 7788996099913861892, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
+      propertyPath: quicksandPrefab
+      value: 
+      objectReference: {fileID: 8557906486070459954, guid: 9f71ea788e31e6e488163e23a4997e61, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
