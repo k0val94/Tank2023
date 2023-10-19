@@ -4,20 +4,25 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Brick
   - Projectile
   - MainMenu
+  - Barrier
+  - Ground
+  - Water
+  - Steel
   - Dirt
+  - Brick
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PlayerProjectile
   - Water
   - UI
-  - 
-  - 
-  - 
+  - EnemyProjectile
+  - Enemy
+  - Player
   - 
   - 
   - 
