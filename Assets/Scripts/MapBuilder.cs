@@ -11,9 +11,6 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private GameObject waterPrefab;
     [SerializeField] private GameObject quicksandPrefab;
 
-    [Header("Other")]
-    [SerializeField] private RandomMapGenerator randomMapGenerator;
-
     private List<string[]> mapLayers;
     private float tileSize = 64;
     private int groundSortingOrder = 0;
@@ -29,11 +26,11 @@ public class MapBuilder : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Map data not found in MapData.");
+            Debug.LogWarning("Map data not found in MapData.");
         }
     }
 
-    void BuildMap(List<string[]> mapDataLayers)
+    public void BuildMap(List<string[]> mapDataLayers)
     {
         Debug.Log("Map generation started.");
 
@@ -95,23 +92,4 @@ public class MapBuilder : MonoBehaviour
         Debug.Log("Map Build completed.");
     }
 
-    public void BuildMapFromGenerator()
-    {
-        if(randomMapGenerator == null)
-        {
-            Debug.LogError("RandomMapGenerator reference is not set.");
-            return;
-        }
-
-        mapLayers = randomMapGenerator.GetMapLayers();
-
-        if (mapLayers != null && mapLayers.Count >= 2)
-        {
-            BuildMap(mapLayers);
-        }
-        else
-        {
-            Debug.LogError("Map could not be generated. Check the generation code.");
-        }
-    }
 }

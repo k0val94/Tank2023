@@ -5,17 +5,9 @@ using System.IO;
 public class RandomMapGenerator : MonoBehaviour
 {
 
-    [Header("Map Settings")]
-    [SerializeField] private int mapWidth = 15;
-    [SerializeField] private int mapHeight = 15;
     private List<string[]> mapLayers;
-    private void Start()
-    {
-        //GenerateRandomCoastMap();
-        GenerateRandomMap();
-    }
 
-    public void GenerateRandomMap()
+    public void GenerateRandomMap(int mapWidth, int mapHeight)
     {
         mapLayers = new List<string[]>();
 
@@ -41,16 +33,25 @@ public class RandomMapGenerator : MonoBehaviour
             lastLeftWaterEdge = Mathf.Clamp(lastLeftWaterEdge + leftOffset, 2, 3 * mapWidth / 4);
             lastRightWaterEdge = Mathf.Clamp(lastRightWaterEdge + rightOffset, mapWidth / 4, mapWidth - 2);
 
+            // Safeguard: Ensure lastRightWaterEdge is always greater than lastLeftWaterEdge
+            if (lastRightWaterEdge <= lastLeftWaterEdge)
+            {
+                int distance = lastLeftWaterEdge - lastRightWaterEdge + 1;
+                lastRightWaterEdge += distance;
+                // Ensure we're still within bounds
+                lastRightWaterEdge = Mathf.Clamp(lastRightWaterEdge, mapWidth / 4, mapWidth - 2);
+            }
+
             barrierLayer[i] = new string('W', lastLeftWaterEdge) + new string('.', lastRightWaterEdge - lastLeftWaterEdge) + new string('W', mapWidth - lastRightWaterEdge);
         }
 
         mapLayers.Add(barrierLayer);
 
         // Save the map to a file
-        SaveMapToFile("random_map.map");
+        SaveMapToFile("temp.map");
     }
 
-    public void GenerateRandomCoastMap()
+    /*public void GenerateRandomCoastMap()
     {
         mapLayers = new List<string[]>();
 
@@ -76,7 +77,7 @@ public class RandomMapGenerator : MonoBehaviour
 
         // Save the map to a file
         SaveMapToFile("random_map.map");
-    }
+    }*/
 
     private void SaveMapToFile(string fileName)
     {
