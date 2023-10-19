@@ -25,7 +25,7 @@ public class MapBuilder : MonoBehaviour
         mainCamera = Camera.main;
         if (MapData.Instance.mapLayers != null && MapData.Instance.mapLayers.Count == 2)
         {
-            GenerateMap(MapData.Instance.mapLayers);
+            BuildMap(MapData.Instance.mapLayers);
         }
         else
         {
@@ -33,7 +33,7 @@ public class MapBuilder : MonoBehaviour
         }
     }
 
-    void GenerateMap(List<string[]> mapDataLayers)
+    void BuildMap(List<string[]> mapDataLayers)
     {
         Debug.Log("Map generation started.");
 
@@ -92,10 +92,10 @@ public class MapBuilder : MonoBehaviour
             }
         }
 
-        Debug.Log("Map generation completed.");
+        Debug.Log("Map Build completed.");
     }
 
-    public void GenerateMapFromGenerator()
+    public void BuildMapFromGenerator()
     {
         if(randomMapGenerator == null)
         {
@@ -107,7 +107,7 @@ public class MapBuilder : MonoBehaviour
 
         if (mapLayers != null && mapLayers.Count >= 2)
         {
-            GenerateMap(mapLayers);
+            BuildMap(mapLayers);
         }
         else
         {
