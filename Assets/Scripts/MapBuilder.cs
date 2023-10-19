@@ -9,6 +9,7 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private GameObject dirtPrefab;
     [SerializeField] private GameObject steelPrefab;
     [SerializeField] private GameObject waterPrefab;
+    [SerializeField] private GameObject quicksandPrefab;
 
     private List<string[]> mapLayers;
     private float tileSize = 64;
@@ -81,10 +82,14 @@ public class MapBuilder : MonoBehaviour
                         GameObject dirt = Instantiate(dirtPrefab, position, Quaternion.identity);
                         dirt.GetComponent<Renderer>().sortingOrder = groundSortingOrder;
                         break;
+                    case 'Q':
+                        GameObject quicksand = Instantiate(quicksandPrefab, position, Quaternion.identity);
+                        quicksand.GetComponent<Renderer>().sortingOrder = groundSortingOrder;
+                        break;
                 }
             }
         }
-        
+
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)

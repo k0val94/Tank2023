@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3221640793910071120}
   - component: {fileID: 3453813693310163526}
   m_Layer: 0
-  m_Name: BrickSpriteManagerPrefab
+  m_Name: BrickSpriteManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

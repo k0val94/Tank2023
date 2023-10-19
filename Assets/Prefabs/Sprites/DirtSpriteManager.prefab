@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3221640793910071120}
   - component: {fileID: 3453813693310163526}
   m_Layer: 0
-  m_Name: WaterSpriteManagerPrefab
+  m_Name: DirtSpriteManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritesList:
-  - {fileID: -63541249924503520, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
-  - {fileID: 4821829611935990177, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
-  - {fileID: 3603549473271779902, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
-  - {fileID: -753386301402050096, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
-  - {fileID: 1204555109133859345, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
-  - {fileID: -1505420687861683252, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
-  - {fileID: 2888952497201135092, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
-  - {fileID: 1364293670929585501, guid: e33d82601009c174ab2dc18e66196ba8, type: 3}
+  - {fileID: 5325044904676303817, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
+  - {fileID: 6394090102354303151, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
+  - {fileID: -6444099622693527423, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
+  - {fileID: -172773180475090326, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
+  - {fileID: 198327261956722723, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
+  - {fileID: -5684972309120705976, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
+  - {fileID: 496359769259166251, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
+  - {fileID: -1148690051958492642, guid: 20f3fcf60cf041f41a2a695ab6e62928, type: 3}
