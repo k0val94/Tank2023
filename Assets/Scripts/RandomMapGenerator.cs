@@ -93,4 +93,9 @@ public class RandomMapGenerator : MonoBehaviour
         Debug.Log("Random map saved to: " + path);
     }
 
+    public List<string[]> GetMapLayers()
+    {
+        return mapLayers;
+    }
+
 }

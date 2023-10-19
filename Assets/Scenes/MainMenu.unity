@@ -1585,7 +1585,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2044570108}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: OpenStartLevel1
+        m_MethodName: OpenLevel1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4158,6 +4158,7 @@ GameObject:
   - component: {fileID: 2044570109}
   - component: {fileID: 2044570108}
   - component: {fileID: 2044570110}
+  - component: {fileID: 2044570111}
   m_Layer: 0
   m_Name: MainMenuController
   m_TagString: Untagged
@@ -4203,13 +4204,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044570106}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f4eb0eac03ec3946aae2b797930fc3d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bb8d41fad37a2440a0fdc2d464ca8d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 50
-  mapHeight: 100
+--- !u!114 &2044570111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044570106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e896074155a77ba45aaf65173ee119e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2107843601
 GameObject:
   m_ObjectHideFlags: 0

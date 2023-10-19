@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 36219084}
   - component: {fileID: 36219083}
   - component: {fileID: 36219082}
+  - component: {fileID: 36219085}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -212,6 +213,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &36219085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36219081}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827909f108989c143a9177950db485b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  offset: {x: 0, y: 0, z: -10}
+  followSpeed: 2
+  mouseFollowSpeed: 0.05
+  edgeMargin: 0.1
 --- !u!1 &2035540830
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,9 +239,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2035540834}
-  - component: {fileID: 2035540833}
-  - component: {fileID: 2035540832}
-  - component: {fileID: 2035540831}
   m_Layer: 0
   m_Name: MapCreator
   m_TagString: Untagged
@@ -231,47 +246,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2035540831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035540830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e896074155a77ba45aaf65173ee119e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapFileName: test.map
---- !u!114 &2035540832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035540830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ee22e9c67228a4ba15d55adc1a57bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
---- !u!114 &2035540833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035540830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 427d92c5dedc2544989c698a35a97935, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisTile: {fileID: 8557906486070459954, guid: 654f1b5cacf5bc243b325f37ff42bc89, type: 3}
 --- !u!4 &2035540834
 Transform:
   m_ObjectHideFlags: 0

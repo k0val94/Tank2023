@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    private RandomMapGenerator mapGenerator;
+    private MapLoader mapLoader;
     [SerializeField] private GameObject MainMenu;
     [SerializeField] private GameObject PlayMenu;
     [SerializeField] private GameObject LevelSelectionMenu;
@@ -17,7 +17,7 @@ public class MainMenuController : MonoBehaviour
         PlayMenu.SetActive(false);
         LevelSelectionMenu.SetActive(false);
         OptionsMenu.SetActive(false);
-        mapGenerator = GetComponent<RandomMapGenerator>();
+        mapLoader = GetComponent<MapLoader>();
     }
 
     public void PlayGame()
@@ -25,12 +25,6 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("Play button pressed.");
         MainMenu.SetActive(false);
         PlayMenu.SetActive(true);
-    }
-
-    public void OpenStartLevel1()
-    {
-        Debug.Log("Level 1 selected.");
-        SceneManager.LoadScene("Level1");
     }
 
     public void OpenOptions()
@@ -72,6 +66,33 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("Back to Main Menu from Options.");
         OptionsMenu.SetActive(false);
         MainMenu.SetActive(true);
+    }
+
+    public void OpenLevel1()
+    {
+        Debug.Log("Level 1 selected.");
+        MapLoader mapLoader = GetComponent<MapLoader>();
+        if (mapLoader != null)
+        {
+            List<string[]> loadedMap = mapLoader.LoadMapFromFile("level1.map");
+            if (loadedMap != null && loadedMap.Count > 0)
+            {
+                Debug.Log("Successfully loaded map data.");
+                MapData.Instance.mapLayers = loadedMap; 
+            }
+            else
+            {
+                Debug.LogError("Failed to load map data or map data is empty.");
+                return;
+            }
+            
+            Debug.Log("Attempting to load 'Game' scene...");
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            Debug.LogError("Map Loader not assigned or not found!");
+        }
     }
 
     public void Exit()

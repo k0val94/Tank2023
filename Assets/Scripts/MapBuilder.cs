@@ -11,6 +11,9 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private GameObject waterPrefab;
     [SerializeField] private GameObject quicksandPrefab;
 
+    [Header("Other")]
+    [SerializeField] private RandomMapGenerator randomMapGenerator;
+
     private List<string[]> mapLayers;
     private float tileSize = 64;
     private int groundSortingOrder = 0;
@@ -20,42 +23,14 @@ public class MapBuilder : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-
-        mapLayers = LoadMapFromFile("level1.map");
-
-        if (mapLayers != null && mapLayers.Count == 2)
+        if (MapData.Instance.mapLayers != null && MapData.Instance.mapLayers.Count == 2)
         {
-            GenerateMap(mapLayers);
+            GenerateMap(MapData.Instance.mapLayers);
         }
         else
         {
-            Debug.LogError("Map could not be loaded. Check the file and path.");
+            Debug.LogError("Map data not found in MapData.");
         }
-    }
-
-    private List<string[]> LoadMapFromFile(string fileName)
-    {
-        string path = Path.Combine(Application.streamingAssetsPath, "Maps", fileName);
-        
-        Debug.Log("Looking for map at: " + path);
-
-        if (!File.Exists(path))
-        {
-            Debug.LogError("Map file not found at: " + path);
-            return null;
-        }
-
-        string mapText = File.ReadAllText(path);
-
-        var layerData = mapText.Split(new[] { "---" }, System.StringSplitOptions.None);
-        List<string[]> mapDataLayers = new List<string[]>();
-
-        foreach (var layer in layerData)
-        {
-            mapDataLayers.Add(layer.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
-        }
-
-        return mapDataLayers;
     }
 
     void GenerateMap(List<string[]> mapDataLayers)
@@ -118,5 +93,25 @@ public class MapBuilder : MonoBehaviour
         }
 
         Debug.Log("Map generation completed.");
+    }
+
+    public void GenerateMapFromGenerator()
+    {
+        if(randomMapGenerator == null)
+        {
+            Debug.LogError("RandomMapGenerator reference is not set.");
+            return;
+        }
+
+        mapLayers = randomMapGenerator.GetMapLayers();
+
+        if (mapLayers != null && mapLayers.Count >= 2)
+        {
+            GenerateMap(mapLayers);
+        }
+        else
+        {
+            Debug.LogError("Map could not be generated. Check the generation code.");
+        }
     }
 }
