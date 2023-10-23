@@ -296,7 +296,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WaterSpritesheet_0: -63541249924503520
+      WaterSpritesheet_1: 4821829611935990177
+      WaterSpritesheet_2: 3603549473271779902
+      WaterSpritesheet_3: -753386301402050096
+      WaterSpritesheet_4: 1204555109133859345
+      WaterSpritesheet_5: -1505420687861683252
+      WaterSpritesheet_6: 2888952497201135092
+      WaterSpritesheet_7: 1364293670929585501
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
