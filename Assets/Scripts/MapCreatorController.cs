@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class MapCreatorController : MonoBehaviour
 {
-    private RandomMapGenerator mapGenerator;
+    private MapGenerator mapGenerator;
     private MapLoader mapLoader;
     private MapBuilder mapBuilder;
     private MapCleaner mapCleaner; 
@@ -21,10 +21,10 @@ public class MapCreatorController : MonoBehaviour
     {
         Debug.Log("MapCreatorController Started.");
 
-        mapGenerator = GetComponent<RandomMapGenerator>();
+        mapGenerator = GetComponent<MapGenerator>();
         if (mapGenerator == null)
         {
-            Debug.LogError("RandomMapGenerator component not found!");
+            Debug.LogError("MapGenerator component not found!");
         }
 
         mapLoader = GetComponent<MapLoader>();

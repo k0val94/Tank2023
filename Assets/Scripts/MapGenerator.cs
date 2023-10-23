@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
-public class RandomMapGenerator : MonoBehaviour
+public class MapGenerator : MonoBehaviour
 {
 
     private List<string[]> mapLayers;
