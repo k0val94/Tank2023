@@ -57,7 +57,7 @@ public class MapCreatorController : MonoBehaviour
         generateMapButton.onClick.AddListener(GenerateMap);
         saveMapButton.onClick.AddListener(SaveMap);
     }
-
+    
     private void GenerateMap()
     {
         Debug.Log("Attempting to generate map.");
@@ -65,17 +65,9 @@ public class MapCreatorController : MonoBehaviour
         List<string[]> loadedMap = null;
         mapCleaner.CleanupMap();
 
-        string widthInput = widthInputField.text;
-        string heightInput = heightInputField.text;
-
-        Debug.Log(widthInput);
-        Debug.Log(heightInput);
-
-        if (int.TryParse(widthInput, out mapWidth) && int.TryParse(heightInput, out mapHeight))
+        if (int.TryParse(widthInputField.text, out mapWidth) && int.TryParse(heightInputField.text, out mapHeight))
         {
             Debug.Log($"Generating map with dimensions: {mapWidth}x{mapHeight}");
-            Debug.Log($"mapWidth: {mapWidth}, mapHeight: {mapHeight}");
-            
             mapGenerator.GenerateRandomMap(mapWidth, mapHeight);
             mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), "temp.map");
             loadedMap = mapLoader.LoadMapFromFile("temp.map");
@@ -83,7 +75,7 @@ public class MapCreatorController : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"Ungültige Eingabe für Breite oder Höhe! widthInput: {widthInput}, heightInput: {heightInput}");
+            Debug.LogError("Ungültige Eingabe für Breite oder Höhe!");
         }
     }
 
