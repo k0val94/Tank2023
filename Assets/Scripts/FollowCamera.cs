@@ -42,23 +42,19 @@ public class FollowCamera : MonoBehaviour
         if (mousePosition.x < edgeMargin)
         {
             moveDir.x = -1;
-            Debug.Log("Mouse near left edge. edgeMargin: " + edgeMargin);
         }
         else if (mousePosition.x > 1 - edgeMargin)
         {
             moveDir.x = 1;
-            Debug.Log("Mouse near right edge. edgeMargin: " + edgeMargin);
         }
 
         if (mousePosition.y < edgeMargin)
         {
             moveDir.y = -1;
-            Debug.Log("Mouse near bottom edge. edgeMargin: " + edgeMargin);
         }
         else if (mousePosition.y > 1 - edgeMargin)
         {
             moveDir.y = 1;
-            Debug.Log("Mouse near top edge. edgeMargin: " + edgeMargin);
         }
 
         transform.position += moveDir * mouseFollowSpeed;
