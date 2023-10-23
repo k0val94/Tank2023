@@ -16,18 +16,35 @@ public class MapBuilder : MonoBehaviour
     private int groundSortingOrder = 0;
     private int barrierSortingOrder = 1;
     private Camera mainCamera;
+    private MapLoader mapLoader;
 
     private void Start()
     {
         mainCamera = Camera.main;
-        if (MapData.Instance.mapLayers != null && MapData.Instance.mapLayers.Count == 2)
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (sceneName == "Game")
         {
-            BuildMap(MapData.Instance.mapLayers);
+            if (MapData.Instance.mapLayers != null && MapData.Instance.mapLayers.Count == 2)
+            {
+                BuildMap(MapData.Instance.mapLayers);
+            }
+            else
+            {
+                Debug.LogWarning("Map data not found in MapData.");
+            }
         }
-        else
+        else if (sceneName == "MapCreator")
         {
-            Debug.LogWarning("Map data not found in MapData.");
+            mapLoader = GetComponent<MapLoader>();
+            if (mapLoader == null)
+            {
+                Debug.LogError("MapLoader component not found!");
+            }
+            List<string[]> loadedMap = mapLoader.LoadMapFromFile("temp.map");
+            BuildMap(loadedMap);
+
         }
+        
     }
 
     public void BuildMap(List<string[]> mapDataLayers)

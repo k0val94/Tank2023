@@ -15,7 +15,9 @@ public class MapCreatorController : MonoBehaviour
     [SerializeField] private GameObject MapCreatorUI;
     [SerializeField] private TMP_InputField widthInputField;
     [SerializeField] private TMP_InputField heightInputField;
+    [SerializeField] private TMP_InputField mapNameInput;
     [SerializeField] private Button generateMapButton;
+    [SerializeField] private Button saveMapButton;
 
     private void Start()
     {
@@ -53,18 +55,27 @@ public class MapCreatorController : MonoBehaviour
 
         MapCreatorUI.SetActive(true);
         generateMapButton.onClick.AddListener(GenerateMap);
+        saveMapButton.onClick.AddListener(SaveMap);
     }
 
-    public void GenerateMap()
+    private void GenerateMap()
     {
         Debug.Log("Attempting to generate map.");
         int mapWidth, mapHeight;
         List<string[]> loadedMap = null;
         mapCleaner.CleanupMap();
 
-        if (int.TryParse(widthInputField.text, out mapWidth) && int.TryParse(heightInputField.text, out mapHeight))
+        string widthInput = widthInputField.text;
+        string heightInput = heightInputField.text;
+
+        Debug.Log(widthInput);
+        Debug.Log(heightInput);
+
+        if (int.TryParse(widthInput, out mapWidth) && int.TryParse(heightInput, out mapHeight))
         {
             Debug.Log($"Generating map with dimensions: {mapWidth}x{mapHeight}");
+            Debug.Log($"mapWidth: {mapWidth}, mapHeight: {mapHeight}");
+            
             mapGenerator.GenerateRandomMap(mapWidth, mapHeight);
             mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), "temp.map");
             loadedMap = mapLoader.LoadMapFromFile("temp.map");
@@ -72,8 +83,23 @@ public class MapCreatorController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Ungültige Eingabe für Breite oder Höhe!");
+            Debug.LogError($"Ungültige Eingabe für Breite oder Höhe! widthInput: {widthInput}, heightInput: {heightInput}");
         }
+    }
+
+    private void SaveMap()
+    {
+        Debug.Log("Attempting to save map.");
+        string mapName = mapNameInput.text;
+
+        if (string.IsNullOrEmpty(mapName))
+        {
+            Debug.LogError("Map name is empty! Please enter a valid map name.");
+            return;
+        }
+
+        mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), mapName + ".map");
+        Debug.Log($"Map saved as {mapName}.map");
     }
 
     public void BackToMainMenu()
