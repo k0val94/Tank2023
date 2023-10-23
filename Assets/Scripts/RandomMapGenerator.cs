@@ -29,7 +29,7 @@ public class RandomMapGenerator : MonoBehaviour
         {
             int leftOffset = Random.Range(-2, 3);
             int rightOffset = Random.Range(-2, 3);
-            
+
             lastLeftWaterEdge = Mathf.Clamp(lastLeftWaterEdge + leftOffset, 2, 3 * mapWidth / 4);
             lastRightWaterEdge = Mathf.Clamp(lastRightWaterEdge + rightOffset, mapWidth / 4, mapWidth - 2);
 
@@ -46,12 +46,15 @@ public class RandomMapGenerator : MonoBehaviour
         }
 
         mapLayers.Add(barrierLayer);
-
-        // Save the map to a file
-        SaveMapToFile("temp.map");
+        
     }
 
-    /*public void GenerateRandomCoastMap()
+    public List<string[]> GetMapLayers()
+    {
+        return mapLayers;
+    }
+
+    /*public void GenerateRandomCoastMap(int mapWidth, int mapHeight)
     {
         mapLayers = new List<string[]>();
 
@@ -76,27 +79,7 @@ public class RandomMapGenerator : MonoBehaviour
         mapLayers.Add(barrierLayer);
 
         // Save the map to a file
-        SaveMapToFile("random_map.map");
+        MapSaver.SaveMapToFile(mapLayers, "random_map.map");
     }*/
-
-    private void SaveMapToFile(string fileName)
-    {
-        string mapText = string.Join("\n---\n", mapLayers.ConvertAll(layer => string.Join("\n", layer)));
-
-        // Verwenden Sie Path.Combine, um den gewünschten Speicherort zu erstellen (StreamingAssets/Maps)
-        string folderPath = Path.Combine(Application.streamingAssetsPath, "Maps");
-        string path = Path.Combine(folderPath, fileName);
-
-        // Erstellen Sie den Verzeichnispfad, falls er nicht vorhanden ist
-        Directory.CreateDirectory(folderPath);
-
-        File.WriteAllText(path, mapText);
-        Debug.Log("Random map saved to: " + path);
-    }
-
-    public List<string[]> GetMapLayers()
-    {
-        return mapLayers;
-    }
-
 }
+

@@ -9,6 +9,8 @@ public class MapCreatorController : MonoBehaviour
     private RandomMapGenerator mapGenerator;
     private MapLoader mapLoader;
     private MapBuilder mapBuilder;
+    private MapCleaner mapCleaner; 
+    private MapSaver mapSaver; 
 
     [SerializeField] private GameObject MapCreatorUI;
     [SerializeField] private TMP_InputField widthInputField;
@@ -37,6 +39,18 @@ public class MapCreatorController : MonoBehaviour
             Debug.LogError("MapBuilder component not found!");
         }
 
+        mapCleaner = GetComponent<MapCleaner>();
+        if (mapCleaner == null)
+        {
+            Debug.LogError("MapCleaner component not found!");
+        }
+
+        mapSaver = GetComponent<MapSaver>();
+        if (mapSaver == null)
+        {
+            Debug.LogError("MapSaver component not found!");
+        }
+
         MapCreatorUI.SetActive(true);
         generateMapButton.onClick.AddListener(GenerateMap);
     }
@@ -47,10 +61,23 @@ public class MapCreatorController : MonoBehaviour
         int mapWidth, mapHeight;
         List<string[]> loadedMap = null;
 
+        if (mapCleaner != null)
+        {
+            mapCleaner.CleanupMap();
+        }
+
         if (int.TryParse(widthInputField.text, out mapWidth) && int.TryParse(heightInputField.text, out mapHeight))
         {
             Debug.Log($"Generating map with dimensions: {mapWidth}x{mapHeight}");
+
+
             mapGenerator.GenerateRandomMap(mapWidth, mapHeight);
+            
+            if (mapSaver != null)
+            {
+                mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), "temp.map");
+            }
+            
 
             if (mapLoader != null)
             {
