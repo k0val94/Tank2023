@@ -5,10 +5,10 @@ public class FollowCamera : MonoBehaviour
     public static FollowCamera Instance;
 
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(0, 0, -10);
-    [SerializeField] private float followSpeed = 2f;
-    [SerializeField] private float mouseFollowSpeed = 0.05f; // Geschwindigkeit, mit der die Kamera dem Mauszeiger folgt.
-    [SerializeField] private float edgeMargin = 0.1f; // Wie nah der Mauszeiger am Rand des Bildschirms sein muss, um die Kamera schneller zu bewegen.
+    private Vector3 offset = new Vector3(0, 0, -10);
+    private float followSpeed = 2f;
+    private float mouseFollowSpeed = 0.05f;
+    private float edgeMargin = 0.01f;
 
     private void Awake()
     {
@@ -42,19 +42,23 @@ public class FollowCamera : MonoBehaviour
         if (mousePosition.x < edgeMargin)
         {
             moveDir.x = -1;
+            Debug.Log("Mouse near left edge. edgeMargin: " + edgeMargin);
         }
         else if (mousePosition.x > 1 - edgeMargin)
         {
             moveDir.x = 1;
+            Debug.Log("Mouse near right edge. edgeMargin: " + edgeMargin);
         }
 
         if (mousePosition.y < edgeMargin)
         {
             moveDir.y = -1;
+            Debug.Log("Mouse near bottom edge. edgeMargin: " + edgeMargin);
         }
         else if (mousePosition.y > 1 - edgeMargin)
         {
             moveDir.y = 1;
+            Debug.Log("Mouse near top edge. edgeMargin: " + edgeMargin);
         }
 
         transform.position += moveDir * mouseFollowSpeed;
