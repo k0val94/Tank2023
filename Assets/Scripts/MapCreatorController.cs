@@ -62,15 +62,14 @@ public class MapCreatorController : MonoBehaviour
     {
         Debug.Log("Attempting to generate map.");
         int mapWidth, mapHeight;
-        List<string[]> loadedMap = null;
-        mapCleaner.CleanupMap();
-
+        
         if (int.TryParse(widthInputField.text, out mapWidth) && int.TryParse(heightInputField.text, out mapHeight))
         {
+            mapCleaner.CleanupMap();
             Debug.Log($"Generating map with dimensions: {mapWidth}x{mapHeight}");
             mapGenerator.GenerateRandomMap(mapWidth, mapHeight);
             mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), "temp.map");
-            loadedMap = mapLoader.LoadMapFromFile("temp.map");
+            List<string[]> loadedMap = mapLoader.LoadMapFromFile("temp.map");
             mapBuilder.BuildMap(loadedMap);
         }
         else
