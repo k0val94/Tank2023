@@ -12,12 +12,16 @@ public class MapCreatorController : MonoBehaviour
     private MapCleaner mapCleaner; 
     private MapSaver mapSaver; 
 
-    [SerializeField] private GameObject MapCreatorUI;
     [SerializeField] private TMP_InputField widthInputField;
     [SerializeField] private TMP_InputField heightInputField;
     [SerializeField] private TMP_InputField mapNameInput;
     [SerializeField] private Button generateMapButton;
     [SerializeField] private Button saveMapButton;
+    [SerializeField] private ToggleGroup mapTypeToggleGroup;
+    [SerializeField] private Toggle coastMapToggle;
+    [SerializeField] private Toggle islandMapToggle;
+
+    
 
     private void Start()
     {
@@ -53,7 +57,8 @@ public class MapCreatorController : MonoBehaviour
             Debug.LogError("MapSaver component not found!");
         }
 
-        MapCreatorUI.SetActive(true);
+
+
         generateMapButton.onClick.AddListener(GenerateMap);
         saveMapButton.onClick.AddListener(SaveMap);
     }
@@ -62,12 +67,37 @@ public class MapCreatorController : MonoBehaviour
     {
         Debug.Log("Attempting to generate map.");
         int mapWidth, mapHeight;
+        Toggle selectedToggle = null;
+        
+        foreach (Toggle toggle in mapTypeToggleGroup.ActiveToggles())
+        {
+            selectedToggle = toggle;
+            break;
+        }
         
         if (int.TryParse(widthInputField.text, out mapWidth) && int.TryParse(heightInputField.text, out mapHeight))
         {
             mapCleaner.CleanupMap();
             Debug.Log($"Generating map with dimensions: {mapWidth}x{mapHeight}");
-            mapGenerator.GenerateRandomMap(mapWidth, mapHeight);
+            
+            if (selectedToggle != null)
+            {
+                if (selectedToggle == coastMapToggle)
+                {
+                    Debug.Log($"coastMapToggle");
+                    mapGenerator.GenerateRandomCoastMap(mapWidth, mapHeight);
+                }
+                else if (selectedToggle == islandMapToggle)
+                {
+                    Debug.Log($"islandMapToggle");
+                    mapGenerator.GenerateRandomIslandMap(mapWidth, mapHeight);
+                }
+            }
+            else
+            {
+                Debug.LogError("Bitte wählen Sie eine Kartenart aus.");
+                return;
+            }
             mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), "temp.map");
             List<string[]> loadedMap = mapLoader.LoadMapFromFile("temp.map");
             mapBuilder.BuildMap(loadedMap);

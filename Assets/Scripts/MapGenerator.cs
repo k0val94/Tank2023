@@ -7,7 +7,7 @@ public class MapGenerator : MonoBehaviour
 
     private List<string[]> mapLayers;
 
-    public void GenerateRandomMap(int mapWidth, int mapHeight)
+    public void GenerateRandomIslandMap(int mapWidth, int mapHeight)
     {
         mapLayers = new List<string[]>();
 
@@ -49,16 +49,10 @@ public class MapGenerator : MonoBehaviour
         
     }
 
-    public List<string[]> GetMapLayers()
-    {
-        return mapLayers;
-    }
-
-    /*public void GenerateRandomCoastMap(int mapWidth, int mapHeight)
+    public void GenerateRandomCoastMap(int mapWidth, int mapHeight)
     {
         mapLayers = new List<string[]>();
 
-        // Generate random ground layer
         string[] groundLayer = new string[mapHeight];
         for (int i = 0; i < mapHeight; i++)
         {
@@ -77,9 +71,11 @@ public class MapGenerator : MonoBehaviour
             barrierLayer[i] = new string('.', lastWaterEdgeStart) + new string('W', mapWidth - lastWaterEdgeStart);
         }
         mapLayers.Add(barrierLayer);
+    }
 
-        // Save the map to a file
-        MapSaver.SaveMapToFile(mapLayers, "random_map.map");
-    }*/
+    public List<string[]> GetMapLayers()
+    {
+        return mapLayers;
+    }
 }
 
