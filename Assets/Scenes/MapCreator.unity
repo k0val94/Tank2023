@@ -986,6 +986,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194342139}
   m_CullTransparentMesh: 1
+--- !u!1 &198601459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 198601460}
+  m_Layer: 0
+  m_Name: GroundContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &198601460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198601459}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035540834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &284561006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,6 +1761,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466344471}
   m_CullTransparentMesh: 1
+--- !u!1 &487331949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 487331950}
+  m_Layer: 0
+  m_Name: BarrierContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &487331950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487331949}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035540834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &522456497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,6 +3278,7 @@ GameObject:
   - component: {fileID: 1544167942}
   - component: {fileID: 1544167943}
   - component: {fileID: 1544167944}
+  - component: {fileID: 1544167945}
   m_Layer: 0
   m_Name: MapCreatorController
   m_TagString: Untagged
@@ -3289,8 +3352,8 @@ MonoBehaviour:
   steelPrefab: {fileID: 760809665500724449, guid: 942c4aa4196c23a48ac2e4ba1b8e0422, type: 3}
   waterPrefab: {fileID: 8557906486070459954, guid: 8d0be3e3d9550064b9d58840c8e6984e, type: 3}
   quicksandPrefab: {fileID: 8557906486070459954, guid: 9f71ea788e31e6e488163e23a4997e61, type: 3}
-  groundContainer: {fileID: 0}
-  barrierContainer: {fileID: 0}
+  groundContainer: {fileID: 198601459}
+  barrierContainer: {fileID: 487331949}
 --- !u!114 &1544167942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3325,6 +3388,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e902cf266a191548bd98aa6711a14da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1544167945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544167937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ff4c560fc8c874eacda9bd7db314f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1660827960
@@ -4069,6 +4144,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 36219084}
+  - {fileID: 487331950}
+  - {fileID: 198601460}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807

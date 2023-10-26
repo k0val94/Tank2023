@@ -239,7 +239,13 @@ PrefabInstance:
       objectReference: {fileID: 8557906486070459954, guid: 9f71ea788e31e6e488163e23a4997e61, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1635548532415144994, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2100514205}
+    - targetCorrespondingSourceObject: {fileID: 1635548532415144994, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2128490335}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1945046156025804944, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
       insertIndex: -1
@@ -267,7 +273,75 @@ MonoBehaviour:
   steelPrefab: {fileID: 760809665500724449, guid: 942c4aa4196c23a48ac2e4ba1b8e0422, type: 3}
   waterPrefab: {fileID: 8557906486070459954, guid: 8d0be3e3d9550064b9d58840c8e6984e, type: 3}
   quicksandPrefab: {fileID: 8557906486070459954, guid: 9f71ea788e31e6e488163e23a4997e61, type: 3}
-  randomMapGenerator: {fileID: 0}
+  groundContainer: {fileID: 2128490334}
+  barrierContainer: {fileID: 2100514204}
+--- !u!4 &1933839873 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1635548532415144994, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
+  m_PrefabInstance: {fileID: 1933839867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2100514204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2100514205}
+  m_Layer: 0
+  m_Name: BarrierContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2100514205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100514204}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.4538035, y: 1.1263362, z: 0.25986233}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1933839873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2128490334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2128490335}
+  m_Layer: 0
+  m_Name: GroundContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2128490335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128490334}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.4538035, y: 1.1263362, z: 0.25986233}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1933839873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

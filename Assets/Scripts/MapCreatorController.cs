@@ -11,6 +11,7 @@ public class MapCreatorController : MonoBehaviour
     private MapBuilder mapBuilder;
     private MapCleaner mapCleaner; 
     private MapSaver mapSaver; 
+    private MapEditor mapEditor;
 
     [SerializeField] private TMP_InputField widthInputField;
     [SerializeField] private TMP_InputField heightInputField;
@@ -57,6 +58,11 @@ public class MapCreatorController : MonoBehaviour
         if (mapSaver == null)
         {
             Debug.LogError("MapSaver component not found!");
+        }
+        mapEditor = GetComponent<MapEditor>();
+        if (mapEditor == null)
+        {
+            Debug.LogError("MapEditor component not found!");
         }
 
         groundLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });

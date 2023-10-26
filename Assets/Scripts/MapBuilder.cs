@@ -10,6 +10,8 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private GameObject steelPrefab;
     [SerializeField] private GameObject waterPrefab;
     [SerializeField] private GameObject quicksandPrefab;
+    [SerializeField] public GameObject groundContainer;
+    [SerializeField] public GameObject barrierContainer;
 
     private List<string[]> mapLayers;
     private float tileSize = 64;
@@ -17,15 +19,11 @@ public class MapBuilder : MonoBehaviour
     private int barrierSortingOrder = 1;
     private Camera mainCamera;
     private MapLoader mapLoader;
-    public GameObject groundContainer;
-    public GameObject barrierContainer;
 
     private void Start()
     {
         mainCamera = Camera.main;
 
-        groundContainer = new GameObject("Ground");
-        barrierContainer = new GameObject("Barrier");
 
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (sceneName == "Game")
