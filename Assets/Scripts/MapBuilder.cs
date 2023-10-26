@@ -17,10 +17,16 @@ public class MapBuilder : MonoBehaviour
     private int barrierSortingOrder = 1;
     private Camera mainCamera;
     private MapLoader mapLoader;
+    public GameObject groundContainer;
+    public GameObject barrierContainer;
 
     private void Start()
     {
         mainCamera = Camera.main;
+
+        groundContainer = new GameObject("Ground");
+        barrierContainer = new GameObject("Barrier");
+
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (sceneName == "Game")
         {
@@ -70,10 +76,12 @@ public class MapBuilder : MonoBehaviour
                     case 'D':
                         GameObject dirt = Instantiate(dirtPrefab, position, Quaternion.identity);
                         dirt.GetComponent<Renderer>().sortingOrder = groundSortingOrder;
+                        dirt.transform.SetParent(groundContainer.transform);
                         break;
                     case 'Q':
                         GameObject quicksand = Instantiate(quicksandPrefab, position, Quaternion.identity);
                         quicksand.GetComponent<Renderer>().sortingOrder = groundSortingOrder;
+                        quicksand.transform.SetParent(groundContainer.transform);
                         break;
                 }
             }
@@ -93,14 +101,17 @@ public class MapBuilder : MonoBehaviour
                     case 'B':
                         GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity);
                         brick.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
+                        brick.transform.SetParent(barrierContainer.transform);
                         break;
                     case 'S':
                         GameObject steel = Instantiate(steelPrefab, position, Quaternion.identity);
                         steel.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
+                        steel.transform.SetParent(barrierContainer.transform);
                         break;
                     case 'W':
                         GameObject water = Instantiate(waterPrefab, position, Quaternion.identity);
                         water.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
+                        water.transform.SetParent(barrierContainer.transform);
                         break;
                 }
             }

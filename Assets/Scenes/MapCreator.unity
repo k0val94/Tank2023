@@ -1892,7 +1892,7 @@ GameObject:
   - component: {fileID: 566299163}
   - component: {fileID: 566299164}
   m_Layer: 5
-  m_Name: GroundLayerToggle
+  m_Name: GroundLayelToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2345,7 +2345,7 @@ GameObject:
   - component: {fileID: 894693793}
   - component: {fileID: 894693794}
   m_Layer: 5
-  m_Name: BarrierLeverToggle
+  m_Name: BarrierLevelToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2419,7 +2419,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &970067182
 GameObject:
   m_ObjectHideFlags: 0
@@ -3243,6 +3243,8 @@ MonoBehaviour:
   mapTypeToggleGroup: {fileID: 441756961}
   coastMapToggle: {fileID: 1793572418}
   islandMapToggle: {fileID: 1208694616}
+  groundLayerToggle: {fileID: 566299164}
+  barrierLayerToggle: {fileID: 894693794}
 --- !u!114 &1544167939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3287,6 +3289,8 @@ MonoBehaviour:
   steelPrefab: {fileID: 760809665500724449, guid: 942c4aa4196c23a48ac2e4ba1b8e0422, type: 3}
   waterPrefab: {fileID: 8557906486070459954, guid: 8d0be3e3d9550064b9d58840c8e6984e, type: 3}
   quicksandPrefab: {fileID: 8557906486070459954, guid: 9f71ea788e31e6e488163e23a4997e61, type: 3}
+  groundContainer: {fileID: 0}
+  barrierContainer: {fileID: 0}
 --- !u!114 &1544167942
 MonoBehaviour:
   m_ObjectHideFlags: 0

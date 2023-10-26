@@ -20,6 +20,8 @@ public class MapCreatorController : MonoBehaviour
     [SerializeField] private ToggleGroup mapTypeToggleGroup;
     [SerializeField] private Toggle coastMapToggle;
     [SerializeField] private Toggle islandMapToggle;
+    [SerializeField] private Toggle groundLayerToggle;
+    [SerializeField] private Toggle barrierLayerToggle;
 
     
 
@@ -57,8 +59,8 @@ public class MapCreatorController : MonoBehaviour
             Debug.LogError("MapSaver component not found!");
         }
 
-
-
+        groundLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });
+        barrierLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.barrierContainer, barrierLayerToggle); });
         generateMapButton.onClick.AddListener(GenerateMap);
         saveMapButton.onClick.AddListener(SaveMap);
     }
@@ -127,5 +129,15 @@ public class MapCreatorController : MonoBehaviour
     {
         Debug.Log("Back to Main Menu from Map Creator.");
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void ToggleVisibility(GameObject container, Toggle toggle)
+    {
+        if (container == null)
+        {
+            Debug.LogError("Container is null!");
+            return;
+        }
+        container.SetActive(toggle.isOn);
     }
 }
