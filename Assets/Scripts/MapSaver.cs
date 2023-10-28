@@ -8,13 +8,13 @@ public class MapSaver : MonoBehaviour
     {
         string mapText = string.Join("\n---\n", mapLayers.ConvertAll(layer => string.Join("\n", layer)));
 
-        string folderPath = Path.Combine(Application.streamingAssetsPath, "Maps");
-        string path = Path.Combine(folderPath, fileName);
+            string folderPath = Path.Combine(Application.streamingAssetsPath, "Maps");
+            string path = Path.Combine(folderPath, fileName);
 
-        Directory.CreateDirectory(folderPath);
+            Directory.CreateDirectory(folderPath);
 
-        File.WriteAllText(path, mapText);
-        Debug.Log("Map saved to: " + path);
-    }
+            File.WriteAllText(path, mapText);
+            Debug.Log("Map saved to: " + path);
+            }
 }
 

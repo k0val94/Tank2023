@@ -59,12 +59,14 @@ public class MapCreatorController : MonoBehaviour
         {
             Debug.LogError("MapSaver component not found!");
         }
+        
         mapEditor = GetComponent<MapEditor>();
         if (mapEditor == null)
         {
             Debug.LogError("MapEditor component not found!");
         }
 
+        MapData.Instance.mapLayers = mapLoader.LoadMapFromFile("temp.map");
         groundLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });
         barrierLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.barrierContainer, barrierLayerToggle); });
         generateMapButton.onClick.AddListener(GenerateMap);
@@ -106,6 +108,7 @@ public class MapCreatorController : MonoBehaviour
                 Debug.LogError("Bitte wählen Sie eine Kartenart aus.");
                 return;
             }
+
             mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), "temp.map");
             List<string[]> loadedMap = mapLoader.LoadMapFromFile("temp.map");
             mapBuilder.BuildMap(loadedMap);
@@ -116,7 +119,7 @@ public class MapCreatorController : MonoBehaviour
         }
     }
 
-    private void SaveMap()
+    private void SaveMap() //with Button
     {
         Debug.Log("Attempting to save map.");
         string mapName = mapNameInput.text;
@@ -127,7 +130,13 @@ public class MapCreatorController : MonoBehaviour
             return;
         }
 
-        mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), mapName + ".map");
+        if (MapData.Instance.mapLayer == null)
+        {
+            Debug.LogError("Map layers are null! Make sure the map is generated properly.");
+            return;
+        }
+
+        mapSaver.SaveMapToFile(MapData.Instance.mapLayer, mapName + ".map");
         Debug.Log($"Map saved as {mapName}.map");
     }
 
