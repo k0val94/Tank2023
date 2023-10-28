@@ -67,6 +67,8 @@ public class MapCreatorController : MonoBehaviour
         }
 
         MapData.Instance.mapLayers = mapLoader.LoadMapFromFile("temp.map");
+        MapData.Instance.height = 70; //TODO
+        MapData.Instance.width = 70; //TODO
 
         groundLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });
         barrierLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.barrierContainer, barrierLayerToggle); });
@@ -111,8 +113,10 @@ public class MapCreatorController : MonoBehaviour
             }
 
             mapSaver.SaveMapToFile(mapGenerator.GetMapLayers(), "temp.map");
-            List<string[]> loadedMap = mapLoader.LoadMapFromFile("temp.map");
-            mapBuilder.BuildMap(loadedMap);
+            MapData.Instance.mapLayers = mapLoader.LoadMapFromFile("temp.map");
+            MapData.Instance.height = mapHeight;
+            MapData.Instance.width = mapWidth;
+            mapBuilder.BuildMap(MapData.Instance.mapLayers);
         }
         else
         {

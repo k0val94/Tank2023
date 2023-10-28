@@ -109,5 +109,26 @@ public class MapEditor : MonoBehaviour
         GameObject newTile = Instantiate(selectedTilePrefab, oldTilePosition, Quaternion.identity);
         newTile.GetComponent<SpriteRenderer>().sortingOrder = oldOrderInLayer;
         newTile.transform.SetParent(parentContainer.transform);
+        UpdateMapData(oldTilePosition, parentContainer.name, selectedTilePrefab.name[0]);
+    }
+
+    private void UpdateMapData(Vector3 position, string layerName, char newTileType)
+    {
+        Vector3 mapCenter = new Vector3((MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, (MapData.Instance.height * MapData.Instance.tileSize / 100.0f) / 2, 0);
+        int x = Mathf.FloorToInt((position.x + mapCenter.x) / (MapData.Instance.tileSize / 100.0f));
+        int y = MapData.Instance.height - 1 - Mathf.FloorToInt((position.y + mapCenter.y) / (MapData.Instance.tileSize / 100.0f));
+        
+        int layerIndex = (layerName == "GroundContainer") ? 0 : 1; // Assumes Ground is at 0, Barrier at 1
+
+        if (y < 0 || y >= MapData.Instance.height || x < 0 || x >= MapData.Instance.width)
+        {
+            Debug.LogWarning($"Position out of map bounds: {position}");
+            return;
+        }
+
+        string oldRow = MapData.Instance.mapLayers[layerIndex][y];
+        char[] newRow = oldRow.ToCharArray();
+        newRow[x] = newTileType;
+        MapData.Instance.mapLayers[layerIndex][y] = new string(newRow);
     }
 }

@@ -14,7 +14,6 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] public GameObject barrierContainer;
 
     private List<string[]> mapLayers;
-    private float tileSize = 64;
     private int groundSortingOrder = 0;
     private int barrierSortingOrder = 1;
     private Camera mainCamera;
@@ -58,13 +57,13 @@ public class MapBuilder : MonoBehaviour
         int width = mapDataLayers[0][0].Length;
         int height = mapDataLayers[0].Length;
 
-        Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
+        Vector3 mapCenter = new Vector3((width * MapData.Instance.tileSize / 100.0f) / 2, (height * MapData.Instance.tileSize / 100.0f) / 2, 0);
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
+                Vector3 position = new Vector3(x * MapData.Instance.tileSize / 100.0f, (height - y - 1) * MapData.Instance.tileSize / 100.0f, 0);
                 position -= mapCenter;
 
                 char tileType = mapDataLayers[groundSortingOrder][y][x];
@@ -89,7 +88,7 @@ public class MapBuilder : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
+                Vector3 position = new Vector3(x * MapData.Instance.tileSize / 100.0f, (height - y - 1) * MapData.Instance.tileSize / 100.0f, 0);
                 position -= mapCenter;
 
                 char tileType = mapDataLayers[barrierSortingOrder][y][x];
