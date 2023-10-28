@@ -67,6 +67,7 @@ public class MapCreatorController : MonoBehaviour
         }
 
         MapData.Instance.mapLayers = mapLoader.LoadMapFromFile("temp.map");
+
         groundLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });
         barrierLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.barrierContainer, barrierLayerToggle); });
         generateMapButton.onClick.AddListener(GenerateMap);
@@ -130,13 +131,14 @@ public class MapCreatorController : MonoBehaviour
             return;
         }
 
-        if (MapData.Instance.mapLayer == null)
+        var layers = MapData.Instance.mapLayers;
+        if (layers == null)
         {
             Debug.LogError("Map layers are null! Make sure the map is generated properly.");
             return;
         }
 
-        mapSaver.SaveMapToFile(MapData.Instance.mapLayer, mapName + ".map");
+        mapSaver.SaveMapToFile(layers, mapName + ".map");
         Debug.Log($"Map saved as {mapName}.map");
     }
 
