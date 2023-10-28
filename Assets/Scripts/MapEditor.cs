@@ -7,11 +7,12 @@ public class MapEditor : MonoBehaviour
     public TMP_Dropdown tileDropdown;
     public List<GameObject> tilePrefabs;
     private GameObject selectedTilePrefab;
-
+    
     private void Start()
     {
         PopulateDropdown();
         selectedTilePrefab = tilePrefabs[0];
+        SelectTile(0);
         tileDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
     }
 
@@ -39,6 +40,11 @@ public class MapEditor : MonoBehaviour
     }
 
     private void OnDropdownValueChanged(int index)
+    {
+        SelectTile(index);
+    }
+
+    private void SelectTile(int index)
     {
         string selectedTileName = tileDropdown.options[index].text;
         selectedTilePrefab = tilePrefabs.Find(tile => tile.name == selectedTileName);
@@ -70,7 +76,7 @@ public class MapEditor : MonoBehaviour
                 }
                 else if (parentName == "GroundContainer")
                 {
-                    Debug.Log($"Raycast hit object in GroundContainer");
+            Debug.Log($"Raycast hit object in GroundContainer");
                     ReplaceTile(clickedTile, parentTransform.gameObject);
                 }
                 else
@@ -98,4 +104,4 @@ public class MapEditor : MonoBehaviour
         newTile.GetComponent<SpriteRenderer>().sortingOrder = oldOrderInLayer;
         newTile.transform.SetParent(parentContainer.transform);
     }
-}
+    }
