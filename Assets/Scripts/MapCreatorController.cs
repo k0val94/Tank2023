@@ -131,14 +131,14 @@ public class MapCreatorController : MonoBehaviour
             return;
         }
 
-        var layers = MapData.Instance.mapLayers;
-        if (layers == null)
+
+        if (MapData.Instance.mapLayers == null)
         {
             Debug.LogError("Map layers are null! Make sure the map is generated properly.");
             return;
         }
 
-        mapSaver.SaveMapToFile(layers, mapName + ".map");
+        mapSaver.SaveMapToFile(MapData.Instance.mapLayers, mapName + ".map");
         Debug.Log($"Map saved as {mapName}.map");
     }
 
