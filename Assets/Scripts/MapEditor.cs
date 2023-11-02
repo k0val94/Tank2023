@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.EventSystems; 
 
 public class MapEditor : MonoBehaviour
 {
@@ -54,6 +55,12 @@ public class MapEditor : MonoBehaviour
 
     private void DetectAndReplaceClickedTile()
     {
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit2D hit = GetRaycastHit();
