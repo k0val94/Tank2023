@@ -67,8 +67,8 @@ public class MapCreatorController : MonoBehaviour
         }
 
         MapData.Instance.mapLayers = mapLoader.LoadMapFromFile("temp.map");
-        MapData.Instance.height = 70; //TODO
-        MapData.Instance.width = 70; //TODO
+        MapData.Instance.width = MapData.Instance.mapLayers[0][0].Length;
+        MapData.Instance.height = MapData.Instance.mapLayers[0].Length;
 
         groundLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });
         barrierLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.barrierContainer, barrierLayerToggle); });
