@@ -9,6 +9,7 @@ public class MapData : MonoBehaviour
     public float tileSize { get; private set; } = 64f;
     public int width { get; set; }
     public int height { get; set; }
+    public Vector3 mapCenter { get; set; }
 
     private void Awake()
     {
