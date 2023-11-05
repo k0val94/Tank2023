@@ -119,23 +119,24 @@ public class MapEditor : MonoBehaviour
         UpdateMapData(oldTilePosition, parentContainer.name, selectedTilePrefab.name[0]);
     }
 
-    private void UpdateMapData(Vector3 position, string layerName, char newTileType)
+private void UpdateMapData(Vector3 position, string layerName, char newTileType)
+{
+    // Convert world position to array indices
+    int xIndex = Mathf.RoundToInt((position.x + MapData.Instance.mapCenter.x) * 100.0f / MapData.Instance.tileSize);
+    int yIndex = Mathf.RoundToInt((MapData.Instance.height - 1) - ((position.y + MapData.Instance.mapCenter.y) * 100.0f / MapData.Instance.tileSize));
+    
+    // Determine which layer to update based on the layerName
+    int layerIndex = layerName == "BarrierContainer" ? 1 : 0;  // Assuming layer 0 is ground, layer 1 is barrier
+
+    // Update the mapLayers array
+    if (yIndex >= 0 && yIndex < MapData.Instance.height && xIndex >= 0 && xIndex < MapData.Instance.width)
     {
-        Vector3 mapCenter = new Vector3((MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, (MapData.Instance.height * MapData.Instance.tileSize / 100.0f) / 2, 0);
-        int x = Mathf.FloorToInt((position.x + mapCenter.x) / (MapData.Instance.tileSize / 100.0f));
-        int y = MapData.Instance.height - 1 - Mathf.FloorToInt((position.y + mapCenter.y) / (MapData.Instance.tileSize / 100.0f));
-        
-        int layerIndex = (layerName == "GroundContainer") ? 0 : 1; // Assumes Ground is at 0, Barrier at 1
-
-        if (y < 0 || y >= MapData.Instance.height || x < 0 || x >= MapData.Instance.width)
-        {
-            Debug.LogWarning($"Position out of map bounds: {position}");
-            return;
-        }
-
-        string oldRow = MapData.Instance.mapLayers[layerIndex][y];
-        char[] newRow = oldRow.ToCharArray();
-        newRow[x] = newTileType;
-        MapData.Instance.mapLayers[layerIndex][y] = new string(newRow);
+        MapData.Instance.mapLayers[layerIndex][yIndex] = MapData.Instance.mapLayers[layerIndex][yIndex].Remove(xIndex, 1).Insert(xIndex, newTileType.ToString());
     }
+    else
+    {
+        Debug.LogError("Attempted to update map data with invalid indices.");
+    }
+}
+
 }

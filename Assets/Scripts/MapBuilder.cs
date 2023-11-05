@@ -80,28 +80,46 @@ public class MapBuilder : MonoBehaviour
     }
 
     private void CreateTilesForLayer(List<string[]> mapDataLayers, int layerIndex)
+{
+    // Set map dimensions based on the first layer's dimensions.
+    MapData.Instance.width = mapDataLayers[0][0].Length;
+    MapData.Instance.height = mapDataLayers[0].Length;
+    Debug.Log($"Map dimensions set to {MapData.Instance.width}x{MapData.Instance.height}");
+
+    // Calculate the center of the map for positioning tiles.
+    MapData.Instance.mapCenter = new Vector3(
+        (MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, 
+        (MapData.Instance.height * MapData.Instance.tileSize / 100.0f) / 2, 
+        0);
+    Debug.Log($"Map center calculated at {MapData.Instance.mapCenter}");
+
+    // Determine which container to use based on the layer index.
+    GameObject container = layerIndex == 0 ? groundContainer : barrierContainer;
+
+    // Iterate through each tile position and create tiles.
+    for (int y = 0; y < MapData.Instance.height; y++)
     {
-        MapData.Instance.width = mapDataLayers[0][0].Length;
-        MapData.Instance.height = mapDataLayers[0].Length;
-
-        MapData.Instance.mapCenter = new Vector3((MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, (MapData.Instance.height * MapData.Instance.tileSize / 100.0f) / 2, 0);
-
-        GameObject container = layerIndex == 0 ? groundContainer : barrierContainer;
-
-        for (int y = 0; y < MapData.Instance.height; y++)
+        for (int x = 0; x < MapData.Instance.width; x++)
         {
-            for (int x = 0; x < MapData.Instance.width; x++)
-            {
-                Vector3 position = new Vector3(x * MapData.Instance.tileSize / 100.0f, (MapData.Instance.height - y - 1) * MapData.Instance.tileSize / 100.0f, 0);
-                position -= MapData.Instance.mapCenter;
+            // Calculate tile position.
+            Vector3 position = new Vector3(
+                x * MapData.Instance.tileSize / 100.0f, 
+                (MapData.Instance.height - y - 1) * MapData.Instance.tileSize / 100.0f, 
+                0);
+            position -= MapData.Instance.mapCenter;
 
-                char tileTypeChar = mapDataLayers[layerIndex][y][x];
-                TileType tileType = (TileType)tileTypeChar;
+            // Log the tile creation position.
+            Debug.Log($"Creating tile at {position}");
 
-                CreateTile(tileType, position, layerIndex, container);
-            }
+            // Get tile type from the data layer character.
+            char tileTypeChar = mapDataLayers[layerIndex][y][x];
+            TileType tileType = (TileType)tileTypeChar;
+
+            // Create the tile.
+            CreateTile(tileType, position, layerIndex, container);
         }
     }
+}
 
     private void CreateTile(TileType tileType, Vector3 position, int sortingOrder, GameObject container)
     {
