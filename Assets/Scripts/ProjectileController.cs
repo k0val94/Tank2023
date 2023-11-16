@@ -17,6 +17,11 @@ public class ProjectileController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Steel"))
         {
+            SteelHealth steelHealth = collision.gameObject.GetComponent<SteelHealth>();
+            if (steelHealth != null)
+            {
+                steelHealth.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Player"))
