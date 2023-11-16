@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class SpriteManager : MonoBehaviour
+public class SpriteHolder : MonoBehaviour
 {
     [SerializeField] private List<Sprite> spritesList = new List<Sprite>();
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RandomSpriteAnimator : MonoBehaviour
 {
-    [SerializeField] private SpriteManager spriteManager;
+    [SerializeField] private SpriteHolder spriteHolder;
     [SerializeField] private float frameRate = 0.2f; // Zeit zwischen den Frame-Wechseln
 
     private SpriteRenderer spriteRenderer;
@@ -15,9 +15,9 @@ public class RandomSpriteAnimator : MonoBehaviour
 
     private void UpdateSprite()
     {
-        if (spriteManager != null)
+        if (spriteHolder != null)
         {
-            Sprite[] sprites = spriteManager.GetSpritesList().ToArray();
+            Sprite[] sprites = spriteHolder.GetSpritesList().ToArray();
 
             if (sprites.Length > 0)
             {

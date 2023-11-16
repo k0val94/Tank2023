@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class BrickSpriterController : MonoBehaviour
 {
-    [SerializeField] private SpriteManager brickSpriteManager; 
-    [SerializeField] private SpriteManager brickDamagedSpriteManager;
+    [SerializeField] private SpriteHolder brickSpriteHolder; 
+    [SerializeField] private SpriteHolder brickDamagedSpriteHolder;
     
     private int selectedSpriteIndex = -1;
 
@@ -16,18 +16,18 @@ public class BrickSpriterController : MonoBehaviour
 
     private void Start()
     {
-        if (brickSpriteManager != null && brickSpriteManager.GetSpritesList().Count > 0)
+        if (brickSpriteHolder != null && brickSpriteHolder.GetSpritesList().Count > 0)
         {
-            selectedSpriteIndex = Random.Range(0, brickSpriteManager.GetSpritesList().Count);
-            spriteRenderer.sprite = brickSpriteManager.GetSpritesList()[selectedSpriteIndex];
+            selectedSpriteIndex = Random.Range(0, brickSpriteHolder.GetSpritesList().Count);
+            spriteRenderer.sprite = brickSpriteHolder.GetSpritesList()[selectedSpriteIndex];
         }
     }
 
     public void UpdateDamagedSprite()
     {
-        if (selectedSpriteIndex != -1 && brickDamagedSpriteManager != null)
+        if (selectedSpriteIndex != -1 && brickDamagedSpriteHolder != null)
         {
-            spriteRenderer.sprite = brickDamagedSpriteManager.GetSpritesList()[selectedSpriteIndex];
+            spriteRenderer.sprite = brickDamagedSpriteHolder.GetSpritesList()[selectedSpriteIndex];
         }
     }
 }

@@ -173,8 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfeb62e16b01f740907456c14f143db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brickSpriteManager: {fileID: 3453813693310163526, guid: f344edfc2f1450e4f9a9f445d9a3c88f, type: 3}
-  brickDamagedSpriteManager: {fileID: 3453813693310163526, guid: 6b73682ceea52ca489adf81cef41caae, type: 3}
+  brickSpriteHolder: {fileID: 3453813693310163526, guid: f344edfc2f1450e4f9a9f445d9a3c88f, type: 3}
+  brickDamagedSpriteHolder: {fileID: 3453813693310163526, guid: 6b73682ceea52ca489adf81cef41caae, type: 3}
 --- !u!114 &-2992964069311689162
 MonoBehaviour:
   m_ObjectHideFlags: 0
