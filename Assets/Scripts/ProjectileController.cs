@@ -33,7 +33,7 @@ public class ProjectileController : MonoBehaviour
             }
             Destroy(gameObject);
         }
-        else if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(collision.gameObject);
             Destroy(gameObject);
