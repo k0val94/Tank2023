@@ -3,30 +3,41 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private HealthBar healthBarPrefab;
+    private HealthBar healthBarInstance;
     private int currentHealth;
-    private HealthBar healthBar;
 
     void Start()
     {
         currentHealth = maxHealth;
-        healthBar = FindObjectOfType<HealthBar>(); // Find the HealthBar in the scene.
         
-        if (healthBar != null)
+        Canvas canvas = FindObjectOfType<Canvas>();
+        if (canvas == null)
         {
-            healthBar.SetMaxHealth(maxHealth);
+            Debug.LogError("No canvas found in the scene.");
+            return;
         }
-
+        
+        if (healthBarPrefab != null)
+        {
+            healthBarInstance = Instantiate(healthBarPrefab, canvas.transform);
+            healthBarInstance.SetMaxHealth(maxHealth);
+        }
+        else
+        {
+            Debug.LogError("HealthBar prefab not assigned.");
+        }
     }
 
     public void TakeDamage(float damage)
     {
         int damageToTake = Mathf.RoundToInt(damage);
         currentHealth -= damageToTake;
-        currentHealth = Mathf.Max(currentHealth, 0); // Prevents health from going negative.
+        currentHealth = Mathf.Max(currentHealth, 0); 
 
-        if (healthBar != null)
+        if (healthBarInstance != null)
         {
-            healthBar.SetHealth(currentHealth);
+            healthBarInstance.SetHealth(currentHealth);
         }
 
         if (currentHealth <= 0)
