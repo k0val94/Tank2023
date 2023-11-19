@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         
-        Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = Object.FindFirstObjectByType<Canvas>();
         if (canvas == null)
         {
             Debug.LogError("No canvas found in the scene.");
