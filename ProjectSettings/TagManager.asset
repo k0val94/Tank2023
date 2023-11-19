@@ -13,6 +13,7 @@ TagManager:
   - Dirt
   - Brick
   - Enemy
+  - Quicksand
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - EnemyProjectile
   - Enemy
   - Player
-  - 
+  - GroundLayer
   - 
   - 
   - 

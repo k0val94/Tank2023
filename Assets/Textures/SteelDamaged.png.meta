@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d9713238769294e4cafd876cffe70544
+guid: a77dab09ed2af4943b65569311e22323
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -98,7 +98,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Steel_0
+      name: SteelDamaged_0
       rect:
         serializedVersion: 2
         x: 0
@@ -106,7 +106,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -121,7 +121,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 58130cd42c045914f9ae7cdd800879ad
     internalID: 0
     vertices: []
     indices: 
@@ -129,7 +129,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Steel_0: 5163415756020489457
+      SteelDamaged_0: 5163415756020489457
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

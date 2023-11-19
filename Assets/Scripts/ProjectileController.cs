@@ -2,24 +2,38 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
+    public float damage = 40f;
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Brick"))
         {
-            Destroy(collision.gameObject);
+            BrickHealth brickHealth = collision.gameObject.GetComponent<BrickHealth>();
+            if (brickHealth != null)
+            {
+                brickHealth.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("Steel"))
+        else if (collision.gameObject.CompareTag("Steel"))
         {
+            SteelHealth steelHealth = collision.gameObject.GetComponent<SteelHealth>();
+            if (steelHealth != null)
+            {
+                steelHealth.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
-
-        if (collision.gameObject.CompareTag("Enemy"))
+        else if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(collision.gameObject);
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(collision.gameObject);
             Destroy(gameObject);

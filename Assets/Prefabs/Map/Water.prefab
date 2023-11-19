@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5008198716434577571}
   - component: {fileID: -3391213506503061062}
   - component: {fileID: 4543682224875988368}
-  m_Layer: 0
-  m_Name: Brick
-  m_TagString: Brick
+  - component: {fileID: -1997883158781008422}
+  m_Layer: 4
+  m_Name: Water
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,4 +173,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f4f341d59d8a84eb2f3e0e57f4f9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteManager: {fileID: 3453813693310163526, guid: f344edfc2f1450e4f9a9f445d9a3c88f, type: 3}
+  spriteHolder: {fileID: 3453813693310163526, guid: 07ef726d96b80a74e831cc45e9a7a8a7, type: 3}
+--- !u!114 &-1997883158781008422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8557906486070459954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd7cc8df9f488b4c9be9221f55dc5f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHolder: {fileID: 3453813693310163526, guid: 07ef726d96b80a74e831cc45e9a7a8a7, type: 3}
+  frameRate: 1

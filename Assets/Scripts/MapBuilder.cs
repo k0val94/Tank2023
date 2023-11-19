@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.IO;
 
 public class MapBuilder : MonoBehaviour
 {
@@ -10,108 +9,135 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private GameObject steelPrefab;
     [SerializeField] private GameObject waterPrefab;
     [SerializeField] private GameObject quicksandPrefab;
+    [SerializeField] public GameObject groundContainer;
+    [SerializeField] public GameObject barrierContainer;
 
-    [Header("Other")]
-    [SerializeField] private RandomMapGenerator randomMapGenerator;
-
-    private List<string[]> mapLayers;
-    private float tileSize = 64;
-    private int groundSortingOrder = 0;
-    private int barrierSortingOrder = 1;
     private Camera mainCamera;
+    private MapLoader mapLoader;
+
+    private enum TileType
+    {
+        Dirt = 'D',
+        Quicksand = 'Q',
+        Brick = 'B',
+        Steel = 'S',
+        Water = 'W'
+    }
 
     private void Start()
     {
         mainCamera = Camera.main;
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+        if (IsGameScene(sceneName))
+        {
+            BuildMapFromData();
+        }
+        else if (IsMapCreatorScene(sceneName))
+        {
+            BuildMapFromLoader();
+        }
+    }
+
+    private bool IsGameScene(string sceneName) => sceneName == "Game";
+    private bool IsMapCreatorScene(string sceneName) => sceneName == "MapCreator";
+
+    private void BuildMapFromData()
+    {
         if (MapData.Instance.mapLayers != null && MapData.Instance.mapLayers.Count == 2)
         {
             BuildMap(MapData.Instance.mapLayers);
         }
         else
         {
-            Debug.LogError("Map data not found in MapData.");
+            Debug.LogWarning("Map data not found in MapData.");
         }
     }
 
-    void BuildMap(List<string[]> mapDataLayers)
+    private void BuildMapFromLoader()
+    {
+        mapLoader = GetComponent<MapLoader>();
+        if (mapLoader == null)
+        {
+            Debug.LogError("MapLoader component not found!");
+            return;
+        }
+
+        List<string[]> loadedMap = mapLoader.LoadMapFromFile("temp.map");
+        BuildMap(loadedMap);
+    }
+
+    public void BuildMap(List<string[]> mapDataLayers)
     {
         Debug.Log("Map generation started.");
 
-        int width = mapDataLayers[0][0].Length;
-        int height = mapDataLayers[0].Length;
-
-        Vector3 mapCenter = new Vector3((width * tileSize / 100.0f) / 2, (height * tileSize / 100.0f) / 2, 0);
-
-        for (int y = 0; y < height; y++)
+        for (int i = 0; i < mapDataLayers.Count; i++)
         {
-            for (int x = 0; x < width; x++)
-            {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
-                position -= mapCenter;
-
-                char tileType = mapDataLayers[groundSortingOrder][y][x];
-
-                switch (tileType)
-                {
-                    case 'D':
-                        GameObject dirt = Instantiate(dirtPrefab, position, Quaternion.identity);
-                        dirt.GetComponent<Renderer>().sortingOrder = groundSortingOrder;
-                        break;
-                    case 'Q':
-                        GameObject quicksand = Instantiate(quicksandPrefab, position, Quaternion.identity);
-                        quicksand.GetComponent<Renderer>().sortingOrder = groundSortingOrder;
-                        break;
-                }
-            }
-        }
-
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                Vector3 position = new Vector3(x * tileSize / 100.0f, (height - y - 1) * tileSize / 100.0f, 0);
-                position -= mapCenter;
-
-                char tileType = mapDataLayers[barrierSortingOrder][y][x];
-
-                switch (tileType)
-                {
-                    case 'B':
-                        GameObject brick = Instantiate(brickPrefab, position, Quaternion.identity);
-                        brick.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
-                        break;
-                    case 'S':
-                        GameObject steel = Instantiate(steelPrefab, position, Quaternion.identity);
-                        steel.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
-                        break;
-                    case 'W':
-                        GameObject water = Instantiate(waterPrefab, position, Quaternion.identity);
-                        water.GetComponent<Renderer>().sortingOrder = barrierSortingOrder;
-                        break;
-                }
-            }
+            CreateTilesForLayer(mapDataLayers, i);
         }
 
         Debug.Log("Map Build completed.");
     }
 
-    public void BuildMapFromGenerator()
+    private void CreateTilesForLayer(List<string[]> mapDataLayers, int layerIndex)
+{
+    // Set map dimensions based on the first layer's dimensions.
+    MapData.Instance.width = mapDataLayers[0][0].Length;
+    MapData.Instance.height = mapDataLayers[0].Length;
+    Debug.Log($"Map dimensions set to {MapData.Instance.width}x{MapData.Instance.height}");
+
+    // Calculate the center of the map for positioning tiles.
+    MapData.Instance.mapCenter = new Vector3(
+        (MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, 
+        (MapData.Instance.height * MapData.Instance.tileSize / 100.0f) / 2, 
+        0);
+    Debug.Log($"Map center calculated at {MapData.Instance.mapCenter}");
+
+    // Determine which container to use based on the layer index.
+    GameObject container = layerIndex == 0 ? groundContainer : barrierContainer;
+
+    // Iterate through each tile position and create tiles.
+    for (int y = 0; y < MapData.Instance.height; y++)
     {
-        if(randomMapGenerator == null)
+        for (int x = 0; x < MapData.Instance.width; x++)
         {
-            Debug.LogError("RandomMapGenerator reference is not set.");
-            return;
-        }
+            // Calculate tile position.
+            Vector3 position = new Vector3(
+                x * MapData.Instance.tileSize / 100.0f, 
+                (MapData.Instance.height - y - 1) * MapData.Instance.tileSize / 100.0f, 
+                0);
+            position -= MapData.Instance.mapCenter;
 
-        mapLayers = randomMapGenerator.GetMapLayers();
+            // Log the tile creation position.
+            Debug.Log($"Creating tile at {position}");
 
-        if (mapLayers != null && mapLayers.Count >= 2)
-        {
-            BuildMap(mapLayers);
+            // Get tile type from the data layer character.
+            char tileTypeChar = mapDataLayers[layerIndex][y][x];
+            TileType tileType = (TileType)tileTypeChar;
+
+            // Create the tile.
+            CreateTile(tileType, position, layerIndex, container);
         }
-        else
+    }
+}
+
+    private void CreateTile(TileType tileType, Vector3 position, int sortingOrder, GameObject container)
+    {
+        GameObject prefab = tileType switch
         {
-            Debug.LogError("Map could not be generated. Check the generation code.");
+            TileType.Dirt => dirtPrefab,
+            TileType.Quicksand => quicksandPrefab,
+            TileType.Brick => brickPrefab,
+            TileType.Steel => steelPrefab,
+            TileType.Water => waterPrefab,
+            _ => null
+        };
+
+        if (prefab != null)
+        {
+            GameObject tile = Instantiate(prefab, position, Quaternion.identity);
+            tile.GetComponent<Renderer>().sortingOrder = sortingOrder;
+            tile.transform.SetParent(container.transform);
         }
     }
 }
