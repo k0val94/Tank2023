@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4543682224875988368}
   m_Layer: 9
   m_Name: Quicksand
-  m_TagString: Dirt
+  m_TagString: Quicksand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
