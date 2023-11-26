@@ -15,12 +15,13 @@ GameObject:
   - component: {fileID: 8474833132258023237}
   - component: {fileID: -2761408440581359159}
   - component: {fileID: -4610224973089047981}
-  m_Layer: 0
+  - component: {fileID: -3329405395301637473}
+  m_Layer: 9
   m_Name: Steel
   m_TagString: Steel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2763015184025141489
 Transform:
@@ -202,3 +203,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steelSpriteHolder: {fileID: 3453813693310163526, guid: eb771a6310c067d4e98d047022e2a44b, type: 3}
   steelDamagedSpriteHolder: {fileID: 3453813693310163526, guid: bef4f5cf0a7fe284fbb0a896f988290d, type: 3}
+--- !u!208 &-3329405395301637473
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760809665500724449}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
