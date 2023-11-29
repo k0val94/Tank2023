@@ -16,7 +16,7 @@ public class EnemyTankTurretController : MonoBehaviour
 
     private void Awake()
     {
-          fieldOfView = GetComponent<FieldOfView>();
+        fieldOfView = GetComponent<FieldOfView>();
         CreateFirePoint();
     }
 

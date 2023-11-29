@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7287539710300604495}
   - component: {fileID: 2476447533750768043}
   - component: {fileID: 3107049796496100483}
+  - component: {fileID: 212118125106189216}
+  - component: {fileID: -7512702338995562059}
   m_Layer: 7
   m_Name: EnemyTank
   m_TagString: Enemy
@@ -209,6 +211,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefb4ec7e2b6080489e4eed097712241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &212118125106189216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906613918997164719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ecc11ebadde75449d206bf85de60da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hearingRadius: 8
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 256
+  audibleTargets: []
+--- !u!114 &-7512702338995562059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906613918997164719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608a3a20c5ff574c91678a20875a121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  followRange: 20
 --- !u!1001 &2175847295022541104
 PrefabInstance:
   m_ObjectHideFlags: 0

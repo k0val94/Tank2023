@@ -305,7 +305,8 @@ PrefabInstance:
       propertyPath: quicksandPrefab
       value: 
       objectReference: {fileID: 8557906486070459954, guid: 9f71ea788e31e6e488163e23a4997e61, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6143595216833380875, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1635548532415144994, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
@@ -315,6 +316,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2128490335}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1945046156025804944, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1933839874}
     - targetCorrespondingSourceObject: {fileID: 1945046156025804944, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1933839869}
@@ -348,6 +352,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1635548532415144994, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
   m_PrefabInstance: {fileID: 1933839867}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1933839874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933839868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 620ac21608d9fd24db0ff74b2a3ffdbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTankPrefab: {fileID: 3912914943747710, guid: cc2cd2608c8b60f4a99c916ea9711c44, type: 3}
 --- !u!1 &2100514204
 GameObject:
   m_ObjectHideFlags: 0
