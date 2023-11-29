@@ -51,10 +51,9 @@ public class EnemyTankAIController : MonoBehaviour
         {
             case State.Following:
                 RotateTankTowardsTarget(target);
-                FollowTarget();
+                FollowTarget(target);
                 break;
             case State.Idle:
-                // Idle behavior - currently does nothing
                 break;
         }
     }
@@ -71,7 +70,7 @@ public class EnemyTankAIController : MonoBehaviour
         }
     }
 
-    private void FollowTarget()
+    private void FollowTarget(Transform target)
     {
         Vector2 enemyPosition = new Vector2(transform.position.x, transform.position.y);
         Vector2 targetPosition = new Vector2(target.position.x, target.position.y);
