@@ -28,15 +28,38 @@ public class EnemyTankAIController : MonoBehaviour
         else
         {
             currentState = State.Following;
-            target = fieldOfNoise.audibleTargets.Count > 0 ? fieldOfNoise.audibleTargets[0] : null;
         }
     }
 
     private void Update()
     {
-        if (currentState == State.Following)
+        Debug.Log($"Hearing Radius: {fieldOfNoise.hearingRadius}");
+        UpdateTarget();
+
+        if (currentState == State.Following && target != null)
         {
             FollowTarget();
+        }
+    }
+
+    private void UpdateTarget()
+    {
+        if (fieldOfNoise.audibleTargets.Count > 0)
+        {
+            // Assume the closest target is the one to follow
+            target = fieldOfNoise.audibleTargets[0];
+            for (int i = 1; i < fieldOfNoise.audibleTargets.Count; i++)
+            {
+                if (Vector2.Distance(transform.position, fieldOfNoise.audibleTargets[i].position) <
+                    Vector2.Distance(transform.position, target.position))
+                {
+                    target = fieldOfNoise.audibleTargets[i];
+                }
+            }
+        }
+        else
+        {
+            target = null;
         }
     }
 
@@ -46,7 +69,11 @@ public class EnemyTankAIController : MonoBehaviour
 
         if (target != null)
         {
-            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            // Convert to Vector2 for 2D distance calculation
+            Vector2 enemyPosition = new Vector2(transform.position.x, transform.position.y);
+            Vector2 targetPosition = new Vector2(target.position.x, target.position.y);
+
+            float distanceToTarget = Vector2.Distance(enemyPosition, targetPosition);
             Debug.Log($"Target Detected. Distance to Target: {distanceToTarget}");
 
             if (distanceToTarget <= fieldOfNoise.hearingRadius) // Use hearing radius from FieldOfNoise

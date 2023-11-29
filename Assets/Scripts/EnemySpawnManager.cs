@@ -31,6 +31,7 @@ public class EnemySpawnManager : MonoBehaviour
             SpawnEnemy(randomPosition);
 
             yield return new WaitForSeconds(5f);
+            break;
         }
     }
 
@@ -38,7 +39,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
 
         Collider2D colliderAtSpawnPoint = Physics2D.OverlapPoint(position);
-        if (colliderAtSpawnPoint != null && (colliderAtSpawnPoint.CompareTag("Brick") || (colliderAtSpawnPoint.CompareTag("Steel"))))
+        if (colliderAtSpawnPoint != null && (colliderAtSpawnPoint.CompareTag("Brick") || (colliderAtSpawnPoint.CompareTag("Steel") || (colliderAtSpawnPoint.CompareTag("Water")))))
         {
             Debug.Log("Cannot spawn enemy on a Barrier!");
             return;
