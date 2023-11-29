@@ -16,10 +16,10 @@ public class TankPhysicsController : MonoBehaviour
     private bool isLeftChainMoving = false;
     private bool isRightChainMoving = false;
 
-    // Zusätzliche Variablen für Quicksand-Effekte
-    private float quicksandSpeedFactor = 0.5f; // Wie stark das Quicksand die Geschwindigkeit beeinflusst
-    private float quicksandTorqueFactor = 0.5f; // Wie stark das Quicksand das Drehmoment beeinflusst
-    private bool isInQuicksand = false; // Zustand ob der Panzer im Quicksand ist
+    // Quicksand-Effekte
+    private float quicksandSpeedFactor = 0.5f; 
+    private float quicksandTorqueFactor = 0.5f; 
+    private bool isInQuicksand = false;
 
     private void Start()
     {

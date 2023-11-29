@@ -36,7 +36,6 @@ public class FieldOfNoise : MonoBehaviour
             // For example, checking for obstacles, noise level of the target, etc.
 
             audibleTargets.Add(target);
-            Debug.Log("Target " + target.name + " is audible.");
         }
     }
 

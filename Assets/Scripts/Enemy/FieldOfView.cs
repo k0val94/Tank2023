@@ -12,7 +12,7 @@ public class FieldOfView : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FindTargetsWithDelay(0.2f));
+        StartCoroutine(FindTargetsWithDelay(0.4f));
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -39,7 +39,6 @@ public class FieldOfView : MonoBehaviour
             if (!Physics2D.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask))
             {
                 visibleTargets.Add(target);
-                Debug.Log("Target " + target.name + " is visible.");
             }
         }
     }
@@ -49,37 +48,32 @@ public class FieldOfView : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, viewRadius);
 
-        if (visibleTargets != null)
-        {
-            foreach (Transform target in visibleTargets)
-            {
-                // Draw a line to each visible target
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(transform.position, target.position);
-            }
-        }
+        // Define the number of rays to cast (more rays mean a more detailed field of view)
+        int rayCount = 60;
+        float angleStep = 360f / rayCount;
 
-        // Draw raycasts
-        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetMask);
-        foreach (Collider2D targetCollider in targetsInViewRadius)
+        for (int i = 0; i <= rayCount; i++)
         {
-            Transform target = targetCollider.transform;
-            Vector2 dirToTarget = (target.position - transform.position).normalized;
-            float distanceToTarget = Vector2.Distance(transform.position, target.position);
-
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask);
+            float angle = transform.eulerAngles.z + (angleStep * i);
+            Vector2 dir = AngleToDirection(angle);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, viewRadius, obstacleMask);
             if (hit)
             {
-                // Draw a red line if the target is blocked by an obstacle
-                Gizmos.color = Color.red;
                 Gizmos.DrawLine(transform.position, hit.point);
             }
             else
             {
-                // Draw a blue line if there's no obstacle blocking the view
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(transform.position, target.position);
+                Vector2 endPosition = transform.position + (Vector3)(dir * viewRadius);
+                Gizmos.DrawLine(transform.position, endPosition);
             }
         }
     }
+
+    Vector2 AngleToDirection(float angleInDegrees)
+    {
+
+        float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+    }
+
 }
