@@ -51,7 +51,7 @@ public class EnemyTankAIController : MonoBehaviour
         {
             case State.Following:
                 RotateTankTowardsTarget(target);
-                //FollowTarget();
+                FollowTarget();
                 break;
             case State.Idle:
                 // Idle behavior - currently does nothing
@@ -81,7 +81,7 @@ public class EnemyTankAIController : MonoBehaviour
         if (distanceToTarget <= fieldOfNoise.hearingRadius)
         {
             float angleToTarget = Vector2.SignedAngle(transform.up, targetPosition - enemyPosition);
-            if (Mathf.Abs(angleToTarget) < 5) // Tank is approximately facing the target
+            if (Mathf.Abs(angleToTarget) < 20)
             {
                 tankPhysicsController.MoveTank(1, 0); // Move forward
             }
