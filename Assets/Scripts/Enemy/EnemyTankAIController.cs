@@ -66,8 +66,8 @@ public class EnemyTankAIController : MonoBehaviour
 
         if (Mathf.Abs(angleToTarget) > 5) 
         {
-            float rotateAmount = -Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
-            tankPhysicsController.MoveTank(0, rotateAmount);
+            float turnAmount = -Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
+            tankPhysicsController.MoveTank(0, turnAmount);
         }
     }
 
@@ -81,9 +81,14 @@ public class EnemyTankAIController : MonoBehaviour
         if (distanceToTarget <= fieldOfNoise.hearingRadius)
         {
             float angleToTarget = Vector2.SignedAngle(transform.up, targetPosition - enemyPosition);
-            if (Mathf.Abs(angleToTarget) < 20)
+            
+            if (Mathf.Abs(angleToTarget) < 20) 
             {
-                tankPhysicsController.MoveTank(1, 0); // Move forward
+
+                float stoppingDistance = 5.0f; 
+                float gasAmount = Mathf.Clamp((distanceToTarget / stoppingDistance), 0f, 1f);
+
+                tankPhysicsController.MoveTank(gasAmount / 2, 0);
             }
         }
         else

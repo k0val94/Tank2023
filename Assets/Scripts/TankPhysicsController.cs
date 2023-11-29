@@ -26,7 +26,7 @@ public class TankPhysicsController : MonoBehaviour
         tankRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void MoveTank(float move, float rotate)
+    public void MoveTank(float gas, float turn)
     {
         float currentForwardSpeed = isInQuicksand ? forwardSpeed * quicksandSpeedFactor : forwardSpeed;
         float currentTorque = isInQuicksand ? torque * quicksandTorqueFactor : torque;
@@ -37,20 +37,20 @@ public class TankPhysicsController : MonoBehaviour
         isLeftChainMoving = false;
         isRightChainMoving = false;
 
-        if (Mathf.Abs(move) > 0.1f)
+        if (Mathf.Abs(gas) > 0.1f)
         {
             areBothChainsMoving = true;
-            Vector2 force = transform.up * move * (move > 0 ? currentForwardSpeed : reverseSpeed);
+            Vector2 force = transform.up * gas * (gas > 0 ? currentForwardSpeed : reverseSpeed);
             tankRigidbody.AddForce(force);
         }
 
-        if (Mathf.Abs(rotate) > 0.1f)
+        if (Mathf.Abs(turn) > 0.1f)
         {
-            float rotationDirection = (move >= 0) ? -1 : 1;
+            float rotationDirection = (gas >= 0) ? -1 : 1;
 
             if (currentSpeed < 1f)
             {
-                if (rotate < -0.1f)
+                if (turn < -0.1f)
                 {
                     isLeftChainMoving = true;
                 }
@@ -58,12 +58,12 @@ public class TankPhysicsController : MonoBehaviour
                 {
                     isRightChainMoving = true;
                 }
-                float turnTorque = rotationDirection * rotate * currentTorque * 2;
+                float turnTorque = rotationDirection * turn * currentTorque * 2;
                 tankRigidbody.AddTorque(turnTorque);
             }
             else
             {
-                float turnTorque = rotationDirection * rotate * currentTorque;
+                float turnTorque = rotationDirection * turn * currentTorque;
                 tankRigidbody.AddTorque(turnTorque);
             }
         }
