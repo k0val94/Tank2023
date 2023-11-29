@@ -11,11 +11,9 @@ public class EnemySpawnManager : MonoBehaviour
     private float minY = -5f;
     private float maxY = 5f;
 
-    private bool isInitialized = false;
 
     private void Start()
     {
-        isInitialized = true;
         StartCoroutine(SpawnEnemyRandomlyCoroutine());
         Debug.Log("EnemySpawnManager initialized.");
     }

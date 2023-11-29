@@ -3,105 +3,95 @@ using UnityEngine.AI;
 
 public class EnemyTankAIController : MonoBehaviour
 {
-    private NavMeshAgent agent;
     private Transform target;
     private TankPhysicsController tankPhysicsController;
     private FieldOfNoise fieldOfNoise;
 
     public enum State
     {
+        Idle,
         Following
     }
 
     public State currentState;
 
-    private void Start()
+    private void Awake()
     {
-        tankPhysicsController = GetComponent<TankPhysicsController>();
-        agent = GetComponent<NavMeshAgent>();
         fieldOfNoise = GetComponentInChildren<FieldOfNoise>();
-
         if (fieldOfNoise == null)
         {
             Debug.LogError("FieldOfNoise component not found on the child objects!");
         }
         else
         {
-            currentState = State.Following;
+            currentState = State.Idle;
         }
+    }
+
+    private void Start()
+    {
+        tankPhysicsController = GetComponent<TankPhysicsController>();
     }
 
     private void Update()
     {
-        Debug.Log($"Hearing Radius: {fieldOfNoise.hearingRadius}");
-        UpdateTarget();
+        target = fieldOfNoise.audibleTargets.Count > 0 ? fieldOfNoise.audibleTargets[0] : null;
 
-        if (currentState == State.Following && target != null)
+        if (target != null)
         {
-            FollowTarget();
-        }
-    }
-
-    private void UpdateTarget()
-    {
-        if (fieldOfNoise.audibleTargets.Count > 0)
-        {
-            // Assume the closest target is the one to follow
-            target = fieldOfNoise.audibleTargets[0];
-            for (int i = 1; i < fieldOfNoise.audibleTargets.Count; i++)
-            {
-                if (Vector2.Distance(transform.position, fieldOfNoise.audibleTargets[i].position) <
-                    Vector2.Distance(transform.position, target.position))
-                {
-                    target = fieldOfNoise.audibleTargets[i];
-                }
-            }
+            currentState = State.Following;
         }
         else
         {
-            target = null;
+            currentState = State.Idle;
+        }
+
+        switch (currentState)
+        {
+            case State.Following:
+                RotateTankTowardsTarget(target);
+                //FollowTarget();
+                break;
+            case State.Idle:
+                // Idle behavior - currently does nothing
+                break;
+        }
+    }
+
+    private void RotateTankTowardsTarget(Transform target)
+    {
+        Vector2 directionToTarget = (target.position - transform.position).normalized;
+        float angleToTarget = Vector2.SignedAngle(transform.up, directionToTarget);
+
+        // Check if the tank needs to rotate
+        if (Mathf.Abs(angleToTarget) > 1) // 1 degree tolerance for smoother rotation
+        {
+            float rotateSpeed = 0.5f; // Adjust this value to control rotation speed
+            // Reversing the rotation direction by changing the sign of rotateAmount
+            float rotateAmount = -Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
+
+            tankPhysicsController.MoveTank(0, rotateAmount);
         }
     }
 
     private void FollowTarget()
     {
-        Debug.Log("Attempting to Follow Target");
+        Vector2 enemyPosition = new Vector2(transform.position.x, transform.position.y);
+        Vector2 targetPosition = new Vector2(target.position.x, target.position.y);
 
-        if (target != null)
+        float distanceToTarget = Vector2.Distance(enemyPosition, targetPosition);
+
+        if (distanceToTarget <= fieldOfNoise.hearingRadius)
         {
-            // Convert to Vector2 for 2D distance calculation
-            Vector2 enemyPosition = new Vector2(transform.position.x, transform.position.y);
-            Vector2 targetPosition = new Vector2(target.position.x, target.position.y);
-
-            float distanceToTarget = Vector2.Distance(enemyPosition, targetPosition);
-            Debug.Log($"Target Detected. Distance to Target: {distanceToTarget}");
-
-            if (distanceToTarget <= fieldOfNoise.hearingRadius) // Use hearing radius from FieldOfNoise
+            float angleToTarget = Vector2.SignedAngle(transform.up, targetPosition - enemyPosition);
+            if (Mathf.Abs(angleToTarget) < 5) // Tank is approximately facing the target
             {
-                Debug.Log("Target within hearing range. Initiating follow.");
-
-                // Determine movement direction (1 for forward, -1 for reverse)
-                float moveDirection = 1; // Assuming always moving forward
-
-                // Calculate the rotation needed to face the target
-                Vector3 directionToTarget = (target.position - transform.position).normalized;
-                float angleToTarget = Vector3.SignedAngle(transform.up, directionToTarget, Vector3.forward);
-                float rotateAmount = Mathf.Clamp(angleToTarget / 180, -1f, 1f); // Normalize to range [-1, 1]
-
-                Debug.Log($"Moving towards target. Move Direction: {moveDirection}, Rotate Amount: {rotateAmount}");
-
-                tankPhysicsController.MoveTank(moveDirection, rotateAmount);
-            }
-            else
-            {
-                Debug.Log("Target out of hearing range. Adjusting behavior.");
-                // Logic for when the target is not in hearing range or not detected
-                // Example: Patrol or idle
+                tankPhysicsController.MoveTank(1, 0); // Move forward
             }
         }
         else
         {
-            Debug.Log("No target to follow.");
+            currentState = State.Idle;
         }
     }
 }

@@ -74,7 +74,8 @@ public class MainMenuController : MonoBehaviour
         MapLoader mapLoader = GetComponent<MapLoader>();
         if (mapLoader != null)
         {
-            List<string[]> loadedMap = mapLoader.LoadMapFromFile("level1.map");
+            //List<string[]> loadedMap = mapLoader.LoadMapFromFile("level1.map");
+            List<string[]> loadedMap = mapLoader.LoadMapFromFile("testenemy.map");
             if (loadedMap != null && loadedMap.Count > 0)
             {
                 Debug.Log("Successfully loaded map data.");
