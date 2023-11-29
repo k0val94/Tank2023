@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyTankAIController : MonoBehaviour
 {
+    private float rotateSpeed = 0.5f;
     private Transform target;
     private TankPhysicsController tankPhysicsController;
     private FieldOfNoise fieldOfNoise;
@@ -63,13 +64,9 @@ public class EnemyTankAIController : MonoBehaviour
         Vector2 directionToTarget = (target.position - transform.position).normalized;
         float angleToTarget = Vector2.SignedAngle(transform.up, directionToTarget);
 
-        // Check if the tank needs to rotate
-        if (Mathf.Abs(angleToTarget) > 1) // 1 degree tolerance for smoother rotation
+        if (Mathf.Abs(angleToTarget) > 5) 
         {
-            float rotateSpeed = 0.5f; // Adjust this value to control rotation speed
-            // Reversing the rotation direction by changing the sign of rotateAmount
             float rotateAmount = -Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
-
             tankPhysicsController.MoveTank(0, rotateAmount);
         }
     }
