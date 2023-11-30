@@ -14,20 +14,12 @@ public class MapBuilder : MonoBehaviour
 
     private Camera mainCamera;
     private MapLoader mapLoader;
-    private bool[,] walkableGrid;
-
-    private enum TileType
-    {
-        Dirt = 'D',
-        Quicksand = 'Q',
-        Brick = 'B',
-        Steel = 'S',
-        Water = 'W'
-    }
+    private WalkableGridManager walkableGridManager;
 
     private void Start()
     {
         mainCamera = Camera.main;
+        walkableGridManager = GetComponent<WalkableGridManager>();
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
         if (IsGameScene(sceneName))
@@ -40,8 +32,15 @@ public class MapBuilder : MonoBehaviour
         }
     }
 
-    private bool IsGameScene(string sceneName) => sceneName == "Game";
-    private bool IsMapCreatorScene(string sceneName) => sceneName == "MapCreator";
+    private bool IsGameScene(string sceneName)
+    {
+        return sceneName == "Game";
+    }
+
+    private bool IsMapCreatorScene(string sceneName)
+    {
+        return sceneName == "MapCreator";
+    }
 
     private void BuildMapFromData()
     {
@@ -74,7 +73,7 @@ public class MapBuilder : MonoBehaviour
 
         MapData.Instance.width = mapDataLayers[0][0].Length;
         MapData.Instance.height = mapDataLayers[0].Length;
-        walkableGrid = new bool[MapData.Instance.width, MapData.Instance.height];
+        walkableGridManager.InitializeGrid(MapData.Instance.width, MapData.Instance.height);
 
         MapData.Instance.mapCenter = new Vector3(
             (MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, 
@@ -102,26 +101,26 @@ public class MapBuilder : MonoBehaviour
                     0);
                 position -= MapData.Instance.mapCenter;
                 char tileTypeChar = mapDataLayers[layerIndex][y][x];
-                TileType tileType = (TileType)tileTypeChar;
+                WalkableGridManager.TileType tileType = (WalkableGridManager.TileType)tileTypeChar;
 
                 CreateTile(tileType, position, layerIndex, container);
 
-                bool isGroundWalkable = IsTileWalkable(mapDataLayers[0][y][x]);
-                bool isBarrierWalkable = layerIndex == 1 ? IsTileWalkable(tileTypeChar) : true;
-                walkableGrid[x, y] = isGroundWalkable && isBarrierWalkable;
+                bool isGroundWalkable = walkableGridManager.IsTileWalkable(mapDataLayers[0][y][x]);
+                bool isBarrierWalkable = layerIndex == 1 ? walkableGridManager.IsTileWalkable(tileTypeChar) : true;
+                walkableGridManager.SetTileWalkable(x, y, isGroundWalkable && isBarrierWalkable);
             }
         }
     }
 
-    private void CreateTile(TileType tileType, Vector3 position, int sortingOrder, GameObject container)
+    private void CreateTile(WalkableGridManager.TileType tileType, Vector3 position, int sortingOrder, GameObject container)
     {
         GameObject prefab = tileType switch
         {
-            TileType.Dirt => dirtPrefab,
-            TileType.Quicksand => quicksandPrefab,
-            TileType.Brick => brickPrefab,
-            TileType.Steel => steelPrefab,
-            TileType.Water => waterPrefab,
+            WalkableGridManager.TileType.Dirt => dirtPrefab,
+            WalkableGridManager.TileType.Quicksand => quicksandPrefab,
+            WalkableGridManager.TileType.Brick => brickPrefab,
+            WalkableGridManager.TileType.Steel => steelPrefab,
+            WalkableGridManager.TileType.Water => waterPrefab,
             _ => null
         };
 
@@ -133,40 +132,4 @@ public class MapBuilder : MonoBehaviour
         }
     }
 
-    private bool IsTileWalkable(char tileTypeChar)
-    {
-        return tileTypeChar != (char)TileType.Brick &&
-               tileTypeChar != (char)TileType.Steel &&
-               tileTypeChar != (char)TileType.Water; // Include water as unwalkable
-    }
-
-    public bool[,] GetWalkableGrid()
-    {
-        return walkableGrid;
-    }
-
-    void OnDrawGizmos()
-    {
-        if (walkableGrid == null)
-            return;
-
-        for (int x = 0; x < MapData.Instance.width; x++)
-        {
-            for (int y = 0; y < MapData.Instance.height; y++)
-            {
-                Vector3 pos = new Vector3(
-                    x * MapData.Instance.tileSize / 100.0f, 
-                    (MapData.Instance.height - y - 1) * MapData.Instance.tileSize / 100.0f, 
-                    0) - MapData.Instance.mapCenter;
-
-                // Choose color based on walkability and make it semi-transparent
-                Color gizmoColor = walkableGrid[x, y] ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
-                Gizmos.color = gizmoColor;
-
-                // Draw a wireframe cube for better visibility over the map
-                Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f) * 0.9f;
-                Gizmos.DrawWireCube(pos, cubeSize);
-            }
-        }
-    }
 }
