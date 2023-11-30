@@ -69,6 +69,7 @@ public class MapCreatorController : MonoBehaviour
         {
             mapEditor.ClearDropdownOptions();
         }
+        mapEditor.InitializeTileSelection();
     }
     
     private void GenerateMap()

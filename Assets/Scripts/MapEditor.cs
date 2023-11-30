@@ -8,7 +8,6 @@ public class MapEditor : MonoBehaviour
     public TMP_Dropdown tileDropdown;
     public List<GameObject> tilePrefabs;
     private GameObject selectedTilePrefab;
-    
 
     private void Start()
     {
@@ -26,7 +25,7 @@ public class MapEditor : MonoBehaviour
         tileDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
     }
 
-    private void InitializeTileSelection()
+    public void InitializeTileSelection()
     {
         SelectTile(0);
     }
@@ -104,6 +103,12 @@ public class MapEditor : MonoBehaviour
         Vector3 oldTilePosition = oldTile.transform.position;
         int oldOrderInLayer = oldTile.GetComponent<SpriteRenderer>().sortingOrder;
 
+        if (!IsReplacementValid(oldTile.name, selectedTilePrefab.name))
+        {
+            Debug.LogError("Invalid tile replacement. Barrier tiles must be replaced with barrier tiles, and ground tiles with ground tiles.");
+            return;
+        }
+
         Destroy(oldTile);
 
         GameObject newTile = Instantiate(selectedTilePrefab, oldTilePosition, Quaternion.identity);
@@ -112,12 +117,30 @@ public class MapEditor : MonoBehaviour
         UpdateMapData(oldTilePosition, parentContainer.name, selectedTilePrefab.name[0]);
     }
 
+    private bool IsReplacementValid(string oldTileName, string newTileName)
+    {
+        return IsSameCategory(oldTileName, newTileName);
+    }
+
+    private bool IsSameCategory(string tileName1, string tileName2)
+    {
+        bool isTile1Barrier = IsBarrierTile(tileName1);
+        bool isTile2Barrier = IsBarrierTile(tileName2);
+
+        return isTile1Barrier == isTile2Barrier;
+    }
+
+    private bool IsBarrierTile(string tileName)
+    {
+        return tileName == "Steel" || tileName == "Brick";
+    }
+
     private void UpdateMapData(Vector3 position, string layerName, char newTileType)
     {
         // Convert world position to array indices
         int xIndex = Mathf.RoundToInt((position.x + MapData.Instance.mapCenter.x) * 100.0f / MapData.Instance.tileSize);
         int yIndex = Mathf.RoundToInt((MapData.Instance.height - 1) - ((position.y + MapData.Instance.mapCenter.y) * 100.0f / MapData.Instance.tileSize));
-        
+
         // Determine which layer to update based on the layerName
         int layerIndex = layerName == "BarrierContainer" ? 1 : 0;  // Assuming layer 0 is ground, layer 1 is barrier
 
