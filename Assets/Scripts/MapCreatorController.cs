@@ -53,7 +53,11 @@ public class MapCreatorController : MonoBehaviour
     {
         if (mapEditor == null) return;
 
-        if (groundLayerToggle.isOn)
+        if (groundLayerToggle.isOn && barrierLayerToggle.isOn)
+        {
+            mapEditor.SetDropdownOptions(new string[] { "Steel", "Brick" });
+        }
+        else if (groundLayerToggle.isOn)
         {
             mapEditor.SetDropdownOptions(new string[] { "Dirt", "Quicksand", "Water" });
         }
