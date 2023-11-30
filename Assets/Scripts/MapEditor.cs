@@ -7,6 +7,7 @@ public class MapEditor : MonoBehaviour
 {
     public TMP_Dropdown tileDropdown;
     public List<GameObject> tilePrefabs;
+    public GameObject barrierContainer;
     private GameObject selectedTilePrefab;
 
     private void Start()
@@ -105,7 +106,10 @@ public class MapEditor : MonoBehaviour
 
         if (!IsReplacementValid(oldTile.name, selectedTilePrefab.name))
         {
-            Debug.LogError("Invalid tile replacement. Barrier tiles must be replaced with barrier tiles, and ground tiles with ground tiles.");
+            if (CanPlaceBarrierTileHere(oldTilePosition))
+            {
+                InstantiateTileAtPosition(oldTilePosition, barrierContainer);
+            }
             return;
         }
 
@@ -133,6 +137,28 @@ public class MapEditor : MonoBehaviour
     private bool IsBarrierTile(string tileName)
     {
         return tileName == "Steel" || tileName == "Brick";
+    }
+
+    private void InstantiateTileAtPosition(Vector3 position, GameObject parentContainer)
+    {
+        GameObject newTile = Instantiate(selectedTilePrefab, position, Quaternion.identity);
+        newTile.GetComponent<SpriteRenderer>().sortingOrder = DetermineOrderInLayer(position, parentContainer.name);
+        newTile.transform.SetParent(parentContainer.transform);
+        UpdateMapData(position, parentContainer.name, selectedTilePrefab.name[0]);
+    }
+
+    private int DetermineOrderInLayer(Vector3 position, string layerName)
+    {
+        // Implement logic to determine the sorting order based on position and layer
+        // This is placeholder logic; modify it as needed
+        return 1; 
+    }
+
+    private bool CanPlaceBarrierTileHere(Vector3 position)
+    {
+        // Implement your logic to determine if a barrier tile can be placed here.
+        // This is placeholder logic; modify it as needed
+        return true; 
     }
 
     private void UpdateMapData(Vector3 position, string layerName, char newTileType)
