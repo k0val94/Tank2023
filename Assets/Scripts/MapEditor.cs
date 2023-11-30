@@ -136,7 +136,8 @@ public class MapEditor : MonoBehaviour
 
     private bool IsBarrierTile(string tileName)
     {
-        return tileName == "Steel" || tileName == "Brick";
+        string cleanTileName = tileName.Replace("(Clone)", "").Trim();
+        return cleanTileName == "Steel" || cleanTileName == "Brick";
     }
 
     private void InstantiateTileAtPosition(Vector3 position, GameObject parentContainer)
