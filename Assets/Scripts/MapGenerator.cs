@@ -1,76 +1,135 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.IO;
 
 public class MapGenerator : MonoBehaviour
 {
-
     private List<string[]> mapLayers;
+    private const char Quicksand = 'Q';
+    private const char Dirt = 'D';
+    private const char Water = 'W';
+    private const char Space = '.';
 
     public void GenerateRandomIslandMap(int mapWidth, int mapHeight)
     {
         mapLayers = new List<string[]>();
 
-        // Generate random ground layer
-        string[] groundLayer = new string[mapHeight];
-        for (int i = 0; i < mapHeight; i++)
-        {
-            groundLayer[i] = new string('D', mapWidth);
-        }
+        // Generate random island map
+        string[] groundLayer = GenerateIslandMap(mapWidth, mapHeight);
         mapLayers.Add(groundLayer);
 
-        // Generate unsymmetrical island barrier layer
-        string[] barrierLayer = new string[mapHeight];
-
-        int lastLeftWaterEdge = Random.Range(mapWidth / 4, 3 * mapWidth / 4);
-        int lastRightWaterEdge = Random.Range(mapWidth / 4, 3 * mapWidth / 4);
-
-        for (int i = 0; i < mapHeight; i++)
-        {
-            int leftOffset = Random.Range(-2, 3);
-            int rightOffset = Random.Range(-2, 3);
-
-            lastLeftWaterEdge = Mathf.Clamp(lastLeftWaterEdge + leftOffset, 2, 3 * mapWidth / 4);
-            lastRightWaterEdge = Mathf.Clamp(lastRightWaterEdge + rightOffset, mapWidth / 4, mapWidth - 2);
-
-            // Safeguard: Ensure lastRightWaterEdge is always greater than lastLeftWaterEdge
-            if (lastRightWaterEdge <= lastLeftWaterEdge)
-            {
-                int distance = lastLeftWaterEdge - lastRightWaterEdge + 1;
-                lastRightWaterEdge += distance;
-                // Ensure we're still within bounds
-                lastRightWaterEdge = Mathf.Clamp(lastRightWaterEdge, mapWidth / 4, mapWidth - 2);
-            }
-
-            barrierLayer[i] = new string('W', lastLeftWaterEdge) + new string('.', lastRightWaterEdge - lastLeftWaterEdge) + new string('W', mapWidth - lastRightWaterEdge);
-        }
-
+        // Generate barrier layer
+        string[] barrierLayer = GenerateBarrierLayer(mapWidth, mapHeight);
         mapLayers.Add(barrierLayer);
-        
     }
 
     public void GenerateRandomCoastMap(int mapWidth, int mapHeight)
     {
         mapLayers = new List<string[]>();
 
-        string[] groundLayer = new string[mapHeight];
-        for (int i = 0; i < mapHeight; i++)
-        {
-            groundLayer[i] = new string('D', mapWidth);
-        }
-        mapLayers.Add(groundLayer);
+        // Generate random coast map
+        string[] coastLayer = GenerateCoastMap(mapWidth, mapHeight);
+        mapLayers.Add(coastLayer);
 
-        // Generate unsymmetrical barrier layer with irregular water edge
-        string[] barrierLayer = new string[mapHeight];
-        int lastWaterEdgeStart = Random.Range(3, mapWidth - 3);
-        for (int i = 0; i < mapHeight; i++)
-        {
-            int randomOffset = Random.Range(-2, 3); // This will move the water edge randomly by -2 to 2 units
-            lastWaterEdgeStart = Mathf.Clamp(lastWaterEdgeStart + randomOffset, 3, mapWidth - 3); // Keep the edge within bounds
-
-            barrierLayer[i] = new string('.', lastWaterEdgeStart) + new string('W', mapWidth - lastWaterEdgeStart);
-        }
+        // Generate barrier layer
+        string[] barrierLayer = GenerateBarrierLayer(mapWidth, mapHeight);
         mapLayers.Add(barrierLayer);
+    }
+
+    private string[] GenerateIslandMap(int mapWidth, int mapHeight)
+    {
+        string[] mapLayer = new string[mapHeight];
+
+        for (int y = 0; y < mapHeight; y++)
+        {
+            char[] row = new char[mapWidth];
+
+            for (int x = 0; x < mapWidth; x++)
+            {
+                if (IsCoast(x, y, mapWidth, mapHeight))
+                {
+                    row[x] = Quicksand; // Coast is quicksand
+                }
+                else if (IsLand(x, y, mapWidth, mapHeight))
+                {
+                    row[x] = Dirt; // Inside the island is dirt
+                }
+                else
+                {
+                    row[x] = Water; // Everything else is water
+                }
+            }
+
+            mapLayer[y] = new string(row);
+        }
+
+        return mapLayer;
+    }
+
+    private string[] GenerateCoastMap(int mapWidth, int mapHeight)
+    {
+        string[] mapLayer = new string[mapHeight];
+        float offsetX = Random.Range(0f, 100f);
+        float offsetY = Random.Range(0f, 100f);
+
+        for (int y = 0; y < mapHeight; y++)
+        {
+            char[] row = new char[mapWidth];
+
+            for (int x = 0; x < mapWidth; x++)
+            {
+                float xCoord = (float)x / mapWidth + offsetX;
+                float yCoord = (float)y / mapHeight + offsetY;
+                float noise = Mathf.PerlinNoise(xCoord, yCoord);
+
+                if (noise < 0.4f)
+                {
+                    row[x] = Water;
+                }
+                else if (noise < 0.6f)
+                {
+                    row[x] = Quicksand;
+                }
+                else
+                {
+                    row[x] = Dirt;
+                }
+            }
+
+            mapLayer[y] = new string(row);
+        }
+
+        return mapLayer;
+    }
+
+    private string[] GenerateBarrierLayer(int mapWidth, int mapHeight)
+    {
+        string[] barrierLayer = new string[mapHeight];
+        for (int i = 0; i < mapHeight; i++)
+        {
+            barrierLayer[i] = new string(Space, mapWidth);
+        }
+        return barrierLayer;
+    }
+
+    private bool IsCoast(int x, int y, int mapWidth, int mapHeight)
+    {
+        // Define the coast condition here
+        int borderWidth = 2;
+        return IsLand(x, y, mapWidth, mapHeight) &&
+               (!IsLand(x - borderWidth, y, mapWidth, mapHeight) ||
+                !IsLand(x + borderWidth, y, mapWidth, mapHeight) ||
+                !IsLand(x, y - borderWidth, mapWidth, mapHeight) ||
+                !IsLand(x, y + borderWidth, mapWidth, mapHeight));
+    }
+
+    private bool IsLand(int x, int y, int mapWidth, int mapHeight)
+    {
+        // Define the island shape here
+        int centerX = mapWidth / 2;
+        int centerY = mapHeight / 2;
+        int radius = Mathf.Min(mapWidth, mapHeight) / 4;
+
+        return (x - centerX) * (x - centerX) + (y - centerY) * (y - centerY) <= radius * radius;
     }
 
     public List<string[]> GetMapLayers()
@@ -78,4 +137,3 @@ public class MapGenerator : MonoBehaviour
         return mapLayers;
     }
 }
-
