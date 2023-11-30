@@ -322,6 +322,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1945046156025804944, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1933839869}
+    - targetCorrespondingSourceObject: {fileID: 1945046156025804944, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1933839875}
   m_SourcePrefab: {fileID: 100100000, guid: 6146ecb6e7da4cb4d89aa28a5ce5d62d, type: 3}
 --- !u!1 &1933839868 stripped
 GameObject:
@@ -365,6 +368,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTankPrefab: {fileID: 3912914943747710, guid: cc2cd2608c8b60f4a99c916ea9711c44, type: 3}
+--- !u!114 &1933839875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933839868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2233831b4c809e54ea98faf9d1d1fcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2100514204
 GameObject:
   m_ObjectHideFlags: 0
