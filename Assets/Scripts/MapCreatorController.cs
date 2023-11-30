@@ -31,49 +31,40 @@ public class MapCreatorController : MonoBehaviour
         Debug.Log("MapCreatorController Started.");
 
         mapGenerator = GetComponent<MapGenerator>();
-        if (mapGenerator == null)
-        {
-            Debug.LogError("MapGenerator component not found!");
-        }
-
         mapLoader = GetComponent<MapLoader>();
-        if (mapLoader == null)
-        {
-            Debug.LogError("MapLoader component not found!");
-        }
-
         mapBuilder = GetComponent<MapBuilder>();
-        if (mapBuilder == null)
-        {
-            Debug.LogError("MapBuilder component not found!");
-        }
-
         mapCleaner = GetComponent<MapCleaner>();
-        if (mapCleaner == null)
-        {
-            Debug.LogError("MapCleaner component not found!");
-        }
-
         mapSaver = GetComponent<MapSaver>();
-        if (mapSaver == null)
-        {
-            Debug.LogError("MapSaver component not found!");
-        }
-        
         mapEditor = GetComponent<MapEditor>();
-        if (mapEditor == null)
-        {
-            Debug.LogError("MapEditor component not found!");
-        }
 
         MapData.Instance.mapLayers = mapLoader.LoadMapFromFile("temp.map");
         MapData.Instance.width = MapData.Instance.mapLayers[0][0].Length;
         MapData.Instance.height = MapData.Instance.mapLayers[0].Length;
 
-        groundLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });
-        barrierLayerToggle.onValueChanged.AddListener(delegate { ToggleVisibility(mapBuilder.barrierContainer, barrierLayerToggle); });
+        groundLayerToggle.onValueChanged.AddListener(delegate { UpdateTileDropdown(); ToggleVisibility(mapBuilder.groundContainer, groundLayerToggle); });
+        barrierLayerToggle.onValueChanged.AddListener(delegate { UpdateTileDropdown(); ToggleVisibility(mapBuilder.barrierContainer, barrierLayerToggle); });
         generateMapButton.onClick.AddListener(GenerateMap);
         saveMapButton.onClick.AddListener(SaveMap);
+        
+        UpdateTileDropdown();
+    }
+
+    private void UpdateTileDropdown()
+    {
+        if (mapEditor == null) return;
+
+        if (groundLayerToggle.isOn)
+        {
+            mapEditor.SetDropdownOptions(new string[] { "Dirt", "Quicksand", "Water" });
+        }
+        else if (barrierLayerToggle.isOn)
+        {
+            mapEditor.SetDropdownOptions(new string[] { "Steel", "Brick" });
+        }
+        else
+        {
+            mapEditor.ClearDropdownOptions();
+        }
     }
     
     private void GenerateMap()

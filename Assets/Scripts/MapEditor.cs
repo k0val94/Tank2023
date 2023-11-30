@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.EventSystems; 
+using UnityEngine.EventSystems;
 
 public class MapEditor : MonoBehaviour
 {
@@ -9,10 +9,6 @@ public class MapEditor : MonoBehaviour
     public List<GameObject> tilePrefabs;
     private GameObject selectedTilePrefab;
     
-    private readonly List<string> tileOptions = new List<string>
-    {
-        "Water", "Steel", "Dirt", "Quicksand", "Brick"
-    };
 
     private void Start()
     {
@@ -27,8 +23,6 @@ public class MapEditor : MonoBehaviour
 
     private void InitializeDropdown()
     {
-        tileDropdown.ClearOptions();
-        tileDropdown.AddOptions(tileOptions);
         tileDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
     }
 
@@ -55,7 +49,6 @@ public class MapEditor : MonoBehaviour
 
     private void DetectAndReplaceClickedTile()
     {
-
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -119,24 +112,34 @@ public class MapEditor : MonoBehaviour
         UpdateMapData(oldTilePosition, parentContainer.name, selectedTilePrefab.name[0]);
     }
 
-private void UpdateMapData(Vector3 position, string layerName, char newTileType)
-{
-    // Convert world position to array indices
-    int xIndex = Mathf.RoundToInt((position.x + MapData.Instance.mapCenter.x) * 100.0f / MapData.Instance.tileSize);
-    int yIndex = Mathf.RoundToInt((MapData.Instance.height - 1) - ((position.y + MapData.Instance.mapCenter.y) * 100.0f / MapData.Instance.tileSize));
-    
-    // Determine which layer to update based on the layerName
-    int layerIndex = layerName == "BarrierContainer" ? 1 : 0;  // Assuming layer 0 is ground, layer 1 is barrier
-
-    // Update the mapLayers array
-    if (yIndex >= 0 && yIndex < MapData.Instance.height && xIndex >= 0 && xIndex < MapData.Instance.width)
+    private void UpdateMapData(Vector3 position, string layerName, char newTileType)
     {
-        MapData.Instance.mapLayers[layerIndex][yIndex] = MapData.Instance.mapLayers[layerIndex][yIndex].Remove(xIndex, 1).Insert(xIndex, newTileType.ToString());
-    }
-    else
-    {
-        Debug.LogError("Attempted to update map data with invalid indices.");
-    }
-}
+        // Convert world position to array indices
+        int xIndex = Mathf.RoundToInt((position.x + MapData.Instance.mapCenter.x) * 100.0f / MapData.Instance.tileSize);
+        int yIndex = Mathf.RoundToInt((MapData.Instance.height - 1) - ((position.y + MapData.Instance.mapCenter.y) * 100.0f / MapData.Instance.tileSize));
+        
+        // Determine which layer to update based on the layerName
+        int layerIndex = layerName == "BarrierContainer" ? 1 : 0;  // Assuming layer 0 is ground, layer 1 is barrier
 
+        // Update the mapLayers array
+        if (yIndex >= 0 && yIndex < MapData.Instance.height && xIndex >= 0 && xIndex < MapData.Instance.width)
+        {
+            MapData.Instance.mapLayers[layerIndex][yIndex] = MapData.Instance.mapLayers[layerIndex][yIndex].Remove(xIndex, 1).Insert(xIndex, newTileType.ToString());
+        }
+        else
+        {
+            Debug.LogError("Attempted to update map data with invalid indices.");
+        }
+    }
+
+    public void SetDropdownOptions(string[] options)
+    {
+        tileDropdown.ClearOptions();
+        tileDropdown.AddOptions(new List<string>(options));
+    }
+
+    public void ClearDropdownOptions()
+    {
+        tileDropdown.ClearOptions();
+    }
 }
