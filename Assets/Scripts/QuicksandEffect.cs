@@ -9,7 +9,6 @@ public class QuicksandEffect : MonoBehaviour
         if (tankPhysicsController != null)
         {
             tankPhysicsController.SetInQuicksand(true);
-            Debug.Log("Panzer ist jetzt im Quicksand, Effekt ist aktiv.");
         }
     }
 
@@ -20,7 +19,6 @@ public class QuicksandEffect : MonoBehaviour
         if (tankPhysicsController != null)
         {
             tankPhysicsController.SetInQuicksand(false);
-            Debug.Log("Panzer hat den Quicksand verlassen, Effekt ist deaktiviert.");
         }
     }
 }

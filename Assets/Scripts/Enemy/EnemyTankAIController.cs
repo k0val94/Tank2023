@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class EnemyTankAIController : MonoBehaviour
 {
@@ -7,6 +7,9 @@ public class EnemyTankAIController : MonoBehaviour
     private Transform target;
     private TankPhysicsController tankPhysicsController;
     private FieldOfNoise fieldOfNoise;
+    private WalkableGridManager walkableGridManager;
+    private List<Vector2> pathToFollow;
+    private int currentPathIndex;
 
     public enum State
     {
@@ -19,6 +22,7 @@ public class EnemyTankAIController : MonoBehaviour
     private void Awake()
     {
         fieldOfNoise = GetComponentInChildren<FieldOfNoise>();
+        walkableGridManager = FindObjectOfType<WalkableGridManager>();
         if (fieldOfNoise == null)
         {
             Debug.LogError("FieldOfNoise component not found on the child objects!");
@@ -32,6 +36,7 @@ public class EnemyTankAIController : MonoBehaviour
     private void Start()
     {
         tankPhysicsController = GetComponent<TankPhysicsController>();
+        pathToFollow = new List<Vector2>();
     }
 
     private void Update()
@@ -41,8 +46,10 @@ public class EnemyTankAIController : MonoBehaviour
         if (target != null)
         {
             currentState = State.Following;
+            pathToFollow = FindPath(transform.position, target.position); // Implementieren Sie FindPath für den Dijkstra-Algorithmus
+            currentPathIndex = 0;
         }
-        else
+        else if (pathToFollow.Count == 0)
         {
             currentState = State.Idle;
         }
@@ -50,49 +57,73 @@ public class EnemyTankAIController : MonoBehaviour
         switch (currentState)
         {
             case State.Following:
-                RotateTankTowardsTarget(target);
-                FollowTarget(target);
+                if (currentPathIndex < pathToFollow.Count)
+                {
+                    Vector2 nextPoint = pathToFollow[currentPathIndex];
+                    MoveTowardsPoint(nextPoint);
+                    if (Vector2.Distance(transform.position, nextPoint) < 1.0f) // Prüfen, ob der Panzer nah am nächsten Punkt ist
+                    {
+                        currentPathIndex++;
+                    }
+                }
+                else
+                {
+                    currentState = State.Idle; // Ende des Pfades erreicht
+                }
                 break;
             case State.Idle:
+                // Optional: Logik für den Idle-Zustand
                 break;
         }
     }
 
-    private void RotateTankTowardsTarget(Transform target)
+    private List<Vector2> FindPath(Vector2 start, Vector2 goal)
     {
-        Vector2 directionToTarget = (target.position - transform.position).normalized;
-        float angleToTarget = Vector2.SignedAngle(transform.up, directionToTarget);
+        // Implement Dijkstra's Algorithm here
+        // Convert start and goal to grid coordinates
+        // Use walkableGridManager.GetWalkableGrid() for grid data
+        // Convert the resulting path back to world coordinates
+        return new List<Vector2>(); // Placeholder
+    }
 
-        if (Mathf.Abs(angleToTarget) > 5) 
+    private void MoveTowardsPoint(Vector2 point)
+    {
+        // Überprüfen, ob der Spieler innerhalb des Hörbereichs ist
+        if (target != null && Vector2.Distance(new Vector2(transform.position.x, transform.position.y), new Vector2(target.position.x, target.position.y)) <= fieldOfNoise.hearingRadius)
+        {
+            // Berechnung der Richtung zum nächsten Punkt
+            Vector2 directionToNextPoint = point - new Vector2(transform.position.x, transform.position.y);
+            directionToNextPoint.Normalize();
+
+            // Drehen des Panzers in Richtung des nächsten Punktes
+            RotateTankTowardsDirection(directionToNextPoint);
+
+            // Bewegung des Panzers vorwärts, wenn er ungefähr in Richtung des nächsten Punktes zeigt
+            if (IsTankFacingDirection(directionToNextPoint))
+            {
+                tankPhysicsController.MoveTank(1.0f, 0); // Vorwärtsbewegung mit voller Geschwindigkeit
+            }
+        }
+        else
+        {
+            // Stoppen der Bewegung, wenn der Spieler außerhalb des Hörbereichs ist
+            currentState = State.Idle;
+        }
+    }
+
+    private void RotateTankTowardsDirection(Vector2 direction)
+    {
+        float angleToTarget = Vector2.SignedAngle(transform.up, direction);
+        if (Mathf.Abs(angleToTarget) > 1f) // Threshold to avoid jittering
         {
             float turnAmount = -Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
             tankPhysicsController.MoveTank(0, turnAmount);
         }
     }
 
-    private void FollowTarget(Transform target)
+    private bool IsTankFacingDirection(Vector2 direction)
     {
-        Vector2 enemyPosition = new Vector2(transform.position.x, transform.position.y);
-        Vector2 targetPosition = new Vector2(target.position.x, target.position.y);
-
-        float distanceToTarget = Vector2.Distance(enemyPosition, targetPosition);
-
-        if (distanceToTarget <= fieldOfNoise.hearingRadius)
-        {
-            float angleToTarget = Vector2.SignedAngle(transform.up, targetPosition - enemyPosition);
-            
-            if (Mathf.Abs(angleToTarget) < 20) 
-            {
-
-                float stoppingDistance = 5.0f; 
-                float gasAmount = Mathf.Clamp((distanceToTarget / stoppingDistance), 0f, 1f);
-
-                tankPhysicsController.MoveTank(gasAmount / 2, 0);
-            }
-        }
-        else
-        {
-            currentState = State.Idle;
-        }
+        float angleToTarget = Vector2.SignedAngle(transform.up, direction);
+        return Mathf.Abs(angleToTarget) < 10f; // Threshold angle to consider the tank as 'facing' the direction
     }
 }

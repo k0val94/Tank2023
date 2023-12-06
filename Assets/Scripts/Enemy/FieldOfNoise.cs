@@ -24,6 +24,7 @@ public class FieldOfNoise : MonoBehaviour
 
     void FindAudibleTargets()
     {
+        List<Transform> previouslyAudibleTargets = new List<Transform>(audibleTargets);
         audibleTargets.Clear();
 
         Collider2D[] targetsInHearingRadius = Physics2D.OverlapCircleAll(transform.position, hearingRadius, targetMask);
@@ -31,13 +32,26 @@ public class FieldOfNoise : MonoBehaviour
         foreach (Collider2D targetCollider in targetsInHearingRadius)
         {
             Transform target = targetCollider.transform;
-
-            // You can add additional logic here to determine if the target can be 'heard'
-            // For example, checking for obstacles, noise level of the target, etc.
+            // Beispiel für zusätzliche Logik zur Bestimmung, ob das Ziel 'gehört' werden kann
+            // Hier nur das Hinzufügen zum audibleTargets
 
             audibleTargets.Add(target);
+            if (!previouslyAudibleTargets.Contains(target))
+            {
+                Debug.Log("Panzer hört ein Ziel: " + target.name);
+            }
+        }
+
+        // Überprüfen, ob zuvor hörbare Ziele nicht mehr hörbar sind
+        foreach (var previousTarget in previouslyAudibleTargets)
+        {
+            if (!audibleTargets.Contains(previousTarget))
+            {
+                Debug.Log("Panzer hört Ziel nicht mehr: " + previousTarget.name);
+            }
         }
     }
+
 
     void OnDrawGizmos()
     {
