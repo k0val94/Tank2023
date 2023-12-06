@@ -15,6 +15,7 @@ public class MapBuilder : MonoBehaviour
     private Camera mainCamera;
     private MapLoader mapLoader;
     private WalkableGridManager walkableGridManager;
+    public bool isMapBuilt = false;
 
     private void Start()
     {
@@ -85,7 +86,8 @@ public class MapBuilder : MonoBehaviour
             GameObject container = i == 0 ? groundContainer : barrierContainer;
             CreateTilesForLayer(mapDataLayers, i, container);
         }
-
+        
+        isMapBuilt = true;
         Debug.Log("Map Build completed.");
     }
 

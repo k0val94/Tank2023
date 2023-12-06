@@ -38,7 +38,7 @@ public class FieldOfNoise : MonoBehaviour
             audibleTargets.Add(target);
             if (!previouslyAudibleTargets.Contains(target))
             {
-                Debug.Log("Panzer hört ein Ziel: " + target.name);
+                //Debug.Log("Panzer hört ein Ziel: " + target.name);
             }
         }
 
@@ -47,7 +47,7 @@ public class FieldOfNoise : MonoBehaviour
         {
             if (!audibleTargets.Contains(previousTarget))
             {
-                Debug.Log("Panzer hört Ziel nicht mehr: " + previousTarget.name);
+                //Debug.Log("Panzer hört Ziel nicht mehr: " + previousTarget.name);
             }
         }
     }

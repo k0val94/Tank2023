@@ -11,15 +11,28 @@ public class EnemySpawnManager : MonoBehaviour
     private float minY = -5f;
     private float maxY = 5f;
 
+    private MapBuilder mapBuilder;
 
     private void Start()
     {
+        mapBuilder = FindObjectOfType<MapBuilder>();
+
+        if (mapBuilder == null)
+        {
+            Debug.LogError("MapBuilder not found in the scene.");
+            return;
+        }
+
         StartCoroutine(SpawnEnemyRandomlyCoroutine());
         Debug.Log("EnemySpawnManager initialized.");
     }
 
     private IEnumerator SpawnEnemyRandomlyCoroutine()
     {
+        // Warten Sie, bis der MapBuilder angibt, dass die Karte aufgebaut ist
+        yield return new WaitUntil(() => mapBuilder.isMapBuilt);
+
+        // Spawnen Sie dann die Feinde wie gewohnt
         while (true)
         {
             float randomX = Random.Range(minX, maxX);
