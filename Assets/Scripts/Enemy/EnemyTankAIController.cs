@@ -26,7 +26,6 @@ public class EnemyTankAIController : MonoBehaviour
 
     private void Awake()
     {
-
         fieldOfNoise = GetComponentInChildren<FieldOfNoise>();
         walkableGridManager = FindObjectOfType<WalkableGridManager>();
 
@@ -49,23 +48,18 @@ public class EnemyTankAIController : MonoBehaviour
     {
         tankPhysicsController = GetComponent<TankPhysicsController>();
         pathToFollow = new List<Vector2>();
-        Debug.Log($"Map Center: {MapData.Instance.mapCenter}");
-        Debug.Log($"Tile Size: {MapData.Instance.tileSize}");
-        Debug.Log($"Grid Width: {grid.Width}");
-        Debug.Log($"Grid Height: {grid.Height}");
     }
     
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T)) // T-Taste für den Test
         {
-                TestWorldPosition(new Vector2(-22.40f, 21.76f), new Vector2(0f, 69f)); // Oben links
-                TestWorldPosition(new Vector2(21.76f, -22.40f), new Vector2(69f, 0f)); // Unten rechts
-                TestWorldPosition(new Vector2(0.00f, 0.00f), new Vector2(35f, 35f));    // Zentrum
-                TestWorldPosition(new Vector2(21.76f, 21.76f), new Vector2(69f, 69f));  // Oben rechts
-                TestWorldPosition(new Vector2(-22.40f, -22.40f), new Vector2(0f, 0f));// Unten links
+            TestWorldPosition(new Vector2(-22.40f, 21.76f), new Vector2(0f, 69f)); // Oben links
+            TestWorldPosition(new Vector2(21.76f, -22.40f), new Vector2(69f, 0f)); // Unten rechts
+            TestWorldPosition(new Vector2(0.00f, 0.00f), new Vector2(35f, 35f));    // Zentrum
+            TestWorldPosition(new Vector2(21.76f, 21.76f), new Vector2(69f, 69f));  // Oben rechts
+            TestWorldPosition(new Vector2(-22.40f, -22.40f), new Vector2(0f, 0f));// Unten links
         }
-
 
         target = fieldOfNoise.audibleTargets.Count > 0 ? fieldOfNoise.audibleTargets[0] : null;
 
@@ -85,7 +79,7 @@ public class EnemyTankAIController : MonoBehaviour
             else
             {
                 Debug.LogError("Einer der Knoten ist null. Überprüfen Sie die GetNodeFromWorldPosition-Methode.");
-                return; // Beenden Sie die Methode hier, um weitere Fehler zu verhindern
+                return;
             }
 
             currentState = State.Following;
@@ -119,7 +113,6 @@ public class EnemyTankAIController : MonoBehaviour
                 break;
         }
     }
-
 
     // Test mit verschiedenen Weltkoordinaten
     private void TestWorldPosition(Vector2 worldPosition, Vector2 expectedGridPosition)
@@ -176,9 +169,9 @@ public class EnemyTankAIController : MonoBehaviour
         return neighbors;
     }
 
- private List<Vector2> FindPath(Vector2 start, Vector2 goal)
-{
-    Node startNode = GetNodeFromWorldPosition(start);
+    private List<Vector2> FindPath(Vector2 start, Vector2 goal)
+    {
+        Node startNode = GetNodeFromWorldPosition(start);
     Node goalNode = GetNodeFromWorldPosition(goal);
 
     if (startNode == null || goalNode == null)
