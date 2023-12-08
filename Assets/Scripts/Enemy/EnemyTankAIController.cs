@@ -46,14 +46,30 @@ public class EnemyTankAIController : MonoBehaviour
         tankPhysicsController = GetComponent<TankPhysicsController>();
         pathToFollow = new List<Vector2>();
     }
-
+    
     private void Update()
     {
         target = fieldOfNoise.audibleTargets.Count > 0 ? fieldOfNoise.audibleTargets[0] : null;
-        
 
         if (target != null)
         {
+            // Log current position and target position in world coordinates
+            Debug.Log($"Enemy Position (World): {transform.position}, Target Position (World): {target.position}");
+
+            Node enemyNode = GetNodeFromWorldPosition(transform.position);
+            Node targetNode = GetNodeFromWorldPosition(target.position);
+
+            // Überprüfen, ob die Knoten gültig sind, bevor Sie auf ihre Eigenschaften zugreifen
+            if (enemyNode != null && targetNode != null)
+            {
+                Debug.Log($"Enemy Node Position (Grid): {enemyNode.Position}, Target Node Position (Grid): {targetNode.Position}");
+            }
+            else
+            {
+                Debug.LogError("Einer der Knoten ist null. Überprüfen Sie die GetNodeFromWorldPosition-Methode.");
+                return; // Beenden Sie die Methode hier, um weitere Fehler zu verhindern
+            }
+
             currentState = State.Following;
             pathToFollow = FindPath(transform.position, target.position); // Implementieren Sie FindPath für den Dijkstra-Algorithmus
             currentPathIndex = 0;
@@ -181,23 +197,28 @@ public class EnemyTankAIController : MonoBehaviour
         return new List<Vector2>();
     }
 
-    private Node GetNodeFromWorldPosition(Vector2 position)
+    private Node GetNodeFromWorldPosition(Vector2 worldPosition)
     {
-        // Konvertierung der Weltkoordinaten in Gitterkoordinaten
-        int x = Mathf.RoundToInt(position.x);
-        int y = Mathf.RoundToInt(position.y);
+        // Transformiere Weltkoordinaten in lokale Gitterkoordinaten
+        Vector2 gridPosition = (worldPosition - (Vector2)MapData.Instance.mapCenter) / (MapData.Instance.tileSize / 100.0f);
 
-        // Überprüfen, ob die Koordinaten innerhalb des Gitters liegen
-        if (x >= 0 && x < walkableGridManager.GetWalkableGrid().GetLength(0) &&
-            y >= 0 && y < walkableGridManager.GetWalkableGrid().GetLength(1))
+        // Justiere Koordinaten, um vom unteren linken Eckpunkt zu starten
+        int x = Mathf.FloorToInt(gridPosition.x + MapData.Instance.width / 2f);
+        int y = Mathf.FloorToInt(gridPosition.y + MapData.Instance.height / 2f);
+        Debug.Log($"Grid-Check: {grid != null}, Nodes-Check: {grid?.Nodes != null}, X: {x}, Y: {y}");
+
+        // Überprüfe, ob die Koordinaten innerhalb der Gittergrenzen liegen
+        if (x >= 0 && x < grid.Width && y >= 0 && y < grid.Height)
         {
-            // Rückgabe des Knotens an den Gitterkoordinaten
-            // Hier wird angenommen, dass Sie eine Methode oder ein Array haben, um die Node-Instanz zu erhalten
             return grid.Nodes[x, y];
+             Debug.LogError($"GetNodeFromWorldPosition: Grid coordinates out of bounds. X: {x}, Y: {y}, World Position: {worldPosition}");
         }
-
-        return null; // Rückgabe von null, wenn die Position außerhalb des Gitters liegt
+        else
+        {
+            return null; // Gib null zurück, wenn die Position außerhalb des Gitters liegt
+        }
     }
+
 
     private List<Vector2> RetracePath(Node startNode, Node endNode)
     {
@@ -269,4 +290,30 @@ public class EnemyTankAIController : MonoBehaviour
         public int Height { get; set; }
         // Initialization and setup methods for the grid will go here
     }
+
+    void OnDrawGizmos()
+    {
+        if (grid == null || grid.Nodes == null)
+        {
+            return;
+        }
+
+        for (int x = 0; x < grid.Width; x++)
+        {
+            for (int y = 0; y < grid.Height; y++)
+            {
+                Vector3 pos = new Vector3(
+                    x * (MapData.Instance.tileSize / 100.0f), 
+                    y * (MapData.Instance.tileSize / 100.0f), 
+                    0) - (Vector3)MapData.Instance.mapCenter;
+
+                Color gizmoColor = new Color(0, 1, 0, 0.3f);
+                Gizmos.color = gizmoColor;
+
+                Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f);
+                Gizmos.DrawWireCube(pos, cubeSize);
+            }
+        }
+    }
+
 }

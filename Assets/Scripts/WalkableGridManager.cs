@@ -43,7 +43,7 @@ public class WalkableGridManager : MonoBehaviour
     }
 
     // Optional: Gizmos for debugging the walkable grid
-    void OnDrawGizmos()
+    /*void OnDrawGizmos()
     {
         if (walkableGrid == null)
             return;
@@ -66,5 +66,5 @@ public class WalkableGridManager : MonoBehaviour
                 Gizmos.DrawWireCube(pos, cubeSize);
             }
         }
-    }
+    }*/
 }

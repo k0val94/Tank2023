@@ -67,9 +67,22 @@ public class PlayerSpawnManager : MonoBehaviour
     private void SpawnPlayerAtMousePosition()
     {
         Debug.Log("Spawning player at mouse position...");
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-        SpawnPlayer(ray.origin);
-        
+
+        // Umwandeln der Mausposition in eine Weltposition in 2D
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.nearClipPlane; // Sicherstellen, dass die Z-Achse auf einen gültigen Wert gesetzt ist
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        worldPosition.z = 0; // Z-Wert auf 0 setzen, um in der 2D-Ebene zu bleiben
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+        if (hit.collider == null || (!hit.collider.CompareTag("Brick") && !hit.collider.CompareTag("Steel")))
+        {
+            SpawnPlayer(worldPosition);
+        }
+        else
+        {
+            Debug.Log("Cannot spawn player on a Barrier!");
+        }
     }
+
 }
