@@ -176,59 +176,78 @@ public class EnemyTankAIController : MonoBehaviour
         return neighbors;
     }
 
-    private List<Vector2> FindPath(Vector2 start, Vector2 goal)
-    {
-        // Convert start and goal to grid coordinates
-        Node startNode = GetNodeFromWorldPosition(start);
-        Node goalNode = GetNodeFromWorldPosition(goal);
+ private List<Vector2> FindPath(Vector2 start, Vector2 goal)
+{
+    Node startNode = GetNodeFromWorldPosition(start);
+    Node goalNode = GetNodeFromWorldPosition(goal);
 
-        if (startNode == null || goalNode == null)
+    if (startNode == null || goalNode == null)
+    {
+        Debug.LogError("Start or goal node is null. Unable to find a path.");
+        return new List<Vector2>();
+    }
+
+    List<Node> openSet = new List<Node>();
+    HashSet<Node> closedSet = new HashSet<Node>();
+
+    openSet.Add(startNode);
+
+    while (openSet.Count > 0)
+    {
+        Node currentNode = openSet[0];
+        for (int i = 1; i < openSet.Count; i++)
         {
-            return new List<Vector2>();
+            if (openSet[i].Distance < currentNode.Distance || 
+                (openSet[i].Distance == currentNode.Distance && Random.value < 0.5f))
+            {
+                currentNode = openSet[i];
+            }
         }
 
-        // Initialize Dijkstra's algorithm
-        var openSet = new List<Node>();
-        var closedSet = new HashSet<Node>();
-        openSet.Add(startNode);
+        openSet.Remove(currentNode);
+        closedSet.Add(currentNode);
 
-        startNode.Distance = 0;
-
-        while (openSet.Count > 0)
+        if (currentNode == goalNode)
         {
-            Node currentNode = openSet[0];
-            foreach (Node node in openSet)
+            // Path found, retrace steps
+            return RetracePath(startNode, goalNode);
+        }
+
+        foreach (Node neighbor in currentNode.Neighbors)
+        {
+            if (neighbor == null || !neighbor.Neighbors.Contains(currentNode) || closedSet.Contains(neighbor))
             {
-                if (node.Distance < currentNode.Distance)
-                    currentNode = node;
+                continue;
             }
 
-            openSet.Remove(currentNode);
-            closedSet.Add(currentNode);
-
-            if (currentNode == goalNode)
+            float newCostToNeighbor = currentNode.Distance + Vector2.Distance(currentNode.Position, neighbor.Position);
+            if (newCostToNeighbor < neighbor.Distance || !openSet.Contains(neighbor))
             {
-                // Path has been found
-                return RetracePath(startNode, goalNode);
-            }
+                neighbor.Distance = newCostToNeighbor;
+                neighbor.Previous = currentNode;
 
-            foreach (Node neighbor in currentNode.Neighbors)
-            {
-                if (!closedSet.Contains(neighbor))
+                if (!openSet.Contains(neighbor))
                 {
-                    float newDistanceToNeighbor = currentNode.Distance + Vector2.Distance(currentNode.Position, neighbor.Position);
-                    if (newDistanceToNeighbor < neighbor.Distance)
-                    {
-                        neighbor.Distance = newDistanceToNeighbor;
-                        neighbor.Previous = currentNode;
-                        if (!openSet.Contains(neighbor))
-                            openSet.Add(neighbor);
-                    }
+                    openSet.Add(neighbor);
                 }
             }
         }
+    }
 
-        return new List<Vector2>();
+    Debug.LogError("No valid path found.");
+    return new List<Vector2>();
+}
+
+
+
+    private float GetDistance(Node nodeA, Node nodeB)
+    {
+        int dstX = Mathf.Abs(Mathf.FloorToInt(nodeA.Position.x) - Mathf.FloorToInt(nodeB.Position.x));
+        int dstY = Mathf.Abs(Mathf.FloorToInt(nodeA.Position.y) - Mathf.FloorToInt(nodeB.Position.y));
+
+        if (dstX > dstY)
+            return 14 * dstY + 10 * (dstX - dstY);
+        return 14 * dstX + 10 * (dstY - dstX);
     }
 
 
