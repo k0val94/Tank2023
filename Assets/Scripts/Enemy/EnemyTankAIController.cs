@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class EnemyTankAIController : MonoBehaviour
 {
@@ -23,6 +26,7 @@ public class EnemyTankAIController : MonoBehaviour
 
     private void Awake()
     {
+
         fieldOfNoise = GetComponentInChildren<FieldOfNoise>();
         walkableGridManager = FindObjectOfType<WalkableGridManager>();
 
@@ -45,10 +49,24 @@ public class EnemyTankAIController : MonoBehaviour
     {
         tankPhysicsController = GetComponent<TankPhysicsController>();
         pathToFollow = new List<Vector2>();
+        Debug.Log($"Map Center: {MapData.Instance.mapCenter}");
+        Debug.Log($"Tile Size: {MapData.Instance.tileSize}");
+        Debug.Log($"Grid Width: {grid.Width}");
+        Debug.Log($"Grid Height: {grid.Height}");
     }
     
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T)) // T-Taste für den Test
+        {
+                TestWorldPosition(new Vector2(-22.40f, 21.76f), new Vector2(0f, 69f)); // Oben links
+                TestWorldPosition(new Vector2(21.76f, -22.40f), new Vector2(69f, 0f)); // Unten rechts
+                TestWorldPosition(new Vector2(0.00f, 0.00f), new Vector2(35f, 35f));    // Zentrum
+                TestWorldPosition(new Vector2(21.76f, 21.76f), new Vector2(69f, 69f));  // Oben rechts
+                TestWorldPosition(new Vector2(-22.40f, -22.40f), new Vector2(0f, 0f));// Unten links
+        }
+
+
         target = fieldOfNoise.audibleTargets.Count > 0 ? fieldOfNoise.audibleTargets[0] : null;
 
         if (target != null)
@@ -99,6 +117,22 @@ public class EnemyTankAIController : MonoBehaviour
             case State.Idle:
                 // Optional: Logik für den Idle-Zustand
                 break;
+        }
+    }
+
+
+    // Test mit verschiedenen Weltkoordinaten
+    private void TestWorldPosition(Vector2 worldPosition, Vector2 expectedGridPosition)
+    {
+        // Berechnung der Gitterkoordinaten
+        Node node = GetNodeFromWorldPosition(worldPosition);
+        if (node != null)
+        {
+            Debug.Log($"Test-Weltkoordinate: {worldPosition}, Gitterkoordinate: {node.Position}, Erwartet: {expectedGridPosition}");
+        }
+        else
+        {
+            Debug.LogError($"Test-Weltkoordinate: {worldPosition}, Gitterkoordinate konnte nicht gefunden werden, Erwartet: {expectedGridPosition}");
         }
     }
 
@@ -197,28 +231,19 @@ public class EnemyTankAIController : MonoBehaviour
         return new List<Vector2>();
     }
 
+
     private Node GetNodeFromWorldPosition(Vector2 worldPosition)
     {
-        // Transformiere Weltkoordinaten in lokale Gitterkoordinaten
-        Vector2 gridPosition = (worldPosition - (Vector2)MapData.Instance.mapCenter) / (MapData.Instance.tileSize / 100.0f);
+        int x = Mathf.FloorToInt((worldPosition.x - MapData.Instance.mapCenter.x) / (MapData.Instance.tileSize / 100.0f)) + MapData.Instance.width;
+        int y = Mathf.FloorToInt((worldPosition.y - MapData.Instance.mapCenter.y) / (MapData.Instance.tileSize / 100.0f)) + MapData.Instance.height;
 
-        // Justiere Koordinaten, um vom unteren linken Eckpunkt zu starten
-        int x = Mathf.FloorToInt(gridPosition.x + MapData.Instance.width / 2f);
-        int y = Mathf.FloorToInt(gridPosition.y + MapData.Instance.height / 2f);
-        Debug.Log($"Grid-Check: {grid != null}, Nodes-Check: {grid?.Nodes != null}, X: {x}, Y: {y}");
+        // Stelle sicher, dass x und y innerhalb der Grenzen des Gitters liegen
+        x = Mathf.Clamp(x, 0, MapData.Instance.width - 1);
+        y = Mathf.Clamp(y, 0, MapData.Instance.height - 1);
 
-        // Überprüfe, ob die Koordinaten innerhalb der Gittergrenzen liegen
-        if (x >= 0 && x < grid.Width && y >= 0 && y < grid.Height)
-        {
-            return grid.Nodes[x, y];
-             Debug.LogError($"GetNodeFromWorldPosition: Grid coordinates out of bounds. X: {x}, Y: {y}, World Position: {worldPosition}");
-        }
-        else
-        {
-            return null; // Gib null zurück, wenn die Position außerhalb des Gitters liegt
-        }
+        // Gib den entsprechenden Knoten zurück
+        return grid.Nodes[x, y];
     }
-
 
     private List<Vector2> RetracePath(Node startNode, Node endNode)
     {
@@ -307,11 +332,15 @@ public class EnemyTankAIController : MonoBehaviour
                     y * (MapData.Instance.tileSize / 100.0f), 
                     0) - (Vector3)MapData.Instance.mapCenter;
 
-                Color gizmoColor = new Color(0, 1, 0, 0.3f);
+                Color gizmoColor = new Color(0, 1, 0, 0.3f); // Grün und halbtransparent
                 Gizmos.color = gizmoColor;
 
                 Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f);
                 Gizmos.DrawWireCube(pos, cubeSize);
+
+                #if UNITY_EDITOR
+                Handles.Label(pos, $"({x},{y})");
+                #endif
             }
         }
     }
