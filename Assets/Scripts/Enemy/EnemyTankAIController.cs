@@ -31,7 +31,7 @@ public class EnemyTankAIController : MonoBehaviour
 
         if (walkableGridManager == null)
         {
-            Debug.LogError("WalkableGridManager wurde nicht gefunden!");
+            Debug.LogError("WalkableGridManager was not found!");
             return;
         }
 
@@ -49,10 +49,10 @@ public class EnemyTankAIController : MonoBehaviour
         tankPhysicsController = GetComponent<TankPhysicsController>();
         pathToFollow = new List<Vector2>();
     }
-    
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T)) // T-Taste für den Test
+        if (Input.GetKeyDown(KeyCode.T))
         {
             TestWorldPosition(new Vector2(-22.40f, 21.76f), new Vector2(0f, 69f)); // Oben links
             TestWorldPosition(new Vector2(21.76f, -22.40f), new Vector2(69f, 0f)); // Unten rechts
@@ -172,9 +172,9 @@ public class EnemyTankAIController : MonoBehaviour
     private List<Vector2> FindPath(Vector2 start, Vector2 goal)
     {
         Node startNode = GetNodeFromWorldPosition(start);
-    Node goalNode = GetNodeFromWorldPosition(goal);
+        Node goalNode = GetNodeFromWorldPosition(goal);
 
-    if (startNode == null || goalNode == null)
+        if (startNode == null || goalNode == null)
     {
         Debug.LogError("Start or goal node is null. Unable to find a path.");
         return new List<Vector2>();
@@ -249,11 +249,9 @@ public class EnemyTankAIController : MonoBehaviour
         int x = Mathf.FloorToInt((worldPosition.x - MapData.Instance.mapCenter.x) / (MapData.Instance.tileSize / 100.0f)) + MapData.Instance.width;
         int y = Mathf.FloorToInt((worldPosition.y - MapData.Instance.mapCenter.y) / (MapData.Instance.tileSize / 100.0f)) + MapData.Instance.height;
 
-        // Stelle sicher, dass x und y innerhalb der Grenzen des Gitters liegen
         x = Mathf.Clamp(x, 0, MapData.Instance.width - 1);
         y = Mathf.Clamp(y, 0, MapData.Instance.height - 1);
 
-        // Gib den entsprechenden Knoten zurück
         return grid.Nodes[x, y];
     }
 

@@ -4,8 +4,6 @@ public class Grid
     public int Height { get; set; }
     public Node[,] Nodes { get; set; }
 
-    // Weitere Eigenschaften und Methoden der Grid-Klasse...
-
     public Grid(int width, int height)
     {
         Width = width;
