@@ -229,20 +229,39 @@ public class EnemyTankAIController : MonoBehaviour
                 Handles.Label(pos, $"({x},{y})");
                 #endif
             }
-        }*/
-
-        if (pathfinder != null && pathfinder.LastPath != null)
+        }*/   
+        
+        if (pathfinder != null && pathfinder.LastPath != null && pathfinder.LastPath.Count > 0)
         {
-            Gizmos.color = Color.blue; // Color for the path
+            // Draw the path in blue
+            Gizmos.color = Color.blue;
 
-            foreach (var node in pathfinder.LastPath)
+            for (int i = 0; i < pathfinder.LastPath.Count; i++)
             {
+                Node node = pathfinder.LastPath[i];
                 Vector3 pos = new Vector3(
-                    node.Position.x * MapData.Instance.tileSize / 100.0f, 
-                    (MapData.Instance.height - node.Position.y - 1) * MapData.Instance.tileSize / 100.0f, 
-                    0) - MapData.Instance.mapCenter;
+                        node.Position.x * MapData.Instance.tileSize / 100.0f, 
+                        node.Position.y * MapData.Instance.tileSize / 100.0f, 
+                        0) - MapData.Instance.mapCenter;
 
-                Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f) * 0.9f;
+                Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f) * 0.3f;
+
+                // Mark the start node in green
+                if (i == 0)
+                {
+                    Gizmos.color = Color.green;
+                }
+                // Mark the end node in red
+                else if (i == pathfinder.LastPath.Count - 1)
+                {
+                    Gizmos.color = Color.red;
+                }
+                // The rest of the path in blue
+                else
+                {
+                    Gizmos.color = Color.blue;
+                }
+
                 Gizmos.DrawCube(pos, cubeSize);
             }
         }
