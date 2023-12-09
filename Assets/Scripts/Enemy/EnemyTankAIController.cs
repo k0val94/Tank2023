@@ -159,7 +159,7 @@ public class EnemyTankAIController : MonoBehaviour
         return path;
     }
 
-        private void MoveTowardsPoint(Vector2 point)
+    private void MoveTowardsPoint(Vector2 point)
     {
         // Überprüfen, ob der Spieler innerhalb des Hörbereichs ist
         if (target != null && Vector2.Distance(new Vector2(transform.position.x, transform.position.y), new Vector2(target.position.x, target.position.y)) <= fieldOfNoise.hearingRadius)
@@ -194,7 +194,7 @@ public class EnemyTankAIController : MonoBehaviour
         }
     }
 
- private bool IsTankFacingDirection(Vector2 direction)
+    private bool IsTankFacingDirection(Vector2 direction)
     {
         float angleToTarget = Vector2.SignedAngle(transform.up, direction);
         return Mathf.Abs(angleToTarget) < 10f; // Threshold angle to consider the tank as 'facing' the direction
