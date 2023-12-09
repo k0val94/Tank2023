@@ -13,6 +13,8 @@ public class Pathfinder
 
     public List<Node> GetShortestPathAstar(Node start, Node end)
     {
+        Debug.Log($"A*-Start: StartNode: {start.Position}, EndNode: {end.Position}");
+
         foreach (var node in grid.Nodes)
         {
             node.GCost = Mathf.Infinity;
@@ -23,19 +25,26 @@ public class Pathfinder
         start.GCost = 0;
         var openSet = new List<Node> { start };
 
+        Debug.Log($"openSet: {openSet.Count}");
+
         while (openSet.Count > 0)
         {
             Node current = openSet.OrderBy(n => n.FCost).First();
+            Debug.Log($"A*-Schleife: Aktueller Knoten: {current.Position}");
 
             if (current == end)
             {
+                Debug.Log("A*-Ende: Ziel erreicht.");
                 return RetracePath(start, end);
             }
 
             openSet.Remove(current);
+            
+            Debug.Log($"Number of neighbors for currentNode: {current.Neighbors.Count}");
 
             foreach (var neighbor in current.Neighbors)
             {
+                Debug.Log($"IsWalkable: {neighbor.IsWalkable}");
                 if (!neighbor.IsWalkable)
                 {
                     continue;
@@ -46,15 +55,18 @@ public class Pathfinder
                 {
                     neighbor.GCost = newMovementCostToNeighbor;
                     neighbor.Parent = current;
+                    Debug.Log($"A*-Schleife: Aktualisiere Nachbarn: {neighbor.Position}, Neuer G-Kostenwert: {neighbor.GCost}");
 
                     if (!openSet.Contains(neighbor))
                     {
                         openSet.Add(neighbor);
+                        Debug.Log($"A*-Schleife: Füge Nachbarn hinzu: {neighbor.Position}");
                     }
                 }
             }
         }
 
+        Debug.Log("A*-Ende: Kein Pfad gefunden.");
         return new List<Node>(); // Kein Pfad gefunden
     }
 
@@ -76,11 +88,13 @@ public class Pathfinder
         while (currentNode != startNode)
         {
             path.Add(currentNode);
+            Debug.Log($"A*-Retrace: Knoten im Pfad: {currentNode.Position}");
             currentNode = currentNode.Parent;
         }
         path.Add(startNode);
         path.Reverse();
 
+        Debug.Log($"A*-Retrace: Gesamtlänge des Pfades: {path.Count}");
         return path;
     }
 }

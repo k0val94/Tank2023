@@ -1,4 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class WalkableGridManager : MonoBehaviour
 {
@@ -43,7 +46,8 @@ public class WalkableGridManager : MonoBehaviour
     }
 
     // Optional: Gizmos for debugging the walkable grid
-    /*void OnDrawGizmos()
+    /*#if UNITY_EDITOR
+    void OnDrawGizmos()
     {
         if (walkableGrid == null)
             return;
@@ -66,5 +70,6 @@ public class WalkableGridManager : MonoBehaviour
                 Gizmos.DrawWireCube(pos, cubeSize);
             }
         }
-    }*/
+    }
+    #endif*/
 }

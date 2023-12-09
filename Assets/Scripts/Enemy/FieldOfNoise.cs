@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class FieldOfNoise : MonoBehaviour
 {
@@ -10,7 +13,7 @@ public class FieldOfNoise : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FindTargetsWithDelay(0.2f));
+        StartCoroutine(FindTargetsWithDelay(5.0f));
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -19,6 +22,7 @@ public class FieldOfNoise : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             FindAudibleTargets();
+            break;
         }
     }
 
@@ -52,10 +56,11 @@ public class FieldOfNoise : MonoBehaviour
         }
     }
 
-
+    #if UNITY_EDITOR
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, hearingRadius);
     }
+    #endif
 }

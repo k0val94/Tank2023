@@ -41,10 +41,9 @@ public class EnemyTankAIController : MonoBehaviour
             return;
         }
 
-        bool[,] walkableMap = walkableGridManager.GetWalkableGrid(); // Annahme, dass diese Methode existiert
         grid = new Grid(walkableGridManager.GetWalkableGrid().GetLength(0), 
                         walkableGridManager.GetWalkableGrid().GetLength(1), 
-                        walkableMap);
+                        walkableGridManager.GetWalkableGrid());
     }
 
     private void Start()
@@ -52,6 +51,7 @@ public class EnemyTankAIController : MonoBehaviour
         tankPhysicsController = GetComponent<TankPhysicsController>();
         pathToFollow = new List<Vector2>();
         pathfinder = new Pathfinder(grid);
+        grid.InitializeNeighbors();
     }
 
     private void Update()
@@ -138,17 +138,27 @@ public class EnemyTankAIController : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPosition(start);
         Node goalNode = grid.GetNodeFromWorldPosition(goal);
 
+        Debug.Log($"StartNode: {startNode.Position}, GoalNode: {goalNode.Position}");
+
         var pathNodes = pathfinder.GetShortestPathAstar(startNode, goalNode);
+
+        if (pathNodes == null || pathNodes.Count == 0)
+        {
+            Debug.Log("Kein Pfad gefunden.");
+            return new List<Vector2>();
+        }
+
         List<Vector2> path = new List<Vector2>();
+        Debug.Log($"Gefundener Pfadlänge: {pathNodes.Count}");
 
         foreach (var node in pathNodes)
         {
+            Debug.Log($"Pfadknoten: {node.Position}");
             path.Add(node.Position);
         }
 
         return path;
     }
-
 
         private void MoveTowardsPoint(Vector2 point)
     {
