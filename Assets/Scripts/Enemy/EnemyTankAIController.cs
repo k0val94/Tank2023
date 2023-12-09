@@ -153,7 +153,6 @@ public class EnemyTankAIController : MonoBehaviour
 
         foreach (var node in pathNodes)
         {
-            Debug.Log($"Pfadknoten: {node.Position}");
             path.Add(node.Position);
         }
 
@@ -206,7 +205,7 @@ public class EnemyTankAIController : MonoBehaviour
     #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        if (grid == null || grid.Nodes == null)
+        /*if (grid == null || grid.Nodes == null)
         {
             return;
         }
@@ -230,15 +229,21 @@ public class EnemyTankAIController : MonoBehaviour
                 Handles.Label(pos, $"({x},{y})");
                 #endif
             }
-        }
+        }*/
 
-         if (pathToFollow != null)
+        if (pathfinder != null && pathfinder.LastPath != null)
         {
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.blue; // Color for the path
 
-            for (int i = 0; i < pathToFollow.Count - 1; i++)
+            foreach (var node in pathfinder.LastPath)
             {
-                Gizmos.DrawLine(pathToFollow[i], pathToFollow[i + 1]);
+                Vector3 pos = new Vector3(
+                    node.Position.x * MapData.Instance.tileSize / 100.0f, 
+                    (MapData.Instance.height - node.Position.y - 1) * MapData.Instance.tileSize / 100.0f, 
+                    0) - MapData.Instance.mapCenter;
+
+                Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f) * 0.9f;
+                Gizmos.DrawCube(pos, cubeSize);
             }
         }
     }

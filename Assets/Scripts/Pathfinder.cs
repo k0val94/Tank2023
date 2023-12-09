@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pathfinder
 {
     private Grid grid;
+    public List<Node> LastPath { get; private set; }
 
     public Pathfinder(Grid grid)
     {
@@ -39,8 +40,6 @@ public class Pathfinder
             }
 
             openSet.Remove(current);
-            
-            Debug.Log($"Number of neighbors for currentNode: {current.Neighbors.Count}");
 
             foreach (var neighbor in current.Neighbors)
             {
@@ -55,12 +54,10 @@ public class Pathfinder
                 {
                     neighbor.GCost = newMovementCostToNeighbor;
                     neighbor.Parent = current;
-                    Debug.Log($"A*-Schleife: Aktualisiere Nachbarn: {neighbor.Position}, Neuer G-Kostenwert: {neighbor.GCost}");
 
                     if (!openSet.Contains(neighbor))
                     {
                         openSet.Add(neighbor);
-                        Debug.Log($"A*-Schleife: Füge Nachbarn hinzu: {neighbor.Position}");
                     }
                 }
             }
@@ -85,16 +82,17 @@ public class Pathfinder
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
 
+
         while (currentNode != startNode)
         {
             path.Add(currentNode);
-            Debug.Log($"A*-Retrace: Knoten im Pfad: {currentNode.Position}");
             currentNode = currentNode.Parent;
         }
         path.Add(startNode);
         path.Reverse();
 
         Debug.Log($"A*-Retrace: Gesamtlänge des Pfades: {path.Count}");
+        LastPath = path; // Store the path
         return path;
     }
 }

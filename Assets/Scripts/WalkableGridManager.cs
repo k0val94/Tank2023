@@ -1,7 +1,4 @@
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class WalkableGridManager : MonoBehaviour
 {
@@ -45,7 +42,6 @@ public class WalkableGridManager : MonoBehaviour
         return walkableGrid;
     }
 
-    // Optional: Gizmos for debugging the walkable grid
     /*#if UNITY_EDITOR
     void OnDrawGizmos()
     {
