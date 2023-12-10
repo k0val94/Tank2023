@@ -114,26 +114,26 @@ public class EnemyTankAIController : MonoBehaviour
         }
     }
 
-
     private void FollowPath()
     {
         if (currentPathIndex < pathToFollow.Count)
         {
             Vector2 nextPoint = pathToFollow[currentPathIndex];
-            MoveTowardsPoint(nextPoint);
+            MoveTowardsNextNode(nextPoint);
 
-            if (Vector2.Distance(transform.position, nextPoint) < 1.0f)
+            // Check if the tank has reached the next node
+            if (Vector2.Distance(transform.position, nextPoint) < 1.0f) // Adjust the threshold as needed
             {
                 currentPathIndex++;
             }
         }
         else
         {
-            currentState = State.Idle; // Ende des Pfades erreicht
+            currentState = State.Idle; // End of the path reached
         }
     }
 
-    private List<Vector2> FindPath(Vector2 start, Vector2 goal)
+      private List<Vector2> FindPath(Vector2 start, Vector2 goal)
     {
         Node startNode = grid.GetNodeFromWorldPosition(start);
         Node goalNode = grid.GetNodeFromWorldPosition(goal);
@@ -159,47 +159,34 @@ public class EnemyTankAIController : MonoBehaviour
         return path;
     }
 
-    private void MoveTowardsPoint(Vector2 point)
+    private void MoveTowardsNextNode(Vector2 nextNode)
     {
-        // Überprüfen, ob der Spieler innerhalb des Hörbereichs ist
-        if (target != null && Vector2.Distance(new Vector2(transform.position.x, transform.position.y), new Vector2(target.position.x, target.position.y)) <= fieldOfNoise.hearingRadius)
+        Vector2 directionToNextNode = (nextNode - new Vector2(transform.position.x, transform.position.y)).normalized;
+
+        // Rotate the tank towards the next node direction
+        RotateTankTowardsDirection(directionToNextNode);
+
+        if (IsTankFacingDirection(directionToNextNode))
         {
-            // Berechnung der Richtung zum nächsten Punkt
-            Vector2 directionToNextPoint = point - new Vector2(transform.position.x, transform.position.y);
-            directionToNextPoint.Normalize();
-
-            // Drehen des Panzers in Richtung des nächsten Punktes
-            RotateTankTowardsDirection(directionToNextPoint);
-
-            // Bewegung des Panzers vorwärts, wenn er ungefähr in Richtung des nächsten Punktes zeigt
-            if (IsTankFacingDirection(directionToNextPoint))
-            {
                 tankPhysicsController.MoveTank(1.0f, 0); // Vorwärtsbewegung mit voller Geschwindigkeit
-            }
-        }
-        else
-        {
-            // Stoppen der Bewegung, wenn der Spieler außerhalb des Hörbereichs ist
-            currentState = State.Idle;
         }
     }
-
     private void RotateTankTowardsDirection(Vector2 direction)
     {
         float angleToTarget = Vector2.SignedAngle(transform.up, direction);
         if (Mathf.Abs(angleToTarget) > 1f) // Threshold to avoid jittering
         {
-            float turnAmount = -Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
+            float turnAmount = Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
             tankPhysicsController.MoveTank(0, turnAmount);
         }
     }
 
     private bool IsTankFacingDirection(Vector2 direction)
     {
-        float angleToTarget = Vector2.SignedAngle(transform.up, direction);
-        return Mathf.Abs(angleToTarget) < 10f; // Threshold angle to consider the tank as 'facing' the direction
+        float angleToTarget = Vector2.SignedAngle(-transform.up, direction);
+        Debug.Log("Mathf.Abs(angleToTarget) " + Mathf.Abs(angleToTarget));
+        return Mathf.Abs(angleToTarget) < 20f; // Threshold angle to consider the tank as 'facing' the direction
     }
-
     // Optional: Weitere Methoden und Logik
 
     #if UNITY_EDITOR
@@ -211,38 +198,37 @@ public class EnemyTankAIController : MonoBehaviour
         }
 
         for (int x = 0; x < grid.Width; x++)
-        {
-            for (int y = 0; y < grid.Height; y++)
             {
-                Vector3 pos = new Vector3(
-                    x * (MapData.Instance.tileSize / 100.0f), 
-                    y * (MapData.Instance.tileSize / 100.0f), 
-                    0) - (Vector3)MapData.Instance.mapCenter;
+                for (int y = 0; y < grid.Height; y++)
+                {
+                    Vector3 pos = new Vector3(
+                        x * (MapData.Instance.tileSize / 100.0f), 
+                        y * (MapData.Instance.tileSize / 100.0f), 
+                        0) - (Vector3)MapData.Instance.mapCenter;
 
-                Color gizmoColor = new Color(0, 1, 0, 0.3f); // Grün und halbtransparent
-                Gizmos.color = gizmoColor;
+                    Color gizmoColor = new Color(0, 1, 0, 0.3f); // Grün und halbtransparent
+                    Gizmos.color = gizmoColor;
 
-                Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f);
-                Gizmos.DrawWireCube(pos, cubeSize);
+                    Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f);
+                    Gizmos.DrawWireCube(pos, cubeSize);
 
-                #if UNITY_EDITOR
-                Handles.Label(pos, $"({x},{y})");
-                #endif
-            }
-        }*/   
-        
+                    #if UNITY_EDITOR
+                    Handles.Label(pos, $"({x},{y})");
+                    #endif
+                }
+            }*/   
+            
         if (pathfinder != null && pathfinder.LastPath != null && pathfinder.LastPath.Count > 0)
         {
-            // Draw the path in blue
             Gizmos.color = Color.blue;
 
             for (int i = 0; i < pathfinder.LastPath.Count; i++)
             {
                 Node node = pathfinder.LastPath[i];
                 Vector3 pos = new Vector3(
-                        node.Position.x * MapData.Instance.tileSize / 100.0f, 
-                        node.Position.y * MapData.Instance.tileSize / 100.0f, 
-                        0) - MapData.Instance.mapCenter;
+                    node.Position.x * MapData.Instance.tileSize / 100.0f, 
+                    node.Position.y * MapData.Instance.tileSize / 100.0f, 
+                    0) - MapData.Instance.mapCenter;
 
                 Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f) * 0.3f;
 
@@ -265,6 +251,49 @@ public class EnemyTankAIController : MonoBehaviour
                 Gizmos.DrawCube(pos, cubeSize);
             }
         }
+        /*
+
+        Gizmos.color = Color.cyan; // Color for the facing direction field of view
+
+        float viewAngle = 10f; // The same angle as used in IsTankFacingDirection
+        float viewDistance = 5f; // Adjust the distance as needed
+
+        // Draw the left boundary of the field of view
+        Quaternion leftBoundaryRotation = Quaternion.AngleAxis(-viewAngle, Vector3.forward);
+        Vector3 leftBoundaryDirection = leftBoundaryRotation * transform.up;
+        Gizmos.DrawLine(transform.position, transform.position + leftBoundaryDirection * viewDistance);
+
+        // Draw the right boundary of the field of view
+        Quaternion rightBoundaryRotation = Quaternion.AngleAxis(viewAngle, Vector3.forward);
+        Vector3 rightBoundaryDirection = rightBoundaryRotation * transform.up;
+        Gizmos.DrawLine(transform.position, transform.position + rightBoundaryDirection * viewDistance);
+
+        // Optional: Draw more lines to fill the arc for better visualization
+        int steps = 10; // Increase or decrease for more or fewer lines
+        for (int i = 0; i <= steps; i++)
+        {
+            float stepAngle = viewAngle * 2 / steps * i - viewAngle;
+            Quaternion rotation = Quaternion.AngleAxis(stepAngle, Vector3.forward);
+            Vector3 direction = rotation * transform.up;
+            Gizmos.DrawLine(transform.position, transform.position + direction * viewDistance);
+        }*/
+
+
+        // Draw a special gizmo for the current node being followed
+        if (currentPathIndex < pathToFollow.Count)
+        {
+            Vector2 currentNodePosition = pathToFollow[currentPathIndex];
+            Vector3 currentNodeWorldPos = new Vector3(
+                currentNodePosition.x * MapData.Instance.tileSize / 100.0f, 
+                currentNodePosition.y * MapData.Instance.tileSize / 100.0f, 
+                0) - MapData.Instance.mapCenter;
+
+            Gizmos.color = Color.magenta; // Magenta color for the current node
+            Vector3 currentNodeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f) * 0.5f; // Slightly larger size
+            Gizmos.DrawCube(currentNodeWorldPos, currentNodeSize);
+        }
+
     }
     #endif
+
 }
