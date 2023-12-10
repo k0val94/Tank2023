@@ -92,7 +92,6 @@ public class EnemyTankAIController : MonoBehaviour
             Debug.LogError($"Test-Weltkoordinate: {worldPosition}, Gitterkoordinate konnte nicht gefunden werden, Erwartet: {expectedGridPosition}");
         }
     }
-
     private void UpdateTarget()
     {
         if (fieldOfNoise.audibleTargets.Count > 0)
@@ -105,7 +104,7 @@ public class EnemyTankAIController : MonoBehaviour
             {
                 currentState = State.Following;
                 pathToFollow = FindPath(transform.position, target.position);
-                currentPathIndex = pathToFollow.Count > 3 ? 2 : 0; // Set to the third node, if available
+                currentPathIndex = pathToFollow.Count > 3 ? 2 : 0;
             }
         }
         else
@@ -145,6 +144,8 @@ public class EnemyTankAIController : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPosition(start);
         Node goalNode = grid.GetNodeFromWorldPosition(goal);
 
+        Debug.Log($"StartNode: {startNode.Position}, GoalNode: {goalNode.Position}");
+
         var pathNodes = pathfinder.GetShortestPathAstar(startNode, goalNode);
 
         if (pathNodes == null || pathNodes.Count == 0)
@@ -178,7 +179,8 @@ public class EnemyTankAIController : MonoBehaviour
     }
     private void RotateTankTowardsDirection(Vector2 direction)
     {
-        float angleToTarget = Vector2.SignedAngle(transform.up, direction);
+        float angleToTarget = Vector2.SignedAngle(-transform.right, direction);
+        Debug.Log("angleToTarget " + angleToTarget);
         if (Mathf.Abs(angleToTarget) > 1f) // Threshold to avoid jittering
         {
             float turnAmount = Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
@@ -188,9 +190,10 @@ public class EnemyTankAIController : MonoBehaviour
 
     private bool IsTankFacingDirection(Vector2 direction)
     {
-        float angleToTarget = Vector2.SignedAngle(-transform.up, direction);
-        return Mathf.Abs(angleToTarget) < 20f;
+        float angleToTarget = Vector2.SignedAngle(transform.right, direction);
+        return Mathf.Abs(angleToTarget) < 20f; // Threshold angle to consider the tank as 'facing' the direction
     }
+    // Optional: Weitere Methoden und Logik
 
     #if UNITY_EDITOR
     void OnDrawGizmos()
