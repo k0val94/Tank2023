@@ -92,9 +92,9 @@ public class EnemyTankAIController : MonoBehaviour
             Debug.LogError($"Test-Weltkoordinate: {worldPosition}, Gitterkoordinate konnte nicht gefunden werden, Erwartet: {expectedGridPosition}");
         }
     }
-   private void UpdateTarget()
+    
+    private void UpdateTarget()
     {
-
         if (fieldOfNoise.audibleTargets.Count > 0)
         {
             target = fieldOfNoise.audibleTargets[0];
@@ -105,7 +105,7 @@ public class EnemyTankAIController : MonoBehaviour
             {
                 currentState = State.Following;
                 pathToFollow = FindPath(transform.position, target.position);
-                currentPathIndex = 0;
+                currentPathIndex = pathToFollow.Count > 3 ? 2 : 0; // Set to the third node, if available
             }
         }
         else
@@ -118,6 +118,13 @@ public class EnemyTankAIController : MonoBehaviour
     {
         if (currentPathIndex < pathToFollow.Count)
         {
+            // Stop the tank if it's within five nodes of the target
+            if (pathToFollow.Count - currentPathIndex <= 4)
+            {
+                currentState = State.Idle;
+                return;
+            }
+
             Vector2 nextPoint = pathToFollow[currentPathIndex];
             MoveTowardsNextNode(nextPoint);
 
@@ -137,8 +144,6 @@ public class EnemyTankAIController : MonoBehaviour
     {
         Node startNode = grid.GetNodeFromWorldPosition(start);
         Node goalNode = grid.GetNodeFromWorldPosition(goal);
-
-        Debug.Log($"StartNode: {startNode.Position}, GoalNode: {goalNode.Position}");
 
         var pathNodes = pathfinder.GetShortestPathAstar(startNode, goalNode);
 
@@ -168,7 +173,7 @@ public class EnemyTankAIController : MonoBehaviour
 
         if (IsTankFacingDirection(directionToNextNode))
         {
-                tankPhysicsController.MoveTank(1.0f, 0); // Vorwärtsbewegung mit voller Geschwindigkeit
+                tankPhysicsController.MoveTank(1.0f, 0);
         }
     }
     private void RotateTankTowardsDirection(Vector2 direction)
@@ -185,9 +190,7 @@ public class EnemyTankAIController : MonoBehaviour
     {
         float angleToTarget = Vector2.SignedAngle(-transform.up, direction);
         Debug.Log("Mathf.Abs(angleToTarget) " + Mathf.Abs(angleToTarget));
-        return Mathf.Abs(angleToTarget) < 20f; // Threshold angle to consider the tank as 'facing' the direction
-    }
-    // Optional: Weitere Methoden und Logik
+        return Mathf.Abs(angleToTarget) < 20f;
 
     #if UNITY_EDITOR
     void OnDrawGizmos()
