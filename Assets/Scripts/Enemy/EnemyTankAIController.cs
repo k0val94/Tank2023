@@ -92,7 +92,7 @@ public class EnemyTankAIController : MonoBehaviour
             Debug.LogError($"Test-Weltkoordinate: {worldPosition}, Gitterkoordinate konnte nicht gefunden werden, Erwartet: {expectedGridPosition}");
         }
     }
-    
+
     private void UpdateTarget()
     {
         if (fieldOfNoise.audibleTargets.Count > 0)
@@ -189,8 +189,8 @@ public class EnemyTankAIController : MonoBehaviour
     private bool IsTankFacingDirection(Vector2 direction)
     {
         float angleToTarget = Vector2.SignedAngle(-transform.up, direction);
-        Debug.Log("Mathf.Abs(angleToTarget) " + Mathf.Abs(angleToTarget));
         return Mathf.Abs(angleToTarget) < 20f;
+    }
 
     #if UNITY_EDITOR
     void OnDrawGizmos()
