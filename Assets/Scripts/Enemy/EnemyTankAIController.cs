@@ -167,11 +167,12 @@ public class EnemyTankAIController : MonoBehaviour
 
     private void MoveTowardsNextNode(Vector2 nextNode)
     {
-        Vector2 directionToNextNode = (nextNode - new Vector2(transform.position.x, transform.position.y)).normalized;
+        Vector2 directionToNextNode = (new Vector2(transform.position.x, transform.position.y) - nextNode).normalized;
 
         // Rotate the tank towards the next node direction
         RotateTankTowardsDirection(directionToNextNode);
 
+Debug.Log("directionToNextNode " + directionToNextNode);
         if (IsTankFacingDirection(directionToNextNode))
         {
                 tankPhysicsController.MoveTank(1.0f, 0);
