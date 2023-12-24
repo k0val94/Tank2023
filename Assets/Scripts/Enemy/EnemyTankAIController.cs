@@ -117,27 +117,31 @@ public class EnemyTankAIController : MonoBehaviour
     {
         if (currentPathIndex < pathToFollow.Count)
         {
-            // Stop the tank if it's within five nodes of the target
+            // Stop the tank if it's within a certain range of the target
             if (pathToFollow.Count - currentPathIndex <= 4)
             {
                 currentState = State.Idle;
                 return;
             }
 
-            Vector2 nextPoint = pathToFollow[currentPathIndex];
-            MoveTowardsNextNode(nextPoint);
+            Vector2 startNode = pathToFollow[0]; // Start node from the path as grid position
+            Vector2 nextNode = pathToFollow[currentPathIndex]; // Next point in the path as grid position
+
+            MoveTowardsNextNode(startNode, nextNode); // Pass both start and next nodes
 
             // Check if the tank has reached the next node
-            if (Vector2.Distance(transform.position, nextPoint) < 1.0f) // Adjust the threshold as needed
+            /*Vector2 currentWorldPosition = new Vector2(transform.position.x, transform.position.y);
+            if (Vector2.Distance(currentWorldPosition, grid.GetWorldPositionFromNode(nextGridPosition)) < 1.0f) // Adjust the threshold as needed
             {
                 currentPathIndex++;
-            }
+            }*/
         }
         else
         {
             currentState = State.Idle; // End of the path reached
         }
     }
+
 
       private List<Vector2> FindPath(Vector2 start, Vector2 goal)
     {
@@ -165,41 +169,30 @@ public class EnemyTankAIController : MonoBehaviour
         return path;
     }
 
-    private void MoveTowardsNextNode(Vector2 nextNode)
+    private void MoveTowardsNextNode(Vector2 startNode, Vector2 nextNode)
     {
-        Vector2 directionToNextNode = (new Vector2(transform.position.x, transform.position.y) - nextNode).normalized;
+        Vector2 direction = nextNode - startNode;
+        float angleRad = Mathf.Atan2(direction.y, direction.x);
+        float angleDeg = (angleRad * Mathf.Rad2Deg + 360) % 360;
 
-        // Rotate the tank towards the next node direction
-        RotateTankTowardsDirection(directionToNextNode);
+        float currentAngle = (transform.eulerAngles.z + 90) % 360;
 
-Debug.Log("directionToNextNode " + directionToNextNode);
-        if (IsTankFacingDirection(directionToNextNode))
-        {
-                tankPhysicsController.MoveTank(1.0f, 0);
-        }
-    }
-    private void RotateTankTowardsDirection(Vector2 direction)
-    {
-        float angleToTarget = Vector2.SignedAngle(-transform.right, direction);
-        Debug.Log("angleToTarget " + angleToTarget);
-        if (Mathf.Abs(angleToTarget) > 1f) // Threshold to avoid jittering
-        {
-            float turnAmount = Mathf.Sign(angleToTarget) * Mathf.Min(Mathf.Abs(angleToTarget) / 180, rotateSpeed);
-            tankPhysicsController.MoveTank(0, turnAmount);
-        }
+        Debug.Log($"StartNode: {startNode}, NextNode: {nextNode}, Direction: {direction}, " + 
+                $"Angle to Target in Degrees: {angleDeg}, Current Tank Angle (adjusted): {currentAngle}");
+
+        // Calculate the turnAmount based on the angle difference
+        float angleDifference = angleDeg - currentAngle;
+        float turnAmount = angleDifference / 180; // Normalize to the range -1 to 1
+
+        // Call MoveTank with the calculated turnAmount
+        tankPhysicsController.MoveTank(0, turnAmount);
     }
 
-    private bool IsTankFacingDirection(Vector2 direction)
-    {
-        float angleToTarget = Vector2.SignedAngle(transform.right, direction);
-        return Mathf.Abs(angleToTarget) < 20f; // Threshold angle to consider the tank as 'facing' the direction
-    }
-    // Optional: Weitere Methoden und Logik
-
+   
     #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        /*if (grid == null || grid.Nodes == null)
+        if (grid == null || grid.Nodes == null)
         {
             return;
         }
@@ -223,7 +216,7 @@ Debug.Log("directionToNextNode " + directionToNextNode);
                     Handles.Label(pos, $"({x},{y})");
                     #endif
                 }
-            }*/   
+            }  
             
         if (pathfinder != null && pathfinder.LastPath != null && pathfinder.LastPath.Count > 0)
         {
