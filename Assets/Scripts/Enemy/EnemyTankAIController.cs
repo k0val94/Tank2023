@@ -180,9 +180,21 @@ public class EnemyTankAIController : MonoBehaviour
         Debug.Log($"StartNode: {startNode}, NextNode: {nextNode}, Direction: {direction}, " + 
                 $"Angle to Target in Degrees: {angleDeg}, Current Tank Angle (adjusted): {currentAngle}");
 
-        // Calculate the turnAmount based on the angle difference
-        float angleDifference = angleDeg - currentAngle;
-        float turnAmount = angleDifference / 180; // Normalize to the range -1 to 1
+        // Calculate the turnAmount to turn around with a constant speed of 0.5
+        float turnAmount;
+
+        if (angleDeg < currentAngle)
+        {
+            // Turn right
+            turnAmount = 0.5f;
+        }
+        else
+        {
+            // Turn left
+            turnAmount = -0.5f;
+        }
+
+        Debug.Log($"turnAmount: {turnAmount}");
 
         // Call MoveTank with the calculated turnAmount
         tankPhysicsController.MoveTank(0, turnAmount);
