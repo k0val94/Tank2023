@@ -6,7 +6,8 @@ using UnityEditor;
 
 public class EnemyTankAIController : MonoBehaviour
 {
-    private float rotateSpeed = 0.5f;
+    private float rotateSpeed;
+    private float speedIdentifier;
     private Transform target;
     private TankPhysicsController tankPhysicsController;
     private FieldOfNoise fieldOfNoise;
@@ -15,6 +16,7 @@ public class EnemyTankAIController : MonoBehaviour
     private int currentPathIndex;
     private Pathfinder pathfinder;
     private Grid grid;
+    private bool isTurning = false;
 
     public enum State
     {
@@ -180,25 +182,49 @@ public class EnemyTankAIController : MonoBehaviour
         Debug.Log($"StartNode: {startNode}, NextNode: {nextNode}, Direction: {direction}, " + 
                 $"Angle to Target in Degrees: {angleDeg}, Current Tank Angle (adjusted): {currentAngle}");
 
-        // Calculate the turnAmount to turn around with a constant speed of 0.5
-        float turnAmount;
 
-        if (angleDeg < currentAngle)
+        Debug.Log(isTurning);                
+
+        // Wenn der Panzer nicht im Drehmodus ist und der Winkel nicht in die gewünschte Richtung zeigt, starten Sie das Drehen
+        if (!isTurning)
         {
-            // Turn right
-            turnAmount = 0.5f;
+            float angleDifference = Mathf.DeltaAngle(currentAngle, angleDeg);
+
+            if (angleDifference < 0)
+            {
+                rotateSpeed = 0.5f; // oder ein anderer Wert für die Drehgeschwindigkeit
+                isTurning = true;
+            }
+            else if (angleDifference > 0)
+            {
+                rotateSpeed = -0.5f; // oder ein anderer Wert für die Drehgeschwindigkeit
+                isTurning = true;
+            }
+            else if (angleDifference == 0)
+            {
+                rotateSpeed = 0;
+            }
+
         }
         else
         {
-            // Turn left
-            turnAmount = -0.5f;
+            // Der Panzer ist im Drehmodus
+
+            tankPhysicsController.MoveTank(0, rotateSpeed);
+            Debug.Log(Mathf.Abs(angleDeg - currentAngle));
+            
+            // Überprüfen Sie, ob die Drehung abgeschlossen ist (kein Winkelunterschied mehr)
+            if (Mathf.Abs(angleDeg - currentAngle) < 20.0f) // Hier den Schwellenwert anpassen, ab dem die Drehung als abgeschlossen gilt
+            {
+                isTurning = false; // Drehen ist abgeschlossen
+                // Hier können Sie den Panzer in den Bewegungsmodus versetzen
+                tankPhysicsController.MoveTank(1, 0);
+            }
         }
-
-        Debug.Log($"turnAmount: {turnAmount}");
-
-        // Call MoveTank with the calculated turnAmount
-        tankPhysicsController.MoveTank(0, turnAmount);
     }
+
+
+    
 
    
     #if UNITY_EDITOR
