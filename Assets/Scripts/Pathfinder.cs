@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Pathfinder
@@ -14,7 +14,8 @@ public class Pathfinder
 
     public List<Node> GetShortestPathAstar(Node start, Node end)
     {
-        Debug.Log($"A*-Start: StartNode: {start.Position}, EndNode: {end.Position}");
+        var openSet = new PriorityQueue<Node, float>();
+        var closedSet = new HashSet<Node>();
 
         foreach (var node in grid.Nodes)
         {
@@ -24,27 +25,23 @@ public class Pathfinder
         }
 
         start.GCost = 0;
-        var openSet = new List<Node> { start };
-
-        Debug.Log($"openSet: {openSet.Count}");
+        openSet.Enqueue(start, start.FCost);
 
         while (openSet.Count > 0)
         {
-            Node current = openSet.OrderBy(n => n.FCost).First();
-            Debug.Log($"A*-Schleife: Aktueller Knoten: {current.Position}");
+            Node current = openSet.Dequeue();
 
             if (current == end)
             {
-                Debug.Log("A*-Ende: Ziel erreicht.");
-                return RetracePath(start, end);
+                LastPath = RetracePath(start, end);
+                return LastPath;
             }
 
-            openSet.Remove(current);
+            closedSet.Add(current);
 
             foreach (var neighbor in current.Neighbors)
             {
-                Debug.Log($"IsWalkable: {neighbor.IsWalkable}");
-                if (!neighbor.IsWalkable)
+                if (!neighbor.IsWalkable || closedSet.Contains(neighbor))
                 {
                     continue;
                 }
@@ -57,13 +54,12 @@ public class Pathfinder
 
                     if (!openSet.Contains(neighbor))
                     {
-                        openSet.Add(neighbor);
+                        openSet.Enqueue(neighbor, neighbor.FCost);
                     }
                 }
             }
         }
 
-        Debug.Log("A*-Ende: Kein Pfad gefunden.");
         return new List<Node>(); // Kein Pfad gefunden
     }
 
@@ -82,7 +78,6 @@ public class Pathfinder
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
 
-
         while (currentNode != startNode)
         {
             path.Add(currentNode);
@@ -91,8 +86,56 @@ public class Pathfinder
         path.Add(startNode);
         path.Reverse();
 
-        Debug.Log($"A*-Retrace: Gesamtlänge des Pfades: {path.Count}");
-        LastPath = path; // Store the path
         return path;
+    }
+}
+
+public class PriorityQueue<T, TPriority> where TPriority : IComparable<TPriority>
+{
+     private SortedDictionary<TPriority, Queue<T>> elements = new SortedDictionary<TPriority, Queue<T>>();
+
+    public int Count { get; private set; } = 0;
+
+    public void Enqueue(T item, TPriority priority)
+    {
+        if (!elements.ContainsKey(priority))
+        {
+            elements[priority] = new Queue<T>();
+        }
+
+        elements[priority].Enqueue(item);
+        Count++;
+    }
+
+    public T Dequeue()
+    {
+        // Würde einen Fehler werfen, wenn die Warteschlange leer ist, also sicherstellen, dass sie nicht leer ist
+        if (Count == 0)
+            throw new InvalidOperationException("Die Warteschlange ist leer.");
+
+        // Findet das erste Element mit der niedrigsten Priorität
+        var pair = elements.GetEnumerator();
+        pair.MoveNext();
+        var items = pair.Current.Value;
+        var item = items.Dequeue();
+        if (items.Count == 0) // Wenn die Warteschlange für diese Priorität leer ist, entfernen Sie sie
+        {
+            elements.Remove(pair.Current.Key);
+        }
+        Count--;
+
+        return item;
+    }
+
+    public bool Contains(T item)
+    {
+        foreach (var queue in elements.Values)
+        {
+            if (queue.Contains(item))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
