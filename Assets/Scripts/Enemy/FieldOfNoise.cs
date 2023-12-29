@@ -22,7 +22,6 @@ public class FieldOfNoise : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             FindAudibleTargets();
-            break;
         }
     }
 

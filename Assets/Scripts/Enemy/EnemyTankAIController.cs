@@ -26,6 +26,9 @@ public class EnemyTankAIController : MonoBehaviour
 
     public State currentState;
 
+    private float pathUpdateCooldown = 2.0f;
+    private float lastPathUpdateTime = 0.0f;
+
     private void Awake()
     {
         fieldOfNoise = GetComponentInChildren<FieldOfNoise>();
@@ -59,13 +62,10 @@ public class EnemyTankAIController : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Time.time - lastPathUpdateTime > pathUpdateCooldown)
         {
-            TestWorldPosition(new Vector2(-22.40f, 21.76f), new Vector2(0f, 69f)); // Oben links
-            TestWorldPosition(new Vector2(21.76f, -22.40f), new Vector2(69f, 0f)); // Unten rechts
-            TestWorldPosition(new Vector2(0.00f, 0.00f), new Vector2(35f, 35f));    // Zentrum
-            TestWorldPosition(new Vector2(21.76f, 21.76f), new Vector2(69f, 69f));  // Oben rechts
-            TestWorldPosition(new Vector2(-22.40f, -22.40f), new Vector2(0f, 0f)); // Unten links
+            UpdateTarget();
+            lastPathUpdateTime = Time.time;
         }
 
         UpdateTarget();
@@ -80,20 +80,7 @@ public class EnemyTankAIController : MonoBehaviour
                 break;
         }
     }
-    
-    private void TestWorldPosition(Vector2 worldPosition, Vector2 expectedGridPosition)
-    {
-        // Berechnung der Gitterkoordinaten
-        Node node = grid.GetNodeFromWorldPosition(worldPosition);
-        if (node != null)
-        {
-            Debug.Log($"Test-Weltkoordinate: {worldPosition}, Gitterkoordinate: {node.Position}, Erwartet: {expectedGridPosition}");
-        }
-        else
-        {
-            Debug.LogError($"Test-Weltkoordinate: {worldPosition}, Gitterkoordinate konnte nicht gefunden werden, Erwartet: {expectedGridPosition}");
-        }
-    }
+
     private void UpdateTarget()
     {
         if (fieldOfNoise.audibleTargets.Count > 0)
@@ -145,7 +132,7 @@ public class EnemyTankAIController : MonoBehaviour
     }
 
 
-      private List<Vector2> FindPath(Vector2 start, Vector2 goal)
+    private List<Vector2> FindPath(Vector2 start, Vector2 goal)
     {
         Node startNode = grid.GetNodeFromWorldPosition(start);
         Node goalNode = grid.GetNodeFromWorldPosition(goal);
@@ -226,7 +213,7 @@ public class EnemyTankAIController : MonoBehaviour
 
     
 
-   
+
     #if UNITY_EDITOR
     void OnDrawGizmos()
     {
