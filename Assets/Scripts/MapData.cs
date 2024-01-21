@@ -34,7 +34,12 @@ public class MapData : MonoBehaviour
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
         {
-            return walkableGrid[x, y];
+            bool isWalkable = walkableGrid[x, y];
+            if (!isWalkable)
+            {
+                Debug.Log($"First Unwalkable Tile Found at ({x}, {y})");
+            }
+            return isWalkable;
         }
         return false;
     }
@@ -43,7 +48,10 @@ public class MapData : MonoBehaviour
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
         {
-            walkableGrid[x, y] = isWalkable;
+            // Die Koordinaten anpassen, um zum neuen Ursprung (0,0) zu gelangen
+            int adjustedY = height - 1 - y;
+
+            walkableGrid[x, adjustedY] = isWalkable;
         }
     }
 
