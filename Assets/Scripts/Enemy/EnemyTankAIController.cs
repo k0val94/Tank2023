@@ -220,8 +220,6 @@ public class EnemyTankAIController : MonoBehaviour
             return;
         }
 
-        Debug.Log("walkableGrid is not null.");
-
         for (int x = 0; x < MapData.Instance.width; x++)
         {
             for (int y = 0; y < MapData.Instance.height; y++)
