@@ -68,8 +68,8 @@ public class MapGenerator : MonoBehaviour
     private string[] GenerateCoastMap(int mapWidth, int mapHeight)
     {
         string[] mapLayer = new string[mapHeight];
-        float offsetX = Random.Range(0f, 100f);
-        float offsetY = Random.Range(0f, 100f);
+        float offsetX = Random.Range(0f, mapWidth);
+        float offsetY = Random.Range(0f, mapHeight);
 
         for (int y = 0; y < mapHeight; y++)
         {

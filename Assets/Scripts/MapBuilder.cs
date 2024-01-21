@@ -74,7 +74,7 @@ public class MapBuilder : MonoBehaviour
 
         MapData.Instance.width = mapDataLayers[0][0].Length;
         MapData.Instance.height = mapDataLayers[0].Length;
-        walkableGridManager.InitializeGrid(MapData.Instance.width, MapData.Instance.height);
+        walkableGridManager.InitializeGrid(MapData.Instance.width, MapData.Instance.height); //line 77
 
         MapData.Instance.mapCenter = new Vector3(
             (MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, 

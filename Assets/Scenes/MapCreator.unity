@@ -2994,7 +2994,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -40, y: -206}
+  m_AnchoredPosition: {x: -40, y: -122}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1115852525
@@ -3905,6 +3905,7 @@ GameObject:
   - component: {fileID: 1544167944}
   - component: {fileID: 1544167945}
   - component: {fileID: 1544167946}
+  - component: {fileID: 1544167947}
   m_Layer: 0
   m_Name: MapCreatorController
   m_TagString: Untagged
@@ -3980,6 +3981,7 @@ MonoBehaviour:
   quicksandPrefab: {fileID: 8557906486070459954, guid: 9f71ea788e31e6e488163e23a4997e61, type: 3}
   groundContainer: {fileID: 198601459}
   barrierContainer: {fileID: 487331949}
+  isMapBuilt: 0
 --- !u!114 &1544167942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4046,6 +4048,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bb8d41fad37a2440a0fdc2d464ca8d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1544167947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544167937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2233831b4c809e54ea98faf9d1d1fcab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1547444042
