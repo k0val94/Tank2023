@@ -213,6 +213,37 @@ public class EnemyTankAIController : MonoBehaviour
     #if UNITY_EDITOR
     void OnDrawGizmos()
     {
+
+        if (MapData.Instance.walkableGrid == null)
+        {
+            Debug.Log("walkableGrid is null.");
+            return;
+        }
+
+        Debug.Log("walkableGrid is not null.");
+
+        for (int x = 0; x < MapData.Instance.width; x++)
+        {
+            for (int y = 0; y < MapData.Instance.height; y++)
+            {
+                Vector3 pos = new Vector3(
+                    x * (MapData.Instance.tileSize / 100.0f), 
+                    y * (MapData.Instance.tileSize / 100.0f), 
+                    0) - MapData.Instance.mapCenter;
+
+                // Set color based on walkability: Green for walkable, Red for non-walkable
+                Color gizmoColor = MapData.Instance.walkableGrid[x, y] ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
+                Gizmos.color = gizmoColor;
+
+                float scaleFactor = 0.9f; 
+                Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f * scaleFactor, MapData.Instance.tileSize / 100.0f * scaleFactor, 1f);
+                Gizmos.DrawWireCube(pos, cubeSize);
+
+                #if UNITY_EDITOR
+                Handles.Label(pos, $"({x},{y})");
+                #endif
+            }
+        }
             
         if (pathfinder != null && pathfinder.LastPath != null && pathfinder.LastPath.Count > 0)
         {
