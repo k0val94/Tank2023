@@ -81,26 +81,29 @@ public class EnemyTankAIController : MonoBehaviour
         }
     }
 
-    private void UpdateTarget()
+private void UpdateTarget()
+{
+    if (fieldOfNoise.audibleTargets.Count > 0)
     {
-        if (fieldOfNoise.audibleTargets.Count > 0)
-        {
-            target = fieldOfNoise.audibleTargets[0];
-            Node enemyNode = grid.GetNodeFromWorldPosition(transform.position);
-            Node targetNode = grid.GetNodeFromWorldPosition(target.position);
+        target = fieldOfNoise.audibleTargets[0];
+        Node enemyNode = grid.GetNodeFromWorldPosition(transform.position);
+        Node targetNode = grid.GetNodeFromWorldPosition(target.position);
 
-            if (enemyNode != null && targetNode != null)
-            {
-                currentState = State.Following;
-                pathToFollow = FindPath(transform.position, target.position);
-                currentPathIndex = pathToFollow.Count > 3 ? 2 : 0;
-            }
-        }
-        else
+        if (enemyNode != null && targetNode != null)
         {
-            currentState = State.Idle;
+            currentState = State.Following;
+            pathToFollow = FindPath(transform.position, target.position);
+
+            // Änderung: Setze den aktuellen Pfadindex auf 0, um am Anfang des Pfads zu starten
+            currentPathIndex = 1;
         }
     }
+    else
+    {
+        currentState = State.Idle;
+    }
+}
+
 
     private void FollowPath()
     {
@@ -179,12 +182,12 @@ public class EnemyTankAIController : MonoBehaviour
 
             if (angleDifference < 0)
             {
-                rotateSpeed = 0.5f; // oder ein anderer Wert für die Drehgeschwindigkeit
+                rotateSpeed = 0.2f; // oder ein anderer Wert für die Drehgeschwindigkeit
                 isTurning = true;
             }
             else if (angleDifference > 0)
             {
-                rotateSpeed = -0.5f; // oder ein anderer Wert für die Drehgeschwindigkeit
+                rotateSpeed = -0.2f; // oder ein anderer Wert für die Drehgeschwindigkeit
                 isTurning = true;
             }
             else if (angleDifference == 0)
