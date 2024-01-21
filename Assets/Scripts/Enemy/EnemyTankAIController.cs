@@ -46,9 +46,9 @@ public class EnemyTankAIController : MonoBehaviour
             return;
         }
 
-        grid = new Grid(walkableGridManager.GetWalkableGrid().GetLength(0), 
-                        walkableGridManager.GetWalkableGrid().GetLength(1), 
-                        walkableGridManager.GetWalkableGrid());
+        grid = new Grid(MapData.Instance.GetWalkableGrid().GetLength(0), 
+                        MapData.Instance.GetWalkableGrid().GetLength(1), 
+                        MapData.Instance.GetWalkableGrid());
     }
 
     private void Start()
@@ -210,38 +210,9 @@ public class EnemyTankAIController : MonoBehaviour
         }
     }
 
-
-    
-
-
     #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        if (grid == null || grid.Nodes == null)
-        {
-            return;
-        }
-
-        for (int x = 0; x < grid.Width; x++)
-            {
-                for (int y = 0; y < grid.Height; y++)
-                {
-                    Vector3 pos = new Vector3(
-                        x * (MapData.Instance.tileSize / 100.0f), 
-                        y * (MapData.Instance.tileSize / 100.0f), 
-                        0) - (Vector3)MapData.Instance.mapCenter;
-
-                    Color gizmoColor = new Color(0, 1, 0, 0.3f); // Grün und halbtransparent
-                    Gizmos.color = gizmoColor;
-
-                    Vector3 cubeSize = new Vector3(MapData.Instance.tileSize / 100.0f, MapData.Instance.tileSize / 100.0f, 1f);
-                    Gizmos.DrawWireCube(pos, cubeSize);
-
-                    #if UNITY_EDITOR
-                    Handles.Label(pos, $"({x},{y})");
-                    #endif
-                }
-            }  
             
         if (pathfinder != null && pathfinder.LastPath != null && pathfinder.LastPath.Count > 0)
         {

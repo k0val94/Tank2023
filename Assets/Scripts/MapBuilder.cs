@@ -74,9 +74,9 @@ public class MapBuilder : MonoBehaviour
 
         MapData.Instance.width = mapDataLayers[0][0].Length;
         MapData.Instance.height = mapDataLayers[0].Length;
-        walkableGridManager.InitializeGrid(MapData.Instance.width, MapData.Instance.height); //line 77
+        MapData.Instance.InitializeWalkableGrid(); // New method to initialize walkable grid
 
-        MapData.Instance.mapCenter = new Vector3(
+          MapData.Instance.mapCenter = new Vector3(
             (MapData.Instance.width * MapData.Instance.tileSize / 100.0f) / 2, 
             (MapData.Instance.height * MapData.Instance.tileSize / 100.0f) / 2, 
             0);
@@ -86,7 +86,7 @@ public class MapBuilder : MonoBehaviour
             GameObject container = i == 0 ? groundContainer : barrierContainer;
             CreateTilesForLayer(mapDataLayers, i, container);
         }
-        
+
         isMapBuilt = true;
         Debug.Log("Map Build completed.");
     }
@@ -109,7 +109,7 @@ public class MapBuilder : MonoBehaviour
 
                 bool isGroundWalkable = walkableGridManager.IsTileWalkable(mapDataLayers[0][y][x]);
                 bool isBarrierWalkable = layerIndex == 1 ? walkableGridManager.IsTileWalkable(tileTypeChar) : true;
-                walkableGridManager.SetTileWalkable(x, y, isGroundWalkable && isBarrierWalkable);
+                MapData.Instance.SetTileWalkable(x, y, isGroundWalkable && isBarrierWalkable);
             }
         }
     }
